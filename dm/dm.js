@@ -79,7 +79,7 @@ function selectOnChange(select) {
 		divInput.setAttribute('type', 'text');
 		divInput.setAttribute('name', field.name);
 		divInput.setAttribute('class', field.className);
-		divInput.setAttribute('onchange', 'optOnChange(this)');
+		divInput.setAttribute('onchange', 'validateOpt(this)');
 		fieldDiv.appendChild(divContent);
 		fieldDiv.appendChild(divInput);
 		var form = select.parentNode;
@@ -87,7 +87,7 @@ function selectOnChange(select) {
 	}
 }
 
-function optOnChange(option)
+function validateOpt(option)
 {
 	var validated = true;
 	switch(option.classList.item(0))
@@ -109,6 +109,8 @@ function optOnChange(option)
 		option.classList.remove('invalidated');
 	else
 		option.classList.add('invalidated');
+	
+	return validated;
 }
 
 function processForm(form) {
@@ -117,11 +119,14 @@ function processForm(form) {
 		return false;
 	
 	// Проверяем поля
+	var validated = true;
 	var elements = document.querySelectorAll('input[type=text]');
 	for(let i=0; i<elements.length; i++)
-		if(elements[i].classList.contains('invalidated'))
+		if(!validateOpt(elements[i]))
+			validated = false;
+	if(!validated)
 			return false;
-	
+		
 	// Формируем аргументы и вызываем функцию
 	var args = [];
 	for(let i=0; i<module.reqFields.length; i++) {
