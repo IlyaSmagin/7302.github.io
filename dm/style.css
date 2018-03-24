@@ -1,0 +1,38 @@
+body {
+	font:normal 20px/1.4 "Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+	margin:0 1em;
+	color:#333;
+	background:linear-gradient(to right, #fff, #eee); 
+	border-top:0.2em solid #9400D3;
+}
+
+h1 {
+	text-align:center;
+	font-weight:300;
+	font-size:3.4em;
+	margin:0
+}
+
+form, div {
+	display: flex;
+	flex-direction: column;
+}
+
+#container {
+	display: flex;
+}
+
+#left-half {
+	flex: 1;
+	padding: 1em;
+}
+
+#right-half {
+	flex: 1;
+	padding: 1em;
+}
+
+#submit {
+	margin:1em 0;
+	align:center;
+}

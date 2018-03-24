@@ -1,5 +1,6 @@
 "use strict";
 
+// Таблица модулей
 const Modules = {
 	COM_NN_D: {
 		function: COM_NN_D,
@@ -32,6 +33,10 @@ function NZER_N_B(a, n) {
 	return 0;
 };
 
+/* Коллбэки
+ * 
+ */
+ 
 function selectOnChange(select) {
 	var module = Modules[select.options[select.selectedIndex].value];
 	if(module === undefined || module.function === undefined || module.reqFields === undefined)
@@ -58,17 +63,26 @@ function selectOnChange(select) {
 }
 
 function processForm(form) {
-	var module = Modules[form.select.options[form.select.selectedIndex].value];
+	var moduleName = form.select.options[form.select.selectedIndex].value;
+	if(moduleName == 'default')
+		return false;
 	
+	var module = Modules[moduleName];
+	// Формируем аргументы
 	var args = [];
 	for(var fieldName in module.reqFields) {
 		args.push(form[fieldName].value);
 	}
 	var retVal = module.function.apply(this, args);
+	
+	// Выводим результат
 	if(module.returnCodes !== undefined)
 		retVal = module.returnCodes[retVal];
+	//alert(retVal);
 	
-	alert(retVal);
+	var result = document.getElementById('right-half');
+	result.appendChild(document.createTextNode(retVal));	
+	result.appendChild(document.createElement('br'));
 	
     return false;
 }

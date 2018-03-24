@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="http-equiv" content="Content-type: text/html; charset=UTF-8">
 <meta charset="utf-8"/>
 <script src="dm.js" charset="utf-8"></script>
+<link rel="stylesheet" href="style.css">
 </head>
 <body onload="javascript:onLoad()">
-<h2>DM TEST</h2>
+<h1>Коллоквиум ДМ-2</h1>
 
+<section id="container">
+<div id="left-half">
 <form action="#" onsubmit="return processForm(this)">
   <select id="select" onchange="selectOnChange(this)">
     <option value="default">Выберите модуль...</option>
   </select><br>
-  <input type="submit" value="Submit" id="submit">
+  <input type="submit" value="Обработать" id="submit">
 </form> 
+</div>
+<div id="right-half"></div>
+</section>
 
 </body>
 </html>
