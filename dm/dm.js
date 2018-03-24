@@ -33,7 +33,8 @@ function COM_NN_D(a1, n1, a2, n2)
 function NZER_N_B(a, n) {
 	// TODO: Уточнить про порядок
 	a = a.split('').reverse();
-	var len = Math.min(n, a.length);
+	n = parseInt(n);
+	var len = Math.min(n+1, a.length);
 	for (let i=0; i<len; i++) {
 		if(a[i] != 0)
 			return 1;
@@ -111,8 +112,8 @@ function processForm(form) {
 	var module = Modules[moduleName];
 	// Формируем аргументы и вызываем функцию
 	var args = [];
-	for(var fieldName in module.reqFields) {
-		args.push(form[fieldName].value);
+	for(let i=0; i<module.reqFields.length; i++) {
+		args.push(form[module.reqFields[i].name].value);
 	}
 	var retVal = module.function.apply(this, args);
 	
