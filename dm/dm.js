@@ -18,7 +18,7 @@ const Modules = {
 		function: NZER_N_B,
 		reqFields: [
 			{caption: 'Число', name: 'a', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n', className: 'N0'}
+			{caption: 'Порядок старшей позиции', name: 'n', className: 'N'}
 		],
 		description: 'Проверка на ноль',
 		returnCodes: { 0:'Число равно 0', 1:'Число не равно 0' }
@@ -28,13 +28,15 @@ const Modules = {
 function COM_NN_D(a1, n1, a2, n2)
 {
 	if(n1 > a1.length || n2 > a2.length)
-		return "Ошибка: Порядок > кол-ва цифр";
+		return "Ошибка: порядок > кол-ва цифр";
+	
+
 	return 0;
 }
 
 function NZER_N_B(a, n) {
 	if(n > a.length)
-		return "Ошибка: Порядок > кол-ва цифр";
+		return "Ошибка: порядок > кол-ва цифр";
 	a = a.split('').reverse();
 	var len = Math.min(n, a.length);
 	for (let i=0; i<len; i++) {
@@ -44,9 +46,9 @@ function NZER_N_B(a, n) {
 	return 0;
 };
 
-/*************
- * Callbacks *
- *************/
+/*******************************************
+ *не трогайти пжалуста все что ниже спосибо*
+ *******************************************/
 function selectOnChange(select) {
 	var module = Modules[select.options[select.selectedIndex].value];
 	if(module === undefined || module.function === undefined || module.reqFields === undefined)
@@ -74,30 +76,30 @@ function selectOnChange(select) {
 	}
 }
 
-function checkOpt(option)
+function validateOption(option)
 {
-	var checkPassed;
+	var validated = true;
 	switch(option.className)
 	{
 		case 'N':
-			checkPassed = /^0?\d+$/.test(option.value);
+			validated = /^[1-9][0-9]*$/.test(option.value);
 			break;
 		case 'N0':
-			checkPassed = /^\d+$/.test(option.value);
+			validated = /^(?:0|[1-9][0-9]*)$/.test(option.value);
 			break;
 		case 'Q':
-			checkPassed = /^-?\d+$/.test(option.value);
+			validated = /^(?:0|-?[1-9][0-9]*)$/.test(option.value);
 			break;
 		default:
 			debugger;
 	}
 	
-	if(checkPassed)
+	if(validated)
 		option.removeAttribute('style');
 	else
 		option.setAttribute('style','background-color:#ffe6e6');
 	
-	return checkPassed;
+	return validated;
 }
 
 function processForm(form) {
@@ -106,12 +108,12 @@ function processForm(form) {
 		return false;
 	
 	// Проверяем поля
-	var checkPassed = true;
+	var validated = true;
 	var elements = document.querySelectorAll("input[type=text]");
 	for(let i=0; i<elements.length; i++)
-		if(!checkOpt(elements[i]))
-			checkPassed = false;
-	if(!checkPassed)
+		if(!validateOption(elements[i]))
+			validated = false;
+	if(!validated)
 		return false;
 	
 	var module = Modules[moduleName];
