@@ -4,14 +4,22 @@
 const Modules = {
 	COM_NN_D: {
 		function: COM_NN_D,
-		reqFields: {'a1': 'Первое число', 'n1': 'Порядок старшей позиции', 'a2': 'Второе число', 'n2': 'Порядок старшей позиции'},
+		reqFields: [
+			{caption: 'Первое число', name: 'a1', className: 'N0'},
+			{caption: 'Порядок старшей позиции', name: 'n1', className: 'N0'},
+			{caption: 'Второе число', name: 'a2', className: 'N0'},
+			{caption: 'Порядок старшей позиции', name: 'n2', className: 'N0'}
+		],
 		description: 'Сравнение натуральных чисел',
 		//returnCodes: { 0:'Числа одинаковы', 1:'Второе число больше первого', 2:'Первое число больше второго' }
 		returnCodes: { 0:'Пока не работает xD' }
 	},
 	NZER_N_B: {
 		function: NZER_N_B,
-		reqFields: {'a': 'Число', 'n': 'Порядок старшей позиции'},
+		reqFields: [
+			{caption: 'Число', name: 'a', className: 'N0'},
+			{caption: 'Порядок старшей позиции', name: 'n', className: 'N0'}
+		],
 		description: 'Проверка на ноль',
 		returnCodes: { 0:'Число равно 0', 1:'Число не равно 0' }
 	}
@@ -33,10 +41,9 @@ function NZER_N_B(a, n) {
 	return 0;
 };
 
-/* Коллбэки
- * 
- */
- 
+/*************
+ * Callbacks *
+ *************/
 function selectOnChange(select) {
 	var module = Modules[select.options[select.selectedIndex].value];
 	if(module === undefined || module.function === undefined || module.reqFields === undefined)
@@ -48,13 +55,15 @@ function selectOnChange(select) {
         elements[0].parentNode.removeChild(elements[0]);
     }
 	// И создаем новые
-	for(var fieldName in module.reqFields) {
+	for(let i=0; i<module.reqFields.length; i++) {
+		var field = module.reqFields[i];
 		var fieldDiv = document.createElement('div'); 
 		fieldDiv.setAttribute('class', 'arg');
-		var divContent = document.createTextNode(module.reqFields[fieldName]);
+		var divContent = document.createTextNode(field.caption);
 		var divInput = document.createElement('input');
 		divInput.setAttribute('type', 'text');
-		divInput.setAttribute('name', fieldName);
+		divInput.setAttribute('name', field.name);
+		divInput.setAttribute('class', field.className);
 		fieldDiv.appendChild(divContent);
 		fieldDiv.appendChild(divInput);
 		var form = select.parentNode;
@@ -62,13 +71,45 @@ function selectOnChange(select) {
 	}
 }
 
+function checkOpt(option)
+{
+	var checkPassed;
+	switch(option.className)
+	{
+		case 'N0':
+			checkPassed = /^\d+$/.test(option.value);
+			break;
+		case 'Q':
+			checkPassed = /^-?\d+$/.test(option.value);
+			break;
+		default:
+			debugger;
+	}
+	
+	if(checkPassed)
+		option.removeAttribute('style');
+	else
+		option.setAttribute('style','background-color:#ffe6e6');
+	
+	return checkPassed;
+}
+
 function processForm(form) {
 	var moduleName = form.select.options[form.select.selectedIndex].value;
 	if(moduleName == 'default')
 		return false;
 	
+	// Проверяем поля
+	var checkPassed = true;
+	var elements = document.querySelectorAll("input[type=text]");
+	for(let i=0; i<elements.length; i++)
+		if(!checkOpt(elements[i]))
+			checkPassed = false;
+	if(!checkPassed)
+		return false;
+	
 	var module = Modules[moduleName];
-	// Формируем аргументы
+	// Формируем аргументы и вызываем функцию
 	var args = [];
 	for(var fieldName in module.reqFields) {
 		args.push(form[fieldName].value);
@@ -78,7 +119,6 @@ function processForm(form) {
 	// Выводим результат
 	if(module.returnCodes !== undefined)
 		retVal = module.returnCodes[retVal];
-	//alert(retVal);
 	
 	var result = document.getElementById('right-half');
 	result.appendChild(document.createTextNode(retVal));	
