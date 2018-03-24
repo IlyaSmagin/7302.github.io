@@ -6,9 +6,9 @@ const Modules = {
 		function: COM_NN_D,
 		reqFields: [
 			{caption: 'Первое число', name: 'a1', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n1', className: 'N0'},
+			{caption: 'Порядок старшей позиции', name: 'n1', className: 'N'},
 			{caption: 'Второе число', name: 'a2', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n2', className: 'N0'}
+			{caption: 'Порядок старшей позиции', name: 'n2', className: 'N'}
 		],
 		description: 'Сравнение натуральных чисел',
 		//returnCodes: { 0:'Числа одинаковы', 1:'Второе число больше первого', 2:'Первое число больше второго' }
@@ -27,14 +27,16 @@ const Modules = {
 
 function COM_NN_D(a1, n1, a2, n2)
 {
+	if(n1 > a1.length || n2 > a2.length)
+		return "Ошибка: Порядок > кол-ва цифр";
 	return 0;
 }
 
 function NZER_N_B(a, n) {
-	// TODO: Уточнить про порядок
+	if(n > a.length)
+		return "Ошибка: Порядок > кол-ва цифр";
 	a = a.split('').reverse();
-	n = parseInt(n);
-	var len = Math.min(n+1, a.length);
+	var len = Math.min(n, a.length);
 	for (let i=0; i<len; i++) {
 		if(a[i] != 0)
 			return 1;
@@ -77,6 +79,9 @@ function checkOpt(option)
 	var checkPassed;
 	switch(option.className)
 	{
+		case 'N':
+			checkPassed = /^0?\d+$/.test(option.value);
+			break;
 		case 'N0':
 			checkPassed = /^\d+$/.test(option.value);
 			break;
@@ -118,7 +123,7 @@ function processForm(form) {
 	var retVal = module.function.apply(this, args);
 	
 	// Выводим результат
-	if(module.returnCodes !== undefined)
+	if(typeof retVal != 'string' && module.returnCodes !== undefined)
 		retVal = module.returnCodes[retVal];
 	
 	var result = document.getElementById('right-half');
