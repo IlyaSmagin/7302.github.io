@@ -36,3 +36,7 @@ form, div {
 	margin:1em 0;
 	align:center;
 }
+
+.invalidated {
+	background-color:#ffe6e6;
+}

@@ -12,9 +12,10 @@
 <div id="left-half">
 <form action="#" onsubmit="return processForm(this)">
   <select id="select" onchange="selectOnChange(this)">
-    <option value="default">Выберите модуль...</option>
+    <option value="def">Выберите модуль...</option>
   </select><br>
   <input type="submit" value="Обработать" id="submit">
+  <button type="button" onclick="clearResults()">Очистить поле результатов</button>
 </form> 
 </div>
 <div id="right-half"></div>
