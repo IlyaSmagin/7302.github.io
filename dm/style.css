@@ -27,6 +27,16 @@ form, div {
 	margin: 0.5em 0;
 }
 
+#comment {
+	background:#ffffb3;
+	margin:0.3em 0;
+	padding:0.3em;
+	border: 3px dashed #ccc;
+}
+#comment:empty {
+	display:none;
+}
+
 #container {
 	display: flex;
 }

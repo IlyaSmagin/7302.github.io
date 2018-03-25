@@ -4,7 +4,8 @@
 const Modules = {
 	def: {
 		reqFields: [],
-		description: 'Выберите модуль...'
+		description: 'Выберите модуль...',
+		comment: 'Тут должна быть краткая справка в целом, а в модулях по необходимости задается своя справка'
 	},
 	COM_NN_D: {
 		func: COM_NN_D,
@@ -32,6 +33,16 @@ const Modules = {
 			{ caption: 'Число', name: 'a', className: 'N0' }
 		],
 		description: 'Добавление 1 к натуральному числу'
+	},
+	DER_P_P: {
+		func: DER_P_P,
+		className: 'P',
+		reqFields: [
+			{ caption: 'Коэффициент многочлена', name: 'a', className: 'P' }
+		],
+		description: 'Производная многочлена',
+		comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена. Например: строка "3 2 0 42" будет соответствовать многочлену 3\u00b3+2x\u00b2+42',
+		returnCodes: { 0:'Пока не работает' }
 	}
 };
 
@@ -82,6 +93,12 @@ function ADD_1N_N(n, a) {
 	}
 	return a.join('');
 }	
+
+function DER_P_P()
+{
+	return 0;
+}
+
 /*******************************************/
 /*не трогайти пжалуста все что ниже спосибо*/
 /*******************************************/
@@ -126,6 +143,12 @@ function processForm(form) {
 				args.push(minus);
 			}
 			args.push(orderScan(arr));
+			args.push(arr);
+		}
+		if(module.className == 'P')
+		{
+			var arr = form[module.reqFields[i].name].value.split(' ').reverse();
+			args.push(arr.length - 1);
 			args.push(arr);
 		}
 		else
@@ -187,6 +210,15 @@ function selectOnChange(select) {
 		var form = select.parentNode;
 		form.insertBefore(fieldDiv, form.submit);
 	}
+	// Удаляем комментарий (справку)
+	var comment = document.getElementById('comment')
+	var elements = comment.childNodes;
+	while(elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+	// И пишем новый (если есть)
+	if(module.comment !== undefined)
+		comment.appendChild(document.createTextNode(module.comment));
 }
 
 function validateOpt(option)
@@ -200,6 +232,9 @@ function validateOpt(option)
 		case 'Q':
 			validated = /^-?\d+$/.test(option.value);
 			break;
+		case 'P':
+			validated = /^(?:0|[1-9][0-9]*)(?: 0| [1-9][0-9]*)*$/.test(option.value);
+			break;
 		default:
 			debugger;
 	}
@@ -212,13 +247,23 @@ function validateOpt(option)
 	return validated;
 }
 
-function formatSelect() {
-	var showId = !document.getElementById('type1').checked;
+function formatSelect(radio) {
+	var select = document.getElementById('select');
+	var elements = select.childNodes;
+	
+	// Только переключаем отображение
+	if(radio !== undefined)	{
+		let i = 0;
+		for(var moduleName in Modules)
+		{
+			var module = Modules[moduleName];
+			elements[i++].innerHTML = module.func !== undefined && radio.value == 'id' ? moduleName :  module.description;
+		}
+		return;
+	}
 	
 	// Чистим список
-	var select = document.getElementById('select');
 	var index = select.selectedIndex;
-	var elements = select.childNodes;
 	while(elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
     }
@@ -227,11 +272,13 @@ function formatSelect() {
 		var module = Modules[moduleName];
 		var fieldOpt = document.createElement('option'); 
 		fieldOpt.setAttribute('value', moduleName);
-		if(module.func !== undefined && showId)
+		if(module.func !== undefined && !document.getElementById('type1').checked)
 			fieldOpt.innerHTML = moduleName;
 		else
 			fieldOpt.innerHTML = module.description;
 		select.appendChild(fieldOpt);
 		select.selectedIndex = index > 0 ? index : 0;
 	}
+	
+	selectOnChange(document.getElementById('select'));
 }
