@@ -38,10 +38,10 @@ const Modules = {
 		func: DER_P_P,
 		className: 'P',
 		reqFields: [
-			{ caption: 'Коэффициент многочлена', name: 'a', className: 'P' }
+			{ caption: 'Коэффициенты многочлена', name: 'a', className: 'P' }
 		],
 		description: 'Производная многочлена',
-		comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена. Например: строка "3 2 0 42" будет соответствовать многочлену 3\u00b3+2x\u00b2+42',
+		comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x\u00b3+1/2x\u00b2+42',
 		returnFormat: formatP
 	}
 };
@@ -96,19 +96,19 @@ function ADD_1N_N(n, a) {
 
 function DER_P_P(m, c)
 {
-	// TODO: K as Array
+	// TODO: K as Array ?
 	for(let i=m; i>=0; i--)
-		c[i] *= i;
+		c[i].n *= i;
 	c.splice(0, 1); // degrade
 	if(c.length == 0)
-		c.push(0);
+		c.push({n: 0});
 	
 	// reverse back
 	c.reverse();
 	// remove insignificant 0 
 	while(c.length > 1)
 	{
-		if(c[0] != 0)
+		if(c[0].n != 0)
 			break;
 		c.splice(0, 1);
 	}
@@ -152,14 +152,26 @@ function subU(n)
 	return minus ? '⁻' + result : result;
 }
 
-function formatP(arr)
+function formatP(fracArr)
 {
-	var str = '';
-	for(let i=arr.length - 1; i > 0; i--)
-	{
-		str += arr[i] + 'x' + subU(i) + '+';
+	function formatFrac(frac) {
+		var result;
+		if(frac.d !==undefined)
+		{
+			if(frac.n%frac.d == 0)
+				result = frac.n/frac.d;
+			else
+				result = frac.n + '/' + frac.d;
+		}
+		else
+			result = frac.n;
+		return result.toString();
 	}
-	return str + arr[0];
+	
+	var str = '';
+	for(let i=0; i < fracArr.length - 1; i++)
+		str += formatFrac(fracArr[i]) + 'x' + subU(fracArr.length-i) + '+';
+	return str + formatFrac(fracArr[fracArr.length - 1]);
 }
 
 function processForm(form) {
@@ -198,8 +210,17 @@ function processForm(form) {
 		if(module.className == 'P')
 		{
 			var arr = form[module.reqFields[i].name].value.split(' ').reverse();
+			var fracArr = [];
+			for(let i=0; i<arr.length; i++)
+			{
+				var q = arr[i].split('/');
+				if(q.length == 1)
+					fracArr.push({n : q[0]});
+				else
+					fracArr.push({n : q[0], d:q[1]});
+			}
 			args.push(arr.length - 1);
-			args.push(arr);
+			args.push(fracArr);
 		}
 		else
 			debugger;
@@ -280,9 +301,9 @@ function selectOnChange(select) {
 function validateOpt(option)
 {
 	const rules = {
-		'N0': /^\d+$/,									//Натуральное с нулем
-		'Q': /^-?\d+$/, 								//Целое
-		'P': /^(?:0|[1-9][0-9]*)(?: 0| [1-9][0-9]*)*$/	//Коэффициенты многочлена
+		'N0': /^\d+$/,  //Натуральное с нулем
+		'Q': /^-?\d+$/,  //Целое
+		'P': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)(?: 0| -?[1-9][0-9]*(?:\/[1-9][0-9]*)?)*$/  //Коэффициенты многочлена
 	};
 	
 	var className = option.classList.item(0);
