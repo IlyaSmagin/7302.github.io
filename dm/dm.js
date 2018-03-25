@@ -154,24 +154,31 @@ function subU(n)
 
 function formatP(fracArr)
 {
+	function intFrac(frac) {
+		if(frac.d === undefined)
+			return frac.n;
+		return frac.n%frac.d ? null : frac.n/frac.d;
+	}
 	function formatFrac(frac) {
-		var result;
-		if(frac.d !==undefined)
-		{
-			if(frac.n%frac.d == 0)
-				result = frac.n/frac.d;
-			else
-				result = frac.n + '/' + frac.d;
-		}
-		else
-			result = frac.n;
+		var result = intFrac(frac);
+		if(result === null)
+			result = frac.n + '/' + frac.d;
 		return result.toString();
 	}
 	
 	var str = '';
 	for(let i=0; i < fracArr.length - 1; i++)
-		str += formatFrac(fracArr[i]) + 'x' + subU(fracArr.length-i) + '+';
-	return str + formatFrac(fracArr[fracArr.length - 1]);
+	{
+		if(fracArr[i].n != 0)
+		{
+			var k = formatFrac(fracArr[i]);
+			str += (str.length>0&&fracArr[i].n>0?'+':'') + (k==1?'':k) + 'x' + subU(fracArr.length-i);
+		}
+	}
+	var c = fracArr[fracArr.length - 1]
+	if(c.n != 0)
+		str += (c.n>0?'+':'') + formatFrac(c);
+	return str;
 }
 
 function processForm(form) {
