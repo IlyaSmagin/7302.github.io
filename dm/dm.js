@@ -43,7 +43,6 @@ const Modules = {
     ],
     description: 'Производная многочлена',
     comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
-    returnFormat: formatP
   }
 };
 
@@ -92,33 +91,24 @@ function ADD_1N_N(num) {
   return num;
 }  
 
-function DER_P_P(m, c)
+function DER_P_P(poly)
 {
-  for(let i=m; i>=0; i--)
-    c[i].n *= i;
-  c.shift(); // degrade
-  if(c.length == 0)
-    c.push({n: 0});
-  
-  // reverse back
-  c.reverse();
-  // remove insignificant 0 
-  while(c.length > 1)
-  {
-    if(c[0].n != 0)
-      break;
-    c.shift();
-  }
-  return c;
+  // TODO: use array arithmetics
+  for(let i=0; i<=poly.m; i++)
+    poly.c[i].p = (poly.c[i].p.join('')*(poly.m-i)).toString().split('');
+  poly.c.pop(); // degrade
+  if(poly.c.length == 0)
+    poly.c.push(new Rational(0));
+  return poly;
 }
 
 /*******************************************/
 /*не трогайти пжалуста все что ниже спосибо*/
 /*******************************************/
+// Множество натуральных чисел с 0
 class Natural {
   constructor(val) {
     this.a = val;
-    this.order = orderScan(this.arr);
   }
   get a() {
     return this.arr;
@@ -127,31 +117,147 @@ class Natural {
     return this.order;
   }
   set a(val) {
-    if(Array.isArray(val))
-      this.arr = val;
-    else if(typeof val === 'string')
-      this.arr = val.split('');
-    else if(Number.isInteger(val))
-      this.arr = val.toString().split('');
-    else
+    this.arr = Array.isArray(val) ? val : val.toString().split('');
+    if(!/^\d+$/.test(this.arr.join('')))
       debugger;
+    this.order = orderScan(this.arr);
   }
   delLeadingZeros() {
     while(this.arr.length > 1 && this.arr[0] == 0)
       this.arr.shift();
   }
 }
-Natural.prototype.valueOf = function() { return this.arr; };
-Natural.prototype.toString = function() { return this.arr.join(''); };
+Natural.prototype.toString = function() { return this.a.join(''); };
+Natural.prototype.valueOf = Natural.prototype.toString;
 
+// Множество целых чисел
+class Integer { 
+    constructor(val) {
+    this.a = val;
+  }
+  get a() {
+    return this.natural.a;
+  }
+  get n() {
+    return this.natural.n;
+  }
+  get b() {
+    return this.negative;
+  }
+  set a(val) {
+    var arr = Array.isArray(val) ? val : val.toString().split('');
+    if(!/^-?\d+$/.test(arr.join('')))
+      debugger;
+    if(arr[0] == '-')
+    {
+      this.negative = true;
+      arr.shift();
+    }
+    else
+      this.negative = false;
+    
+    this.natural = new Natural(arr);
+  }
+}
+Integer.prototype.toString = function() { return (this.b?'-':'')+this.natural; };
+Integer.prototype.valueOf = Integer.prototype.toString;
+
+// Множество рациональных чисел
+class Rational {
+  constructor(numerator, denumerator) {
+    var arr = numerator.toString().split('/');
+    if(arr.length > 1)
+    {
+      numerator = arr[0];
+      denumerator = arr[1];
+    }
+    this.p = numerator;
+    this.q = denumerator;
+  }
+  // Числитель
+  get p() {
+    return this.numerator.a;
+  }
+  // Знаменатель
+  get q() {
+    return this.denumerator ? this.denumerator.a : null;
+  }
+  get b() {
+    return this.numerator.b;
+  }
+  set p(val) {
+    this.numerator = new Integer(val);
+  }
+  set q(val) {
+    if(val !== undefined)
+      this.denumerator = new Natural(val);
+  }
+}
+Rational.prototype.toString = function() { var str = this.numerator; if(this.denumerator !== undefined) str+='/'+this.denumerator; return str; };
+Rational.prototype.valueOf = Rational.prototype.toString;
+
+class Polynom {
+    constructor(val) {
+    this.c = val;
+  }
+  get c() {
+    return this.arr;
+  }
+  get m() {
+    return this.arr.length-1;
+  }
+  set c(val) {
+    if(Array.isArray(val))
+      this.arr = val;
+    else 
+    {
+      this.arr = val.toString().split(' ');
+      for (let i=0; i<this.arr.length; i++)
+        this.arr[i] = new Rational(this.arr[i]);
+    }
+  }
+}
+Polynom.prototype.toString = function() {
+  // TODO: use array arithmetics
+  function intRat(rat) {
+    if(!rat.q)
+      return rat.p.join('');
+    return rat.p.join('')%rat.q.join('') ? null : rat.p.join('')/rat.q.join('');
+  }
+  
+  function formatRat(rat) {
+    var result = intRat(rat);
+    if(result === null)
+      result = rat;
+    return result.toString();
+  }
+  
+  var str = '';
+  for(let i=0; i < this.m; i++)
+  {
+    if(this.c[i].p != 0)
+    {
+      var k = formatRat(this.c[i]);
+      str += (str.length>0&&!this.c[i].b>0?'+':'') + (k==1?'':k) + 'x' + subU(this.m-i);
+    }
+  }
+  var constant = this.c[this.m]
+  if(constant.p != 0 || str.length == 0)
+    str += (str.length>0&&!constant.b?'+':'') + formatRat(constant);
+  
+  return str;
+}
+Polynom.prototype.valueOf = Rational.prototype.toString;
 
 function orderScan(value)
 {
   var order = 0;
   for(let i=0; i<value.length; i++)
     if(value[i] > 0)
-      order = i + 1;
-    
+    {
+      order = value.length - i;
+      break;
+    }
   return order;
 }
 
@@ -179,35 +285,6 @@ function subU(n)
   return minus ? '⁻' + result : result;
 }
 
-function formatP(fracArr)
-{
-  function intFrac(frac) {
-    if(frac.d === undefined)
-      return frac.n;
-    return frac.n%frac.d ? null : frac.n/frac.d;
-  }
-  function formatFrac(frac) {
-    var result = intFrac(frac);
-    if(result === null)
-      result = frac.n + '/' + frac.d;
-    return result.toString();
-  }
-  
-  var str = '';
-  for(let i=0; i < fracArr.length - 1; i++)
-  {
-    if(fracArr[i].n != 0)
-    {
-      var k = formatFrac(fracArr[i]);
-      str += (str.length>0&&fracArr[i].n>0?'+':'') + (k==1?'':k) + 'x' + subU(fracArr.length-i-1);
-    }
-  }
-  var c = fracArr[fracArr.length - 1]
-  if(c.n != 0 || str.length == 0)
-    str += (str.length>0&&c.n>0?'+':'') + formatFrac(c);
-  return str;
-}
-
 function processForm(form) {
   var module = Modules[form.select.options[form.select.selectedIndex].value];
   if(module.func === undefined)
@@ -225,41 +302,19 @@ function processForm(form) {
   // Формируем аргументы и вызываем функцию
   var args = [];
   for(let i=0; i<module.reqFields.length; i++) {
-    if(module.className == 'N' || module.className == 'Q')
-    {
-      var num = new Natural(form[module.reqFields[i].name].value);
-      args.push(num);
-      /*if(module.className == 'Q')
-      {
-        var minus = false;
-        if(arr[0] == '-')
-        {
-          arr.shift();
-          minus = true;
-        }
-        args.push(minus);
-      }
-      args.push(orderScan(arr));
-      args.push(arr);*/
-      
-    }
+     var val = form[module.reqFields[i].name].value;
+    if(module.className == 'N')
+      val = new Natural(val);
+     if(module.className == 'Z')
+      val = new Integer(val);
+    else if (module.className == 'Q')
+      val = new Rational(val);
     else if(module.className == 'P')
-    {
-      var arr = form[module.reqFields[i].name].value.split(' ').reverse();
-      var fracArr = [];
-      for(let i=0; i<arr.length; i++)
-      {
-        var q = arr[i].split('/');
-        if(q.length == 1)
-          fracArr.push({n : q[0]});
-        else
-          fracArr.push({n : q[0], d:q[1]});
-      }
-      args.push(arr.length - 1);
-      args.push(fracArr);
-    }
+      val = new Polynom(val);
     else
       debugger;
+    
+    args.push(val);
   }
   var timeBeforeCall = performance.now();
   var retVal = module.func.apply(this, args);
@@ -278,7 +333,7 @@ function processForm(form) {
   var resultHalf = document.getElementById('right-half');
   var fieldDiv = document.createElement('div'); 
   fieldDiv.setAttribute('class', 'result last')
-  fieldDiv.appendChild(document.createTextNode(retVal));  
+  fieldDiv.appendChild(document.createTextNode(retVal.toString()));  
   fieldDiv.appendChild(document.createElement('br'));
   var ms = document.createElement('span');
   ms.appendChild(document.createTextNode('('+elapsedTime+'ms)'));
