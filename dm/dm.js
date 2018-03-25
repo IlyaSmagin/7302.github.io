@@ -55,11 +55,13 @@ function COM_NN_D(num1, num2)
     return 1;
   
   // Ищем первый различный старший разряд
+  const off1 = num1.a.length-num1.n;
+  const off2 = num2.a.length-num1.n;
   for(let i=0; i<num1.n; i++)
   {
-    if(num1.a[i]>num2.a[i])
+    if(num1.a[off1+i]>num2.a[off2+i])
       return 2;
-    if(num2.a[i]>num1.a[i])
+    if(num2.a[off2+i]>num1.a[off1+i])
       return 1;
   }
   
