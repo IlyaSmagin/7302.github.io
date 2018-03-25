@@ -2,17 +2,23 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<script src="dm.js" charset="utf-8"></script>
+<script src="dm.js"></script>
 <link rel="stylesheet" href="style.css">
+<title>DM</title>
 </head>
-<body onload="javascript:onLoad()">
+<body onload="javascript:formatSelect()">
 <h1>Коллоквиум ДМ-2</h1>
 
 <section id="container">
 <div id="left-half">
 <form action="#" onsubmit="return processForm(this)">
+  <div class="row">
+    <input type="radio" name="type" value="description" id="type1" onclick="formatSelect()" checked>
+    <label for="type1">Краткое описание</label>
+    <input type="radio" name="type" value="id" id="type2" onclick="formatSelect()">
+    <label for="type2">Код функции</label>
+  </div>
   <select id="select" onchange="selectOnChange(this)">
-    <option value="def">Выберите модуль...</option>
   </select><br>
   <input type="submit" value="Обработать" id="submit">
   <button type="button" onclick="clearResults()">Очистить поле результатов</button>

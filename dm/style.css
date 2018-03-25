@@ -2,7 +2,7 @@ body {
 	font:normal 20px/1.4 "Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 	margin:0 1em;
 	color:#333;
-	background:linear-gradient(to right, #fff, #eee); 
+	background:linear-gradient(to right, #fff, #ddd); 
 	border-top:0.2em solid #9400D3;
 }
 
@@ -16,6 +16,11 @@ h1 {
 form, div {
 	display: flex;
 	flex-direction: column;
+}
+
+div.row {
+	flex-direction: row;
+	margin: 0.5em 0
 }
 
 #container {
@@ -34,7 +39,6 @@ form, div {
 
 #submit {
 	margin:1em 0;
-	align:center;
 }
 
 .invalidated {

@@ -3,55 +3,114 @@
 // Таблица модулей
 const Modules = {
 	def: {
-		reqFields: []
+		reqFields: [],
+		description: 'Выберите модуль...'
 	},
 	COM_NN_D: {
 		func: COM_NN_D,
+		className: 'N',
 		reqFields: [
-			{caption: 'Первое число', name: 'a1', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n1', className: 'N'},
-			{caption: 'Второе число', name: 'a2', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n2', className: 'N'}
+			{ caption: 'Первое число', name: 'a1', className: 'N0' },
+			{ caption: 'Второе число', name: 'a2', className: 'N0' }
 		],
 		description: 'Сравнение натуральных чисел',
-		//returnCodes: { 0:'Числа одинаковы', 1:'Второе число больше первого', 2:'Первое число больше второго' }
-		returnCodes: { 0:'Пока не работает xD' }
+		returnCodes: { 0:'Числа одинаковы', 1:'Второе число больше первого', 2:'Первое число больше второго' }
 	},
 	NZER_N_B: {
 		func: NZER_N_B,
+		className: 'N',
 		reqFields: [
-			{caption: 'Число', name: 'a', className: 'N0'},
-			{caption: 'Порядок старшей позиции', name: 'n', className: 'N'}
+			{ caption: 'Число', name: 'a', className: 'N0' }
 		],
 		description: 'Проверка на ноль',
 		returnCodes: { 0:'Число равно 0', 1:'Число не равно 0' }
 	}
 };
 
-function COM_NN_D(a1, n1, a2, n2)
+function COM_NN_D(n1, a1, n2, a2)
 {
-	if(n1 > a1.length || n2 > a2.length)
-		return 'Ошибка: порядок > кол-ва цифр';
+	if(n1 > n2)
+		return 2;
+	if(n2 > n1)
+		return 1;
 	
-
+	for(let i=0; i<n1; i++)
+	{
+		if(a1[i]>a2[i])
+			return 2;
+		if(a2[i]>a1[i])
+			return 1;
+	}
+	
 	return 0;
 }
 
-function NZER_N_B(a, n) {
-	if(n > a.length)
-		return 'Ошибка: порядок > кол-ва цифр';
-	a = a.split('').reverse();
-	var len = Math.min(n, a.length);
-	for (let i=0; i<len; i++) {
-		if(a[i] != 0)
-			return 1;
-	}
-	return 0;
+function NZER_N_B(n, a) {
+	return n > 0 ? 1 : 0;
 };
 
 /*******************************************/
 /*не трогайти пжалуста все что ниже спосибо*/
 /*******************************************/
+function orderScan(value)
+{
+	var order = 0;
+	for(let i=0; i<value.length; i++)
+		if(value[i] > 0)
+			order = i + 1;
+		
+	return order;
+}
+
+function processForm(form) {
+	var module = Modules[form.select.options[form.select.selectedIndex].value];
+	if(module.func === undefined)
+		return false;
+	
+	// Проверяем поля
+	var validated = true;
+	var elements = document.querySelectorAll('input[type=text]');
+	for(let i=0; i<elements.length; i++)
+		if(!validateOpt(elements[i]))
+			validated = false;
+	if(!validated)
+			return false;
+		
+	// Формируем аргументы и вызываем функцию
+	var args = [];
+	for(let i=0; i<module.reqFields.length; i++) {
+		if(module.className == 'N' || module.className == 'Q')
+		{
+			var arr = form[module.reqFields[i].name].value.split('').reverse();
+			if(module.className == 'Q')
+			{
+				var minus = false;
+				if(arr[0] == '-')
+				{
+					arr.splice(0, 1);
+					minus = true;
+				}
+				args.push(minus);
+			}
+			args.push(orderScan(arr));
+			args.push(arr);
+		}
+		else
+			debugger;
+	}
+	var retVal = module.func.apply(this, args);
+	
+	// Выводим результат
+	if(typeof retVal != 'string' && module.returnCodes !== undefined)
+		retVal = module.returnCodes[retVal];
+	
+	var result = document.getElementById('right-half');
+	result.appendChild(document.createTextNode(retVal));	
+	result.appendChild(document.createElement('br'));
+	
+    return false;
+}
+
 function clearResults() {
 	var elements = document.getElementById('right-half').childNodes;
 		while(elements.length > 0) {
@@ -92,14 +151,11 @@ function validateOpt(option)
 	var validated = true;
 	switch(option.classList.item(0))
 	{
-		case 'N':
-			validated = /^[1-9][0-9]*$/.test(option.value);
-			break;
 		case 'N0':
-			validated = /^(?:0|[1-9][0-9]*)$/.test(option.value);
+			validated = /^\d+$/.test(option.value);
 			break;
 		case 'Q':
-			validated = /^(?:0|-?[1-9][0-9]*)$/.test(option.value);
+			validated = /^-?\d+$/.test(option.value);
 			break;
 		default:
 			debugger;
@@ -113,46 +169,26 @@ function validateOpt(option)
 	return validated;
 }
 
-function processForm(form) {
-	var module = Modules[form.select.options[form.select.selectedIndex].value];
-	if(module.func === undefined)
-		return false;
+function formatSelect() {
+	var showId = !document.getElementById('type1').checked;
 	
-	// Проверяем поля
-	var validated = true;
-	var elements = document.querySelectorAll('input[type=text]');
-	for(let i=0; i<elements.length; i++)
-		if(!validateOpt(elements[i]))
-			validated = false;
-	if(!validated)
-			return false;
-		
-	// Формируем аргументы и вызываем функцию
-	var args = [];
-	for(let i=0; i<module.reqFields.length; i++) {
-		args.push(form[module.reqFields[i].name].value);
-	}
-	var retVal = module.func.apply(this, args);
-	
-	// Выводим результат
-	if(typeof retVal != 'string' && module.returnCodes !== undefined)
-		retVal = module.returnCodes[retVal];
-	
-	var result = document.getElementById('right-half');
-	result.appendChild(document.createTextNode(retVal));	
-	result.appendChild(document.createElement('br'));
-	
-    return false;
-}
-
-function onLoad() {
+	// Чистим список
+	var select = document.getElementById('select');
+	var index = select.selectedIndex;
+	var elements = select.childNodes;
+	while(elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
 	// Формируем список
-	for(var fieldName in Modules) {
-		if(Modules[fieldName].func === undefined)
-			continue;
+	for(var moduleName in Modules) {
+		var module = Modules[moduleName];
 		var fieldOpt = document.createElement('option'); 
-		fieldOpt.setAttribute('value', fieldName);
-		fieldOpt.innerHTML = Modules[fieldName].description;
-		document.getElementById('select').appendChild(fieldOpt);
+		fieldOpt.setAttribute('value', moduleName);
+		if(module.func !== undefined && showId)
+			fieldOpt.innerHTML = moduleName;
+		else
+			fieldOpt.innerHTML = module.description;
+		select.appendChild(fieldOpt);
+		select.selectedIndex = index > 0 ? index : 0;
 	}
 }
