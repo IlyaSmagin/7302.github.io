@@ -49,6 +49,8 @@ form, div {
 	background-color:#ffe6e6;
 }
 .result {
+	word-break:break-all;
+	flex-wrap:wrap;
 	flex-direction: row;
 	color:#595959;
 }

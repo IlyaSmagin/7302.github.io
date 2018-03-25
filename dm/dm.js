@@ -24,6 +24,14 @@ const Modules = {
 		],
 		description: 'Проверка на ноль',
 		returnCodes: { 0:'Число равно 0', 1:'Число не равно 0' }
+	},
+	ADD_1N_N: {
+		func: ADD_1N_N,
+		className: 'N',
+		reqFields: [
+			{ caption: 'Число', name: 'a', className: 'N0' }
+		],
+		description: 'Добавление 1 к натуральному числу'
 	}
 };
 
@@ -49,6 +57,31 @@ function NZER_N_B(n, a) {
 	return n > 0 ? 1 : 0;
 };
 
+function ADD_1N_N(n, a) {
+	for(var i=0; i<a.length; i++)
+	{
+		if(a[i] != 9)
+		{
+			a[i]++;
+			break;
+		}
+		else
+			a[i] = 0;
+	}
+	if(i == a.length)
+		a.push(1);
+	
+	// reverse back
+	a.reverse();
+	// remove insignificant 0 
+	while(a.length > 0)
+	{
+		if(a[0] != 0)
+			break;
+		a.splice(0, 1);
+	}
+	return a.join('');
+}	
 /*******************************************/
 /*не трогайти пжалуста все что ниже спосибо*/
 /*******************************************/
