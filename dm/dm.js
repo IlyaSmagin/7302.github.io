@@ -42,7 +42,7 @@ const Modules = {
 		],
 		description: 'Производная многочлена',
 		comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена. Например: строка "3 2 0 42" будет соответствовать многочлену 3\u00b3+2x\u00b2+42',
-		returnCodes: { 0:'Пока не работает' }
+		returnFormat: formatP
 	}
 };
 
@@ -94,9 +94,24 @@ function ADD_1N_N(n, a) {
 	return a.join('');
 }	
 
-function DER_P_P()
+function DER_P_P(m, c)
 {
-	return 0;
+	for(let i=m; i>=0; i--)
+		c[i] *= i;
+	c.splice(0, 1); // degrade
+	if(c.length == 0)
+		c.push(0);
+	
+	// reverse back
+	c.reverse();
+	// remove insignificant 0 
+	while(c.length > 1)
+	{
+		if(c[0] != 0)
+			break;
+		c.splice(0, 1);
+	}
+	return c;
 }
 
 /*******************************************/
@@ -110,6 +125,40 @@ function orderScan(value)
 			order = i + 1;
 		
 	return order;
+}
+
+function subU(n)
+{
+	const supArr = ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹'];
+	if(n == 0)
+		return supArr[0];
+	
+	var minus = false;
+	if(n < 0)
+	{
+		minus = true;
+		n = -n;
+	}
+	
+	var result = '';
+	while(n > 0)
+	{
+		var rem = n % 10;
+		result = supArr[rem] + result;
+		n = ~~(n/10);
+	}
+	
+	return minus ? '⁻' + result : result;
+}
+
+function formatP(arr)
+{
+	var str = '';
+	for(let i=arr.length - 1; i > 0; i--)
+	{
+		str += arr[i] + 'x' + subU(i) + '+';
+	}
+	return str + arr[0];
 }
 
 function processForm(form) {
@@ -158,10 +207,16 @@ function processForm(form) {
 	var retVal = module.func.apply(this, args);
 	var elapsedTime = performance.now() - timeBeforeCall;
 	
-	// Выводим результат
-	if(typeof retVal != 'string' && module.returnCodes !== undefined)
-		retVal = module.returnCodes[retVal];
+	// Формируем результат
+	if(typeof retVal != 'string')
+	{
+		if(module.returnFormat !== undefined)
+			retVal = module.returnFormat(retVal);
+		else if(module.returnCodes !== undefined)
+			retVal = module.returnCodes[retVal];
+	}
 	
+	// Выводим
 	var resultHalf = document.getElementById('right-half');
 	var fieldDiv = document.createElement('div'); 
 	fieldDiv.setAttribute('class', 'result last')
@@ -223,27 +278,21 @@ function selectOnChange(select) {
 
 function validateOpt(option)
 {
-	var validated = true;
-	switch(option.classList.item(0))
-	{
-		case 'N0':
-			validated = /^\d+$/.test(option.value);
-			break;
-		case 'Q':
-			validated = /^-?\d+$/.test(option.value);
-			break;
-		case 'P':
-			validated = /^(?:0|[1-9][0-9]*)(?: 0| [1-9][0-9]*)*$/.test(option.value);
-			break;
-		default:
-			debugger;
-	}
+	const rules = {
+		'N0': /^\d+$/,									//Натуральное с нулем
+		'Q': /^-?\d+$/, 								//Целое
+		'P': /^(?:0|[1-9][0-9]*)(?: 0| [1-9][0-9]*)*$/	//Коэффициенты многочлена
+	};
 	
+	var className = option.classList.item(0);
+	if(rules[className] === undefined)
+		debugger;
+	
+	var validated = rules[className].test(option.value);
 	if(validated)
 		option.classList.remove('invalidated');
 	else
 		option.classList.add('invalidated');
-	
 	return validated;
 }
 
