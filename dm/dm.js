@@ -176,7 +176,7 @@ function formatP(fracArr)
 		}
 	}
 	var c = fracArr[fracArr.length - 1]
-	if(c.n != 0)
+	if(c.n != 0 || str.length == 0)
 		str += (str.length>0&&c.n>0?'+':'') + formatFrac(c);
 	return str;
 }
