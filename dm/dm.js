@@ -96,6 +96,7 @@ function ADD_1N_N(n, a) {
 
 function DER_P_P(m, c)
 {
+	// TODO: K as Array
 	for(let i=m; i>=0; i--)
 		c[i] *= i;
 	c.splice(0, 1); // degrade
