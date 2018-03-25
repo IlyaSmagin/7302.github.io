@@ -302,10 +302,10 @@ function processForm(form) {
   // Формируем аргументы и вызываем функцию
   var args = [];
   for(let i=0; i<module.reqFields.length; i++) {
-     var val = form[module.reqFields[i].name].value;
+    var val = form[module.reqFields[i].name].value;
     if(module.className == 'N')
       val = new Natural(val);
-     if(module.className == 'Z')
+    else if(module.className == 'Z')
       val = new Integer(val);
     else if (module.className == 'Q')
       val = new Rational(val);
