@@ -18,9 +18,16 @@ form, div {
 	flex-direction: column;
 }
 
-div.row {
+:focus {
+    outline: none;
+}
+
+#types {
 	flex-direction: row;
-	margin: 0.5em 0
+	margin: 0.5em 0;
+	outline: none;
+	outline-color: transparent; 
+	outline-style: hidden;
 }
 
 #container {
