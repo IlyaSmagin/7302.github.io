@@ -89,7 +89,7 @@ function ADD_1N_N(n, a) {
 	{
 		if(a[0] != 0)
 			break;
-		a.splice(0, 1);
+		a.shift();
 	}
 	return a.join('');
 }	
@@ -99,7 +99,7 @@ function DER_P_P(m, c)
 	// TODO: K as Array ?
 	for(let i=m; i>=0; i--)
 		c[i].n *= i;
-	c.splice(0, 1); // degrade
+	c.shift(); // degrade
 	if(c.length == 0)
 		c.push({n: 0});
 	
@@ -110,7 +110,7 @@ function DER_P_P(m, c)
 	{
 		if(c[0].n != 0)
 			break;
-		c.splice(0, 1);
+		c.shift();
 	}
 	return c;
 }
@@ -177,7 +177,7 @@ function formatP(fracArr)
 	}
 	var c = fracArr[fracArr.length - 1]
 	if(c.n != 0)
-		str += (c.n>0?'+':'') + formatFrac(c);
+		str += (str.length>0&&c.n>0?'+':'') + formatFrac(c);
 	return str;
 }
 
@@ -206,7 +206,7 @@ function processForm(form) {
 				var minus = false;
 				if(arr[0] == '-')
 				{
-					arr.splice(0, 1);
+					arr.shift();
 					minus = true;
 				}
 				args.push(minus);
