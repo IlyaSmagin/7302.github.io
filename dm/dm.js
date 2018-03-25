@@ -98,15 +98,25 @@ function processForm(form) {
 		else
 			debugger;
 	}
+	var timeBeforeCall = performance.now();
 	var retVal = module.func.apply(this, args);
+	var elapsedTime = performance.now() - timeBeforeCall;
 	
 	// Выводим результат
 	if(typeof retVal != 'string' && module.returnCodes !== undefined)
 		retVal = module.returnCodes[retVal];
 	
-	var result = document.getElementById('right-half');
-	result.appendChild(document.createTextNode(retVal));	
-	result.appendChild(document.createElement('br'));
+	var resultHalf = document.getElementById('right-half');
+	var fieldDiv = document.createElement('div'); 
+	fieldDiv.setAttribute('class', 'result last')
+	fieldDiv.appendChild(document.createTextNode(retVal));	
+	fieldDiv.appendChild(document.createElement('br'));
+	var ms = document.createElement('span');
+	ms.appendChild(document.createTextNode('('+elapsedTime+'ms)'));
+	fieldDiv.appendChild(ms);
+	if(resultHalf.lastChild !== null)
+		resultHalf.lastChild.classList.remove('last');
+	resultHalf.appendChild(fieldDiv);
 	
     return false;
 }

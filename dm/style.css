@@ -48,3 +48,15 @@ form, div {
 .invalidated {
 	background-color:#ffe6e6;
 }
+.result {
+	flex-direction: row;
+	color:#595959;
+}
+
+.result.last {
+	color:#1e1e1e;
+}
+
+span {
+	margin-left: auto;
+}
