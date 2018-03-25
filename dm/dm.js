@@ -5,7 +5,7 @@ const Modules = {
   def: {
     reqFields: [],
     description: 'Выберите модуль...',
-    comment: 'Тут должна быть краткая справка в целом, а в модулях по необходимости задается своя справка'
+    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели в верху страницы.'
   },
   COM_NN_D: {
     func: COM_NN_D,
@@ -32,7 +32,8 @@ const Modules = {
     reqFields: [
       { caption: 'Число', name: 'a', className: 'N0' }
     ],
-    description: 'Добавление 1 к натуральному числу'
+    description: 'Добавление 1 к натуральному числу',
+    returnFormat: function (num) { num.delLeadingZeros(); return num.toString(); } 
   },
   DER_P_P: {
     func: DER_P_P,
@@ -46,57 +47,53 @@ const Modules = {
   }
 };
 
-function COM_NN_D(n1, a1, n2, a2)
+function COM_NN_D(num1, num2)
 {
-  if(n1 > n2)
+  // Сравниваем порядок
+  if(num1.n > num2.n)
     return 2;
-  if(n2 > n1)
+  if(num2.n > num1.n)
     return 1;
   
-  for(let i=0; i<n1; i++)
+  // Ищем первый различный старший разряд
+  for(let i=0; i<num1.n; i++)
   {
-    if(a1[i]>a2[i])
+    if(num1.a[i]>num2.a[i])
       return 2;
-    if(a2[i]>a1[i])
+    if(num2.a[i]>num1.a[i])
       return 1;
   }
   
   return 0;
 }
 
-function NZER_N_B(n, a) {
-  return n > 0 ? 1 : 0;
+function NZER_N_B(num) {
+  return num.n > 0 ? 1 : 0;
 };
 
-function ADD_1N_N(n, a) {
-  for(var i=0; i<a.length; i++)
+function ADD_1N_N(num) {
+  // Проходимся с конца
+  for(var i=num.a.length-1; i>=0; i--)
   {
-    if(a[i] != 9)
+    // Если не 9 - просто прибавляем 1
+    if(num.a[i] != 9)
     {
-      a[i]++;
+      num.a[i]++;
       break;
     }
     else
-      a[i] = 0;
+      num.a[i] = 0; // Девятки обнуляем
   }
-  if(i == a.length)
-    a.push(1);
   
-  // reverse back
-  a.reverse();
-  // remove insignificant 0 
-  while(a.length > 0)
-  {
-    if(a[0] != 0)
-      break;
-    a.shift();
-  }
-  return a.join('');
+  // Если все цифры были девятками, создаем единичку
+  if(i < 0)
+    num.a.unshift(1);
+  
+  return num;
 }  
 
 function DER_P_P(m, c)
 {
-  // TODO: K as Array ?
   for(let i=m; i>=0; i--)
     c[i].n *= i;
   c.shift(); // degrade
@@ -118,6 +115,36 @@ function DER_P_P(m, c)
 /*******************************************/
 /*не трогайти пжалуста все что ниже спосибо*/
 /*******************************************/
+class Natural {
+  constructor(val) {
+    this.a = val;
+    this.order = orderScan(this.arr);
+  }
+  get a() {
+    return this.arr;
+  }
+  get n() {
+    return this.order;
+  }
+  set a(val) {
+    if(Array.isArray(val))
+      this.arr = val;
+    else if(typeof val === 'string')
+      this.arr = val.split('');
+    else if(Number.isInteger(val))
+      this.arr = val.toString().split('');
+    else
+      debugger;
+  }
+  delLeadingZeros() {
+    while(this.arr.length > 1 && this.arr[0] == 0)
+      this.arr.shift();
+  }
+}
+Natural.prototype.valueOf = function() { return this.arr; };
+Natural.prototype.toString = function() { return this.arr.join(''); };
+
+
 function orderScan(value)
 {
   var order = 0;
@@ -172,7 +199,7 @@ function formatP(fracArr)
     if(fracArr[i].n != 0)
     {
       var k = formatFrac(fracArr[i]);
-      str += (str.length>0&&fracArr[i].n>0?'+':'') + (k==1?'':k) + 'x' + subU(fracArr.length-i);
+      str += (str.length>0&&fracArr[i].n>0?'+':'') + (k==1?'':k) + 'x' + subU(fracArr.length-i-1);
     }
   }
   var c = fracArr[fracArr.length - 1]
@@ -200,8 +227,9 @@ function processForm(form) {
   for(let i=0; i<module.reqFields.length; i++) {
     if(module.className == 'N' || module.className == 'Q')
     {
-      var arr = form[module.reqFields[i].name].value.split('').reverse();
-      if(module.className == 'Q')
+      var num = new Natural(form[module.reqFields[i].name].value);
+      args.push(num);
+      /*if(module.className == 'Q')
       {
         var minus = false;
         if(arr[0] == '-')
@@ -212,9 +240,10 @@ function processForm(form) {
         args.push(minus);
       }
       args.push(orderScan(arr));
-      args.push(arr);
+      args.push(arr);*/
+      
     }
-    if(module.className == 'P')
+    else if(module.className == 'P')
     {
       var arr = form[module.reqFields[i].name].value.split(' ').reverse();
       var fracArr = [];
