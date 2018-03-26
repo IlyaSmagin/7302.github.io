@@ -116,13 +116,14 @@ class Natural {
     return this.arr;
   }
   get n() {
-    return this.order;
+    return this.arr ? orderScan(this.arr) : null;
   }
   set a(val) {
-    this.arr = Array.isArray(val) ? val : val.toString().split('');
+    if(!Array.isArray(val))
+      val = val.toString().split('');
+    this.arr = val.map(function(digit) { return Number(digit); });
     if(!/^\d+$/.test(this.arr.join('')))
       debugger;
-    this.order = orderScan(this.arr);
   }
   delLeadingZeros() {
     while(this.arr.length > 1 && this.arr[0] == 0)
@@ -147,18 +148,19 @@ class Integer {
     return this.negative;
   }
   set a(val) {
-    var arr = Array.isArray(val) ? val : val.toString().split('');
-    if(!/^-?\d+$/.test(arr.join('')))
+    if(!Array.isArray(val))
+      val.toString().split('');
+    if(!/^-?\d+$/.test(val.join('')))
       debugger;
-    if(arr[0] == '-')
+    if(val[0] == '-')
     {
       this.negative = true;
-      arr.shift();
+      val.shift();
     }
     else
       this.negative = false;
     
-    this.natural = new Natural(arr);
+    this.natural = new Natural(val);
   }
 }
 Integer.prototype.toString = function() { return (this.b?'-':'')+this.natural; };
@@ -251,16 +253,11 @@ Polynom.prototype.toString = function() {
 }
 Polynom.prototype.valueOf = Rational.prototype.toString;
 
-function orderScan(value)
+function orderScan(num)
 {
-  var order = 0;
-  for(let i=0; i<value.length; i++)
-    if(value[i] > 0)
-    {
-      order = value.length - i;
-      break;
-    }
-  return order;
+  for(let i=0; i<num.length; i++)
+    if(num[i] > 0)
+      return num.length - i;
 }
 
 function subU(n)
