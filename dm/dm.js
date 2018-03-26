@@ -30,7 +30,7 @@ const Modules = {
     func: ADD_1N_N,
     className: 'N',
     reqFields: [
-      { caption: 'Число', name: 'a', className: 'N0' }
+      { caption: 'Число', name: 'a', className: 'R' }
     ],
     description: 'Добавление 1 к натуральному числу',
     returnFormat: function (num) { num.delLeadingZeros(); return num.toString(); } 
@@ -391,8 +391,10 @@ function selectOnChange(select) {
 function validateOpt(option)
 {
   const rules = {
-    'N0': /^\d+$/,  //Натуральное с нулем
-    'Q': /^-?\d+$/,  //Целое
+    'N' :/^(?:[1-9][0-9]*)$/, //Натуральное
+    'N0':/^(?:0|[1-9][0-9]*)$/, //Натуральное с нулем
+    'Q': /^(?:0|-?[1-9][0-9]*)$/, //Целое
+    'R': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/, //Рациональное
     'P': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)(?: 0| -?[1-9][0-9]*(?:\/[1-9][0-9]*)?)*$/  //Коэффициенты многочлена
   };
   
