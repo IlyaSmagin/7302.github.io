@@ -11,11 +11,11 @@ class Natural {
     return this.arr;
   }
   get n() {
-    if(!this.arr)
-      return null;
-    for(let i=0; i<this.arr.length; i++)
-      if(this.arr[i] > 0)
-        return this.arr.length - i;
+    if(this.arr)
+      for(let i=0; i<this.arr.length; i++)
+        if(this.arr[i] > 0)
+          return this.arr.length - i;
+    return 0;
   }
   set a(val) {
     if(!Array.isArray(val))
@@ -45,6 +45,9 @@ class Integer {
   }
   get b() {
     return this.negative;
+  }
+  set b(val) {
+    this.negative = val;
   }
   set a(val) {
     if(!Array.isArray(val))
@@ -79,11 +82,11 @@ class Rational {
   }
   // Числитель
   get p() {
-    return this.numerator.a;
+    return this.numerator;
   }
   // Знаменатель
   get q() {
-    return this.denumerator ? this.denumerator.a : null;
+    return this.denumerator;
   }
   get b() {
     return this.numerator.b;
@@ -92,8 +95,9 @@ class Rational {
     this.numerator = new Integer(val);
   }
   set q(val) {
-    if(val !== undefined)
-      this.denumerator = new Natural(val);
+    if(val === undefined)
+      val = 1;
+    this.denumerator = new Natural(val);
   }
 }
 Rational.prototype.toString = function() { var str = this.numerator; if(this.denumerator !== undefined) str+='/'+this.denumerator; return str; };
@@ -146,9 +150,9 @@ Polynomial.prototype.toString = function() {
     return minus ? '⁻' + result : result;
   }
   function intRat(rat) {
-    if(!rat.q)
-      return rat.p.join('');
-    return rat.p.join('')%rat.q.join('') ? null : rat.p.join('')/rat.q.join('');
+    if(rat.q.m == 1 && rat.q.a[0] == 1)
+      return rat.p.a.join('');
+    return rat.p.a.join('')%rat.q.a.join('') ? null : rat.p.a.join('')/rat.q.a.join('');
   }
   
   function formatRat(rat) {
@@ -161,14 +165,14 @@ Polynomial.prototype.toString = function() {
   var str = '';
   for(let i=0; i < this.m; i++)
   {
-    if(this.c[i].p != 0)
+    if(this.c[i].p.n != 0)
     {
       var k = formatRat(this.c[i]);
       str += (str.length>0&&!this.c[i].b>0?'+':'') + (k==1?'':k) + 'x' + subU(this.m-i);
     }
   }
   var constant = this.c[this.m]
-  if(constant.p != 0 || str.length == 0)
+  if(constant.p.n != 0 || str.length == 0)
     str += (str.length>0&&!constant.b?'+':'') + formatRat(constant);
   
   return str;
