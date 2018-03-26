@@ -10,112 +10,99 @@ const Modules = {
   },
   COM_NN_D: {
     func: COM_NN_D,
-    classType: Natural,
     reqFields: [
-      { caption: 'Первое число', name: 'a1', regexType: 'N0' },
-      { caption: 'Второе число', name: 'a2', regexType: 'N0' }
+      { caption: 'Первое число', name: 'a1', classType: Natural, regexType: 'N0' },
+      { caption: 'Второе число', name: 'a2', classType: Natural, regexType: 'N0' }
     ],
     description: 'Сравнение натуральных чисел',
     returnCodes: { 0:'Числа одинаковы', 1:'Второе число больше первого', 2:'Первое число больше второго' }
   },
   NZER_N_B: {
     func: NZER_N_B,
-    classType: Natural,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'N0' }
+      { caption: 'Число', name: 'a', classType: Natural, regexType: 'N0' }
     ],
     description: 'Проверка на ноль',
     returnCodes: { 0:'Число равно 0', 1:'Число не равно 0' }
   },
   ADD_1N_N: {
     func: ADD_1N_N,
-    classType: Natural,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'N0' }
+      { caption: 'Число', name: 'a', classType: Natural, regexType: 'N0' }
     ],
     description: 'Добавление 1 к натуральному числу',
     returnFormat: function (num) { num.delLeadingZeros(); return num.toString(); }
   },
   SUB_NN_N: {
     func: SUB_NN_N,
-    classType: Natural,
     reqFields: [
-      { caption: 'Уменьшаемое', name: 'a1', regexType: 'N0' },
-      { caption: 'Вычитаемое', name: 'a2', regexType: 'N0' }
+      { caption: 'Уменьшаемое', name: 'a1', classType: Natural, regexType: 'N0' },
+      { caption: 'Вычитаемое', name: 'a2', classType: Natural, regexType: 'N0' }
     ],
     description: 'Вычитание из первого большего натурального числа второго меньшего или равного'
   },
   ABS_Z_N: {
     func: ABS_Z_N,
-    classType: Integer,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Z' }
+      { caption: 'Число', name: 'a', classType: Integer, regexType: 'Z' }
     ],
     description: 'Абсолютная величина числа, результат - натуральное'
   },
   POZ_Z_D: {
     func: POZ_Z_D,
-    classType: Integer,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Z' }
+      { caption: 'Число', name: 'a', classType: Integer, regexType: 'Z' }
     ],
     description: 'Определение положительности числа',
     returnCodes: { 0:'Число равно нулю', 1:'Число отрицательно', 2:'Число положительно' }
   },
   MUL_ZM_Z: {
     func: MUL_ZM_Z,
-    classType: Integer,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Z' }
+      { caption: 'Число', name: 'a', classType: Integer, regexType: 'Z' }
     ],
     description: 'Умножение целого на (-1)'
   },
   TRANS_N_Z: {
     func: TRANS_N_Z,
-    classType: Natural,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'N' }
+      { caption: 'Число', name: 'a', classType: Natural, regexType: 'N' }
     ],
     description: 'Преобразование натурального в целое'
   },
   TRANS_Z_N: {
     func: TRANS_Z_N,
-    classType: Integer,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'N0' }
+      { caption: 'Число', name: 'a', classType: Integer, regexType: 'N0' }
     ],
     description: 'Преобразование целого неотрицательного в натуральное'
   },
   INT_Q_B: {
     func: INT_Q_B,
-    classType: Rational,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Q' }
+      { caption: 'Число', name: 'a', classType: Rational, regexType: 'Q' }
     ],
     description: 'Проверка на целое, если рациональное число является целым',
     returnCodes: { 0:'Число является целым', 1:'Число не является целым' }
   },
   TRANS_Z_Q: {
     func: TRANS_Z_Q,
-    classType: Integer,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Z' }
+      { caption: 'Число', name: 'a', classType: Integer, regexType: 'Z' }
     ],
     description: 'Преобразование целого в дробное'
   },
   TRANS_Q_Z: {
     func: TRANS_Q_Z,
-    classType: Rational,
     reqFields: [
-      { caption: 'Число', name: 'a', regexType: 'Q' }
+      { caption: 'Число', name: 'a', classType: Rational, regexType: 'Q' }
     ],
     description: 'Преобразование дробного в целое (если знаменатель равен 1)'
   },
   DER_P_P: {
     func: DER_P_P,
-    classType: Polynomial,
     reqFields: [
-      { caption: 'Коэффициенты многочлена', name: 'a', regexType: 'P' }
+      { caption: 'Коэффициенты многочлена', name: 'a', classType: Polynomial, regexType: 'P' }
     ],
     description: 'Производная многочлена',
     comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',

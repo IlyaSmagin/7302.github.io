@@ -19,7 +19,7 @@ function processForm(form) {
   // Формируем аргументы и вызываем функцию
   var args = [];
   for(let i=0; i<module.reqFields.length; i++)
-    args.push(new module.classType(form[module.reqFields[i].name].value));
+    args.push(new module.reqFields[i].classType(form[module.reqFields[i].name].value));
   var timeBeforeCall = performance.now();
   var retVal = module.func.apply(this, args);
   var elapsedTime = performance.now() - timeBeforeCall;
