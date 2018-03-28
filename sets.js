@@ -171,5 +171,5 @@ Polynomial.prototype.toString = function() {
     str += (str.length>0&&!constant.b?'+':'') + formatRat(constant);
   
   return str;
-}
+};
 Polynomial.prototype.valueOf = Polynomial.prototype.toString;

@@ -5,7 +5,7 @@
 function printResult(result, elapsedTime) {
   var resultHalf = document.getElementById('right-half');
   var fieldDiv = document.createElement('div'); 
-  fieldDiv.setAttribute('class', 'result last')
+  fieldDiv.setAttribute('class', 'result last');
   fieldDiv.appendChild(document.createTextNode(result));  
   fieldDiv.appendChild(document.createElement('br'));
   if(elapsedTime !== undefined) {
@@ -57,7 +57,7 @@ function processForm(form) {
   }
   
   // Выводим
-  printResult(retVal, elapsedTime)
+  printResult(retVal, elapsedTime);
   return false;
 }
  
@@ -88,7 +88,7 @@ function selectOnChange(select) {
     form.insertBefore(fieldDiv, form.submit);
   }
   // Удаляем комментарий (справку)
-  var comment = document.getElementById('comment')
+  var comment = document.getElementById('comment');
   var elements = comment.childNodes;
   while(elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
