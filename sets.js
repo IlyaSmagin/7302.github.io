@@ -1,4 +1,27 @@
 'use strict';
+class Utils {
+  // Superscript для Юникода
+  static subU(n) {
+    const supArr = ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹'];
+    if(n == 0)
+      return supArr[0];
+    
+    var minus = false;
+    if(n < 0) {
+      minus = true;
+      n = -n;
+    }
+    
+    var result = '';
+    while(n > 0) {
+      var rem = n % 10;
+      result = supArr[rem] + result;
+      n = ~~(n/10);
+    }
+    
+    return minus ? '⁻' + result : result;
+  }
+}
 /*******************************************/
 /**************Классы множеств**************/
 /*******************************************/
@@ -72,8 +95,7 @@ Integer.prototype.valueOf = Integer.prototype.toString;
 class Rational {
   constructor(numerator, denumerator) {
     var arr = numerator.toString().split('/');
-    if(arr.length > 1)
-    {
+    if(arr.length > 1) {
       numerator = arr[0];
       denumerator = arr[1];
     }
@@ -124,29 +146,6 @@ class Polynomial {
 }
 Polynomial.prototype.toString = function() {
   // TODO: use big number arithmetics
-  function subU(n)
-  {
-    const supArr = ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹'];
-    if(n == 0)
-      return supArr[0];
-    
-    var minus = false;
-    if(n < 0)
-    {
-      minus = true;
-      n = -n;
-    }
-    
-    var result = '';
-    while(n > 0)
-    {
-      var rem = n % 10;
-      result = supArr[rem] + result;
-      n = ~~(n/10);
-    }
-    
-    return minus ? '⁻' + result : result;
-  }
   function intRat(rat) {
     if(rat.q.m == 1 && rat.q.a[0] == 1)
       return rat.p.a.join('');
@@ -161,12 +160,10 @@ Polynomial.prototype.toString = function() {
   }
   
   var str = '';
-  for(let i=0; i < this.m; i++)
-  {
-    if(this.c[i].p.n != 0)
-    {
+  for(let i=0; i < this.m; i++) {
+    if(this.c[i].p.n != 0) {
       var k = formatRat(this.c[i]);
-      str += (str.length>0&&!this.c[i].b>0?'+':'') + (k==1?'':k) + 'x' + subU(this.m-i);
+      str += (str.length>0&&!this.c[i].b>0?'+':'') + (k==1?'':k) + 'x' + Utils.subU(this.m-i);
     }
   }
   var constant = this.c[this.m]

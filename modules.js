@@ -31,7 +31,6 @@ const Modules = {
       { caption: 'Число', name: 'a', classType: Natural, regexType: 'N0' }
     ],
     description: 'Добавление 1 к натуральному числу',
-    returnFormat: function (num) { num.delLeadingZeros(); return num.toString(); }
   },
   SUB_NN_N: {
     func: SUB_NN_N,
@@ -40,6 +39,24 @@ const Modules = {
       { caption: 'Вычитаемое', name: 'a2', classType: Natural, regexType: 'N0' }
     ],
     description: 'Вычитание из первого большего натурального числа второго меньшего или равного'
+  },
+  MUL_Nk_N: {
+    func: MUL_Nk_N,
+    reqFields: [
+    { caption: 'Число', name: 'a', classType: Natural, regexType: 'N0' },
+    { caption: 'k', name: 'k', classType: Number, regexType: 'N0' }
+    ],
+    description: 'Умножение натурального числа на 10^k',
+  },
+  DIV_NN_Dk: {
+  func: DIV_NN_Dk,
+  reqFields: [
+  { caption: 'Первое число', name: 'a1', classType: Natural, regexType: 'N0' },
+  { caption: 'Второе число', name: 'a2', classType: Natural, regexType: 'N' }
+  ],
+  description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
+  comment: 'k - номер позиции цифры (номер считается с нуля)',
+  returnFormat: function (dk) { return dk.d + '*10' + Utils.subU(dk.k); }
   },
   ABS_Z_N: {
     func: ABS_Z_N,
@@ -192,6 +209,39 @@ function SUB_NN_N(num1, num2) {
   }
   result.delLeadingZeros();
   return result;
+}
+
+function MUL_Nk_N(num, k)
+{
+  k = k.valueOf();
+  if(!Number.isSafeInteger(k))
+    return "Ошибка: недопустимое значение k";
+
+  if(num.n > 0)
+    while(k--)
+      num.a.push(0);
+  return num;
+}
+
+function DIV_NN_Dk(num1, num2) {
+  var comp = COM_NN_D(num1, num2);
+  if(comp == 1)
+    return "Ошибка: первое число больше второго";
+  else if(comp == 0)
+    return {d:1, k:0};
+  
+  var orderDiff = num1.n - num2.n;
+  if(num1.a[0] <= num2.a[0])
+    orderDiff--;
+  
+  MUL_Nk_N(num2, orderDiff);
+  var result = 0;
+  while(COM_NN_D(num1, num2) != 1) {
+    num1 = SUB_NN_N(num1, num2);
+    result++;
+  }
+  
+  return {d: result, k: orderDiff};
 }
 
 function ABS_Z_N(num) {
