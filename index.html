@@ -3,10 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="Refresh" content="0; url=dm/">
+<script src="sets.js"></script>
+<script src="modules.js"></script>
+<script src="dom.js"></script>
+<script src="tests.js"></script>
+<link rel="stylesheet" href="style.css">
 <title>DM</title>
 </head>
-<body>
-<a href="dm/">Коллоквиум ДМ-2</a>
+<body onload="javascript:formatSelect()">
+<h1>Коллоквиум ДМ-2</h1>
+
+<section id="container">
+<div id="left-half">
+<form action="#" onsubmit="return processForm(this)">
+  <div id="types">
+    <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
+    <label for="type1">Краткое описание</label>
+    <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
+    <label for="type2">Код функции</label>
+  </div>
+  <select id="select" onchange="selectOnChange(this)">
+  </select><br>
+  <input type="submit" value="Обработать" id="submit">
+  <button type="button" onclick="clearResults()">Очистить поле результатов</button>
+</form>
+<div id="comment"><noscript>Для работы скрипта необходим современный браузер с включенной обработкой JavaScript</noscript></div> 
+</div>
+<div id="right-half"></div>
+</section>
+<div id="footer"><p> <a href="javascript:runTests()">Запуск тестов</a> | <a href="javascript:alert('Еще не готов')">Список авторов</a> | <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a></p></div>
 </body>
 </html>
