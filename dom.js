@@ -50,8 +50,8 @@ function processForm(form) {
   // Формируем результат
   if(typeof retVal != 'string')
   {
-    if(module.returnFormat !== undefined)
-      retVal = module.returnFormat(retVal);
+    if(module.formatter !== undefined)
+      retVal = module.formatter(retVal);
     else if(module.returnCodes !== undefined)
       retVal = module.returnCodes[retVal];
   }

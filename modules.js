@@ -56,7 +56,7 @@ const Modules = {
   ],
   description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
   comment: 'k - номер позиции цифры (номер считается с нуля)',
-  returnFormat: function (dk) { return dk.d + '*10' + Utils.subU(dk.k); }
+  formatter: function (dk) { return dk.d + '*10' + Utils.subU(dk.k); }
   },
   ABS_Z_N: {
     func: ABS_Z_N,
@@ -177,7 +177,7 @@ function ADD_1N_N(num) {
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
   if (COM_NN_D(num1, num2) == 1)
-    return "Ошибка: вычитаемое больше уменьшаемого";
+    return 'Ошибка: вычитаемое больше уменьшаемого';
   else {
     // Если вычитаемое больше или равно уменьшаемому
     var i = num1.n - 1;
@@ -215,7 +215,7 @@ function MUL_Nk_N(num, k)
 {
   k = k.valueOf();
   if(!Number.isSafeInteger(k))
-    return "Ошибка: недопустимое значение k";
+    return 'Ошибка: недопустимое значение k';
 
   if(num.n > 0)
     while(k--)
@@ -226,7 +226,7 @@ function MUL_Nk_N(num, k)
 function DIV_NN_Dk(num1, num2) {
   var comp = COM_NN_D(num1, num2);
   if(comp == 1)
-    return "Ошибка: первое число больше второго";
+    return 'Ошибка: первое число больше второго';
   else if(comp == 0)
     return {d:1, k:0};
   
@@ -278,7 +278,7 @@ function TRANS_Z_Q(num) {
 
 function TRANS_Q_Z(num) {
   if(num.q.n != 1 || num.q.a[0] != 1)
-    return "Ошибка: знаменатель не равен 1"
+    return 'Ошибка: знаменатель не равен 1';
   return new Integer(num.p);
 }
 
