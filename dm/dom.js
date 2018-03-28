@@ -2,6 +2,29 @@
 /*******************************************/
 /********************DOM********************/
 /*******************************************/
+function printResult(result, elapsedTime) {
+  var resultHalf = document.getElementById('right-half');
+  var fieldDiv = document.createElement('div'); 
+  fieldDiv.setAttribute('class', 'result last')
+  fieldDiv.appendChild(document.createTextNode(result));  
+  fieldDiv.appendChild(document.createElement('br'));
+  if(elapsedTime !== undefined) {
+    var ms = document.createElement('span');
+    ms.appendChild(document.createTextNode('('+elapsedTime+'ms)'));
+    fieldDiv.appendChild(ms);
+  }
+  if(resultHalf.lastChild !== null)
+    resultHalf.lastChild.classList.remove('last');
+  resultHalf.appendChild(fieldDiv);
+}
+
+function clearResults() {
+  var elements = document.getElementById('right-half').childNodes;
+    while(elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
+
 function processForm(form) {
   var module = Modules[form.select.options[form.select.selectedIndex].value];
   if(module.func === undefined)
@@ -34,26 +57,8 @@ function processForm(form) {
   }
   
   // Выводим
-  var resultHalf = document.getElementById('right-half');
-  var fieldDiv = document.createElement('div'); 
-  fieldDiv.setAttribute('class', 'result last')
-  fieldDiv.appendChild(document.createTextNode(retVal.toString()));  
-  fieldDiv.appendChild(document.createElement('br'));
-  var ms = document.createElement('span');
-  ms.appendChild(document.createTextNode('('+elapsedTime+'ms)'));
-  fieldDiv.appendChild(ms);
-  if(resultHalf.lastChild !== null)
-    resultHalf.lastChild.classList.remove('last');
-  resultHalf.appendChild(fieldDiv);
-  
-    return false;
-}
-
-function clearResults() {
-  var elements = document.getElementById('right-half').childNodes;
-    while(elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
-    }
+  printResult(retVal, elapsedTime)
+  return false;
 }
  
 function selectOnChange(select) {

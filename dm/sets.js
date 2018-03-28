@@ -117,11 +117,9 @@ class Polynomial {
     if(Array.isArray(val))
       this.arr = val;
     else 
-    {
       this.arr = val.toString().split(' ');
-      for (let i=0; i<this.arr.length; i++)
-        this.arr[i] = new Rational(this.arr[i]);
-    }
+    for (let i=0; i<this.arr.length; i++)
+      this.arr[i] = new Rational(this.arr[i]);
   }
 }
 Polynomial.prototype.toString = function() {
@@ -177,4 +175,4 @@ Polynomial.prototype.toString = function() {
   
   return str;
 }
-Polynomial.prototype.valueOf = Rational.prototype.toString;
+Polynomial.prototype.valueOf = Polynomial.prototype.toString;
