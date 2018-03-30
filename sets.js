@@ -1,208 +1,261 @@
-'use strict';
+"use strict";
 
-class Utils {
-  // Superscript для Юникода
-  static subU(n) {
-    const supArr = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-    if (n == 0)
-      return supArr[0];
+function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
-    let minus = false;
-    if (n < 0) {
-      minus = true;
-      n = -n;
+function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Utils =
+  /*#__PURE__*/
+  function () {
+    function Utils() {
+      _classCallCheck(this, Utils);
     }
 
-    let result = '';
-    while (n > 0) {
-      const rem = n % 10;
-      result = supArr[rem] + result;
-      n = ~~(n / 10);
-    }
+    _createClass(Utils, null, [{
+      key: "subU",
+      // Superscript для Юникода
+      value: function subU(n) {
+        var supArr = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
+        if (n == 0) return supArr[0];
+        var minus = false;
 
-    return minus ? '⁻' + result : result;
-  }
-}
+        if (n < 0) {
+          minus = true;
+          n = -n;
+        }
 
+        var result = "";
+
+        while (n > 0) {
+          var rem = n % 10;
+          result = supArr[rem] + result;
+          n = ~~(n / 10);
+        }
+
+        return minus ? "⁻" + result : result;
+      }
+    }]);
+
+    return Utils;
+  }();
 /*******************************************/
+
 /**************Классы множеств**************/
+
 /*******************************************/
-
 // Множество натуральных чисел с 0
-class Natural {
-  constructor(val) {
-    this.a = val;
-  }
 
-  get a() {
-    return this.arr;
-  }
 
-  get n() {
-    if (this.arr)
-      for (let i = 0; i < this.arr.length; i++)
-        if (this.arr[i] > 0)
-          return this.arr.length - i;
-    return 0;
-  }
+var Natural =
+  /*#__PURE__*/
+  function () {
+    function Natural(val) {
+      _classCallCheck(this, Natural);
 
-  set a(val) {
-    if (!Array.isArray(val))
-      val = val.toString().split('');
-    this.arr = val.map(function (digit) {
-      return Number(digit);
-    });
-    if (!/^\d+$/.test(this.arr.join('')))
-      debugger;
-  }
+      this.a = val;
+    }
 
-  delLeadingZeros() {
-    while (this.arr.length > 1 && this.arr[0] == 0)
-      this.arr.shift();
-  }
-}
+    _createClass(Natural, [{
+      key: "delLeadingZeros",
+      value: function delLeadingZeros() {
+        while (this.arr.length > 1 && this.arr[0] == 0) {
+          this.arr.shift();
+        }
+      }
+    }, {
+      key: "a",
+      get: function get() {
+        return this.arr;
+      },
+      set: function set(val) {
+        if (!Array.isArray(val)) val = val.toString().split("");
+        this.arr = val.map(function (digit) {
+          return Number(digit);
+        });
+        if (!/^\d+$/.test(this.arr.join(""))) debugger;
+      }
+    }, {
+      key: "n",
+      get: function get() {
+        if (this.arr) for (var i = 0; i < this.arr.length; i++) {
+          if (this.arr[i] > 0) return this.arr.length - i;
+        }
+        return 0;
+      }
+    }]);
+
+    return Natural;
+  }();
 
 Natural.prototype.toString = function () {
-  return this.a.join('');
+  return this.a.join("");
 };
-Natural.prototype.valueOf = Natural.prototype.toString;
 
-// Множество целых чисел
-class Integer {
-  constructor(val) {
-    this.a = val;
-  }
+Natural.prototype.valueOf = Natural.prototype.toString; // Множество целых чисел
 
-  get a() {
-    return this.natural.a;
-  }
+var Integer =
+  /*#__PURE__*/
+  function () {
+    function Integer(val) {
+      _classCallCheck(this, Integer);
 
-  get n() {
-    return this.natural.n;
-  }
-
-  get b() {
-    return this.negative;
-  }
-
-  set b(val) {
-    this.negative = val;
-  }
-
-  set a(val) {
-    if (!Array.isArray(val))
-      val = val.toString().split('');
-    if (!/^-?\d+$/.test(val.join('')))
-      debugger;
-    if (val[0] === '-') {
-      this.negative = true;
-      val.shift();
+      this.a = val;
     }
-    else
-      this.negative = false;
 
-    this.natural = new Natural(val);
-  }
-}
+    _createClass(Integer, [{
+      key: "a",
+      get: function get() {
+        return this.natural.a;
+      },
+      set: function set(val) {
+        if (!Array.isArray(val)) val = val.toString().split("");
+        if (!/^-?\d+$/.test(val.join(""))) debugger;
+
+        if (val[0] === "-") {
+          this.negative = true;
+          val.shift();
+        } else this.negative = false;
+
+        this.natural = new Natural(val);
+      }
+    }, {
+      key: "n",
+      get: function get() {
+        return this.natural.n;
+      }
+    }, {
+      key: "b",
+      get: function get() {
+        return this.negative;
+      },
+      set: function set(val) {
+        this.negative = val;
+      }
+    }]);
+
+    return Integer;
+  }();
 
 Integer.prototype.toString = function () {
-  return (this.b ? '-' : '') + this.natural;
+  return (this.b ? "-" : "") + this.natural;
 };
-Integer.prototype.valueOf = Integer.prototype.toString;
 
-// Множество рациональных чисел
-class Rational {
-  constructor(numerator, denumerator) {
-    const arr = numerator.toString().split('/');
-    if (arr.length > 1) {
-      numerator = arr[0];
-      denumerator = arr[1];
-    }
-    this.p = numerator;
-    this.q = denumerator;
-  }
+Integer.prototype.valueOf = Integer.prototype.toString; // Множество рациональных чисел
 
-  // Числитель
-  get p() {
-    return this.numerator;
-  }
+var Rational =
+  /*#__PURE__*/
+  function () {
+    function Rational(numerator, denumerator) {
+      _classCallCheck(this, Rational);
 
-  // Знаменатель
-  get q() {
-    return this.denumerator;
-  }
+      var arr = numerator.toString().split("/");
 
-  get b() {
-    return this.numerator.b;
-  }
+      if (arr.length > 1) {
+        numerator = arr[0];
+        denumerator = arr[1];
+      }
 
-  set p(val) {
-    this.numerator = new Integer(val);
-  }
+      this.p = numerator;
+      this.q = denumerator;
+    } // Числитель
 
-  set q(val) {
-    if (val === undefined)
-      val = 1;
-    this.denumerator = new Natural(val);
-  }
-}
+
+    _createClass(Rational, [{
+      key: "p",
+      get: function get() {
+        return this.numerator;
+      } // Знаменатель
+      ,
+      set: function set(val) {
+        this.numerator = new Integer(val);
+      }
+    }, {
+      key: "q",
+      get: function get() {
+        return this.denumerator;
+      },
+      set: function set(val) {
+        if (val === undefined) val = 1;
+        this.denumerator = new Natural(val);
+      }
+    }, {
+      key: "b",
+      get: function get() {
+        return this.numerator.b;
+      }
+    }]);
+
+    return Rational;
+  }();
 
 Rational.prototype.toString = function () {
-  let str = this.numerator;
-  if (this.denumerator !== undefined) str += '/' + this.denumerator;
+  var str = this.numerator;
+  if (this.denumerator !== undefined) str += "/" + this.denumerator;
   return str;
 };
+
 Rational.prototype.valueOf = Rational.prototype.toString;
 
-class Polynomial {
-  constructor(val) {
-    this.c = val;
-  }
+var Polynomial =
+  /*#__PURE__*/
+  function () {
+    function Polynomial(val) {
+      _classCallCheck(this, Polynomial);
 
-  get c() {
-    return this.arr;
-  }
+      this.c = val;
+    }
 
-  get m() {
-    return this.arr.length - 1;
-  }
+    _createClass(Polynomial, [{
+      key: "c",
+      get: function get() {
+        return this.arr;
+      },
+      set: function set(val) {
+        if (Array.isArray(val)) this.arr = val;else this.arr = val.toString().split(" ");
 
-  set c(val) {
-    if (Array.isArray(val))
-      this.arr = val;
-    else
-      this.arr = val.toString().split(' ');
-    for (let i = 0; i < this.arr.length; i++)
-      this.arr[i] = new Rational(this.arr[i]);
-  }
-}
+        for (var i = 0; i < this.arr.length; i++) {
+          this.arr[i] = new Rational(this.arr[i]);
+        }
+      }
+    }, {
+      key: "m",
+      get: function get() {
+        return this.arr.length - 1;
+      }
+    }]);
+
+    return Polynomial;
+  }();
 
 Polynomial.prototype.toString = function () {
   // TODO: use big number arithmetics
   function intRat(rat) {
-    if (rat.q.m == 1 && rat.q.a[0] == 1)
-      return rat.p.a.join('');
-    return rat.p.a.join('') % rat.q.a.join('') ? null : rat.p.a.join('') / rat.q.a.join('');
+    if (rat.q.m == 1 && rat.q.a[0] == 1) return rat.p.a.join("");
+    return rat.p.a.join("") % rat.q.a.join("") ? null : rat.p.a.join("") / rat.q.a.join("");
   }
 
   function formatRat(rat) {
-    let result = intRat(rat);
-    if (result === null)
-      result = rat;
+    var result = intRat(rat);
+    if (result === null) result = rat;
     return result.toString();
   }
 
-  let str = '';
-  for (let i = 0; i < this.m; i++) {
+  var str = "";
+
+  for (var i = 0; i < this.m; i++) {
     if (this.c[i].p.n != 0) {
-      const k = formatRat(this.c[i]);
-      str += (str.length > 0 && !this.c[i].b > 0 ? '+' : '') + (k == 1 ? '' : k) + 'x' + Utils.subU(this.m - i);
+      var k = formatRat(this.c[i]);
+      str += (str.length > 0 && !this.c[i].b > 0 ? "+" : "") + (k == 1 ? "" : k) + "x" + Utils.subU(this.m - i);
     }
   }
-  const constant = this.c[this.m];
-  if (constant.p.n != 0 || str.length == 0)
-    str += (str.length > 0 && !constant.b ? '+' : '') + formatRat(constant);
 
+  var constant = this.c[this.m];
+  if (constant.p.n != 0 || str.length == 0) str += (str.length > 0 && !constant.b ? "+" : "") + formatRat(constant);
   return str;
 };
+
 Polynomial.prototype.valueOf = Polynomial.prototype.toString;
