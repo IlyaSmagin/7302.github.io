@@ -203,7 +203,109 @@ var Modules = {
     }],
     description: "Производная многочлена",
     comment: "Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: '-3/2 1/2 0 42' будет соответствовать многочлену -3/2x³+1/2x²+42"
-  }
+  },
+  MUL_PP_P: {
+        func: MUL_PP_P,
+        reqFields: [
+            {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+            {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+        ],
+        description: 'Умножение многочленов',
+        comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    },
+    DIV_PP_P: {
+        func: DIV_PP_P,
+        reqFields: [
+            {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+            {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+        ],
+        description: 'Частное от деления многочлена на многочлен при делении с остатком',
+        comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    },
+    MOD_PP_P: {
+        func: MOD_PP_P,
+        reqFields: [
+            {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+            {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+        ],
+        description: 'Остаток от деления многочлена на многочлен при делении с остатком',
+        comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    },
+    ADD_ZZ_Z: {
+        func: ADD_ZZ_Z,
+        reqFields: [{
+            caption: "Первое число",
+            name: "a1",
+            classType: Integer,
+            regexType: "Z"
+        }, {
+            caption: "Второе число",
+            name: "a2",
+            classType: Integer,
+            regexType: "Z"
+        }],
+        description: "Сложение целых чисел"
+    },
+    MUL_ZZ_Z: {
+        func: MUL_ZZ_Z,
+        reqFields: [{
+            caption: "Первое число",
+            name: "a1",
+            classType: Integer,
+            regexType: "Z"
+        }, {
+            caption: "Второе число",
+            name: "a2",
+            classType: Integer,
+            regexType: "Z"
+        }],
+        description: "Умножение целых чисел"
+    },
+    SUB_ZZ_Z: {
+        func: SUB_ZZ_Z,
+        reqFields: [{
+            caption: "Первое число",
+            name: "a1",
+            classType: Integer,
+            regexType: "Z"
+        }, {
+            caption: "Второе число",
+            name: "a2",
+            classType: Integer,
+            regexType: "Z"
+        }],
+        description: "Вычитание целых чисел"
+    },
+    DIV_ZZ_Z: {
+        func: DIV_ZZ_Z,
+        reqFields: [{
+            caption: "Первое число",
+            name: "a1",
+            classType: Integer,
+            regexType: "Z"
+        }, {
+            caption: "Второе число",
+            name: "a2",
+            classType: Integer,
+            regexType: "Z"
+        }],
+        description: "Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+    },
+    MOD_ZZ_Z: {
+        func: MOD_ZZ_Z,
+        reqFields: [{
+            caption: "Первое число",
+            name: "a1",
+            classType: Integer,
+            regexType: "Z"
+        }, {
+            caption: "Второе число",
+            name: "a2",
+            classType: Integer,
+            regexType: "Z"
+        }],
+        description: "Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+    }
 };
 /*******************************************/
 
@@ -359,4 +461,130 @@ function DER_P_P(poly) {
 
   if (poly.c.m < 0) poly.c.push(new Rational(0));
   return poly;
+}
+//Умножение многочленов MUL_PP_P
+//MUL_PQ_P Умножение многочлена на рациональное число
+//MUL_Pxk_P Умножение многочлена на x^k
+//ADD_PP_P Сложение многочленов
+function MUL_PP_P(poly1, poly2) {
+    var poly = new Polynomial();
+    for (let i = 0; i <= poly2.m; i++) {
+        var tempPoly = new Polynomial();
+        tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
+        tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
+        poly = ADD_PP_P(poly, tempPoly);
+    }
+    return poly;
+}
+
+//Частное от деления многочлена на многочлен при делении с остатком DIV_PP_P
+//DIV_QQ_Q Вычитание дробей
+//DEG_P_N Степень многочлена
+//MUL_Pxk_P Умножение многочлена на x^k
+//SUB_PP_P Вычитание многочленов
+//ADD_PP_P 	Сложение многочленов
+function DIV_PP_P(poly1, poly2) {
+    var poly = new Polynomial();
+    while (DEG_P_N(poly1) >= DEG_P_N(poly2)) {
+        var tempPoly = new Polynomial();
+        var x = DIV_QQ_Q(new Rational(poly1.c[i].a), new Rational(poly2.c[poly2.m].a));
+        var k = poly1.m - 1;
+        poly.push(new Rational(x));
+        tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
+        tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
+        poly1 = SUB_PP_P(poly1, tempPoly);
+    }
+    return poly;
+}
+
+//Остаток от деления многочлена на многочлен при делении с остатком MOD_PP_P
+//DIV_PP_P Частное от деления многочлена на многочлен при делении с остатком
+//MUL_PP_P Умножение многочленов
+//SUB_PP_P Вычитание многочленов
+function MOD_PP_P(poly1, poly2) {
+    var tempPoly = DIV_PP_P(poly1, poly2);
+    if (tempPoly.m == 1 && tempPoly.c[0] == 0)
+        return poly1;
+    var int = MUL_PP_P(tempPoly, poly);
+    var poly = SUB_PP_P(tempPoly, poly2);
+    return poly;
+}
+
+function sss(num1, num2) {
+    return ADD_ZZ_Z(num1, MUL_ZM_Z(num2));
+}
+
+function ADD_ZZ_Z(num1, num2) {
+    if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) //???? ??? ?????????????
+    {
+        return ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+    }
+    else {
+        if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // ???? ???- ?????????????
+        {
+            return MUL_ZM_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // ?? ????? = - (|?1| + |?2|)
+
+        }
+        else {
+            if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) // a1 ?????, ?2 ???
+            {
+                if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 1) // ???? Num1<num2
+                {
+
+                    return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // ???? |?1| < |?2|, ?? - (|?2| - |?1|)
+
+                }
+                else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); // |a1| - |a2|
+
+            }
+            else {
+                if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) // ?1 ???, ?2 ?????
+                {
+                    if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2) {
+                        return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))) // ???? |?1| > |?2| , ?? - (|A| - |B|)
+
+                    }
+                    else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); //  |B| - |A|
+                }
+                else {
+                    if (POZ_Z_D(num1) == 0) // if a1 == 0
+                        return num2;
+                    else if (POZ_Z_D(num2) == 0) // a2 == 0
+                        return num1;
+                }
+            }
+
+        }
+
+    }
+}
+
+function MUL_ZZ_Z(num1, num2) {
+    if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) || (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2)) // åñëè ÷èñëà îäíîãî çíàêà
+        return MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));//ïðîñòî ïðîèçâåäåíèå
+    else {
+        if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) || (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2))//åñëè ðàçíûõ çíàêîâ
+        {
+            return MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));	//ïðîèçâåäåíèå*(-1)
+        }
+        else {
+            if (POZ_Z_D(num1) == 0 || POZ_Z_D(num2) == 0) // Åñëè ÷èñåëêè = 0
+                return 0;
+        }
+    }
+
+}
+
+function MOD_ZZ_Z(num1, num2) {
+    return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+}
+
+
+function DIV_ZZ_Z(num1, num2) {
+    if (POZ_Z_D(num1) == POZ_Z_D(num2))//???? ?????? ?????
+        return DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+    else //?????? ??????
+    {
+        return MUL_ZM_Z(DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
+    }
 }
