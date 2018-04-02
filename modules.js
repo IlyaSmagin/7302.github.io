@@ -309,7 +309,7 @@ function MUL_Nk_N(num, k) {
 }
 //Смагин
 function MUL_ND_N(num, k){
-  if (k.n > 1)
+  if (k.n > 1 || k.negative)
     return 'Ошибка: Второй аргумент не является цифрой';
   if (k == 0)
     return new Natural(0);
