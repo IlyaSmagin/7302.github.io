@@ -127,6 +127,21 @@ var Modules = {
       2: 'Число положительно'
     }
   },
+  MUL_ND_N: {
+    func: MUL_ND_N,
+    reqFields: [{
+      caption: 'Число',
+      name: 'num',
+      classType: Integer,
+      regexType: 'Z'
+    },{
+      caption: 'Цифра',
+      name: 'k',
+      classType: Integer,
+      regexType: 'Z'
+    }],
+    description: 'Умножение натурального на цифру'
+  },
   MUL_ZM_Z: {
     func: MUL_ZM_Z,
     reqFields: [{
@@ -292,6 +307,28 @@ function MUL_Nk_N(num, k) {
       num.a.push(0);
   return num;
 }
+//Смагин
+function MUL_ND_N(num, k){
+  if (k.n > 1 || k.b)
+    return 'Ошибка: Второй аргумент не является цифрой';
+  if (k == 0)
+    return new Natural(0);
+
+  var perenos = null;
+  for (var i = num.a.length - 1; i >= 0; i--){
+    var comp = new Integer(num.a[i]*k + perenos);//Перемножаем каждую цифру числа на данную цифру
+    if (comp.n > 1){//Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
+      num.a[i] = comp.a[1];
+      perenos = comp.a[0];
+    } else{
+      num.a[i] = comp.a[0];
+      perenos = null;
+    } 
+  }
+  if (i < 0)//Если при последенем умножении получилось двухзначное число
+    num.a.unshift(perenos);//Добавляем еще одну цифру слева
+  return num;
+}
 
 // Пегушина
 function DIV_NN_Dk(num1, num2) {
@@ -313,6 +350,7 @@ function DIV_NN_Dk(num1, num2) {
 
   return { d: result, k: orderDiff };
 }
+
 
 function ABS_Z_N(num) {
   num.b = false;
