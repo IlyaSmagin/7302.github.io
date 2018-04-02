@@ -309,8 +309,10 @@ function MUL_Nk_N(num, k) {
 }
 //Смагин
 function MUL_ND_N(num, k){
-  if (k.n > 2)
+  if (k.n > 1)
     return 'Ошибка: Второй аргумент не является цифрой';
+  if (k == 0)
+    return new Natural(0);
 
   var perenos = null;
   for (var i = num.a.length - 1; i >= 0; i--){
