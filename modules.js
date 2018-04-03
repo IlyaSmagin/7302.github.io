@@ -550,16 +550,13 @@ function ADD_ZZ_Z(num1, num2) {
           else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); //  |B| - |A|
         }
         else {
-        else
           if (POZ_Z_D(num1) == 0) // if a1 == 0
             return num2;
           else if (POZ_Z_D(num2) == 0) // a2 == 0
             return num1;
         }
       }
-
     }
-
   }
 }
 
