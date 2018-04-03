@@ -436,7 +436,7 @@ function ADD_NN_N(num1, num2) {
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
   if (COM_NN_D(num1, num2) == 1)
-    return 'Ошибка: вычитаемое больше уменьшаемого';
+    throw new Error('вычитаемое больше уменьшаемого');
   else {
     // Если вычитаемое больше или равно уменьшаемому
     var i = num1.n - 1;
@@ -498,7 +498,7 @@ function MUL_ND_N(num, k){
 
 function MUL_Nk_N(num, k) {
   if (!Number.isSafeInteger(+k))
-    return 'Ошибка: недопустимое значение k';
+    throw new Error('недопустимое значение k');
   var result = new Natural(num);
   if (result.n > 0)
     while (k--)
@@ -520,7 +520,7 @@ function MUL_NN_N(num1, num2){
 function DIV_NN_Dk(num1, num2) {
   var comp = COM_NN_D(num1, num2);
   if (comp == 1)
-    return 'Ошибка: первое число больше второго';
+    throw new Error('первое число больше второго');
   else if (comp == 0)
     return { d: 1, k: 0 };
 
@@ -574,7 +574,7 @@ function TRANS_Z_Q(num) {
 
 function TRANS_Q_Z(num) {
   if (num.q.n != 1 || num.q.a[0] != 1)
-    return 'Ошибка: знаменатель не равен 1';
+    throw new Error('знаменатель не равен 1');
   return new Integer(num.p);
 }
 

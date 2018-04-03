@@ -47,15 +47,16 @@ function processForm(form) {
   for (var _i = 0; _i < module.reqFields.length; _i++)
     args.push(new module.reqFields[_i].classType(form[module.reqFields[_i].name].value));
   var timeBeforeCall = performance.now();
-  var retVal = module.func.apply(this, args);
-  var elapsedTime = performance.now() - timeBeforeCall;
-
-  // Формируем результат
-  if (typeof retVal !== 'string') {
+  try {
+    var retVal = module.func.apply(this, args);
+    var elapsedTime = performance.now() - timeBeforeCall;
+    // Формируем результат
     if (module.formatter !== undefined)
       retVal = module.formatter(retVal);
     else if (module.returnCodes !== undefined)
       retVal = module.returnCodes[retVal];
+  } catch (e) {
+    retVal = e;
   }
 
   // Выводим
