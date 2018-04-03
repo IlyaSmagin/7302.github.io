@@ -551,7 +551,7 @@ function POZ_Z_D(num) {
 function MUL_ZM_Z(num) {
   var result = new Integer(num);
   if (num.n == 0)
-    return num;
+    return result;
   result.b = !result.b;
   return result;
 }
@@ -638,49 +638,38 @@ function MOD_PP_P(poly1, poly2) {
   return poly;
 }
 
-//Вычитание Опять же два варианта с и без дополнительными переменными
+// Вычитание
 function SUB_ZZ_Z(num1, num2) {
   return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
 }
 
-//Сложение целых чиселок
+// Сложение целых чиселок
 function ADD_ZZ_Z(num1, num2) {
-  if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) //если оба положительные
-  {
+  if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) // если оба положительные
     return ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  }
   else {
-    if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // если оба- отрицательные
-    {
-      return MUL_ZM_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // то ответ = - (|а1| + |а2|)
-
-    }
+    if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // если оба - отрицательные
+      return MUL_ZM_Z(TRANS_N_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))); // то ответ = - (|а1| + |а2|)
     else {
-      if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) // a1 полож, а2 отр
-      {
+      if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) { // a1 полож, а2 отр
         if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 1) // если Num1<num2
-        {
-
-          return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // если |а1| < |а2|, то - (|а2| - |а1|)
-
-        }
-        else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); // |a1| - |a2|
-
+          return MUL_ZM_Z(TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))); // если |а1| < |а2|, то - (|а2| - |а1|)
+        else
+          return TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // |a1| - |a2|
       }
       else {
         if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) // а1 отр, а2 полож
         {
-          if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2) {
-            return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))) // если |а1| > |а2| , то - (|A| - |B|)
-
-          }
-          else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); //  |B| - |A|
+          if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2)
+            return MUL_ZM_Z(TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))) // если |а1| > |а2| , то - (|A| - |B|)
+          else
+            return TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // |B| - |A|
         }
         else {
           if (POZ_Z_D(num1) == 0) // if a1 == 0
-            return num2;
+            return new Integer(num2);
           else if (POZ_Z_D(num2) == 0) // a2 == 0
-            return num1;
+            return new Integer(num1);
         }
       }
     }

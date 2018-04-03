@@ -144,12 +144,12 @@ function runTests() {
     //Z6
     //!!!
     //Z7
-    /*th(SUB_ZZ_Z(new Integer(0), new Integer(0)) == '0');
+    th(SUB_ZZ_Z(new Integer(0), new Integer(0)) == '0');
     th(SUB_ZZ_Z(new Integer(0), new Integer(1)) == '-1');
     th(SUB_ZZ_Z(new Integer(1), new Integer(0)) == '1');
     th(SUB_ZZ_Z(new Integer(42), new Integer(17)) == '25');
     th(SUB_ZZ_Z(new Integer(17), new Integer(42)) == '-25');
-    th(SUB_ZZ_Z(new Integer(42), new Integer(9999)) == '-9957');*/
+    th(SUB_ZZ_Z(new Integer(42), new Integer(9999)) == '-9957');
     //Z8
     //!!!
     //Z9
