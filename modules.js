@@ -53,6 +53,21 @@ var Modules = {
     }],
     description: 'Добавление 1 к натуральному числу'
   },
+  ADD_NN_N: {
+    func: ADD_NN_N,
+    reqFields: [{
+      caption: 'Первое число',
+      name: 'num1',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      name: 'num2',
+      classType: Natural,
+      regexType: 'N0'
+    }],
+    description: 'Сложение двух натуральных чисел'
+  },
   SUB_NN_N: {
     func: SUB_NN_N,
     reqFields: [{
@@ -97,6 +112,21 @@ var Modules = {
       regexType: 'N0'
     }],
     description: 'Умножение натурального числа на 10^k'
+  },
+  MUL_NN_N: {
+    func: MUL_NN_N,
+    reqFields: [{
+      caption: 'Первое число',
+      name: 'num1',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      name: 'num2',
+      classType: Natural,
+      regexType: 'N0'
+    }],
+    description: 'Умножение двух натуральных чисел'
   },
   DIV_NN_Dk: {
     func: DIV_NN_Dk,
@@ -360,6 +390,51 @@ function ADD_1N_N(num) {
   return num;
 }
 
+function ADD_NN_N(num1, num2){
+  var buff=null;
+  var result = new Natural(0);
+  if (COM_NN_D(num1, num2)==1) {//определяем, какое число больше
+    for (var i = num2.a.length-1; i>=0; i--)
+    {
+      if(0<=i-(num2.a.length-num1.a.length))
+        var comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);//складываем разряды и прибавляем перенос с прошлой итерации
+      else
+        var comp = new Natural(num2.a[i] + buff);
+      if (comp.n > 1) {//проверяем на перенос
+        buff = comp.a[0];
+        result.a[i] = comp.a[1];
+      }
+      else{
+        result.a[i] = comp.a[0];
+        buff = null;
+      }
+    }
+  }
+  else{
+    for (var i = num1.a.length-1; i>=0; i--)
+    {
+      if(0<=i-(num1.a.length-num2.a.length))
+        var comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff);//складываем разряды и прибавляем перенос с прошлой итерации
+      else
+        var comp = new Natural(num1.a[i] + buff);
+      if (comp.n > 1) {//проверяем на перенос
+        buff = comp.a[0];
+        result.a[i] = comp.a[1];
+      }
+      else{
+        result.a[i] = comp.a[0];
+        buff = null;
+      }
+
+    }
+  }
+  if (buff == 1)
+    result.a.unshift(buff);
+
+
+  return result;
+}
+
 // Бобриков
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
@@ -429,6 +504,17 @@ function MUL_Nk_N(num, k) {
     while (k--)
       num.a.push(0);
   return num;
+}
+
+function MUL_NN_N(num1, num2){
+  var result = new Natural(0);
+  var buff = new Natural(0);
+  for (var i = num2.a.length-1; i >=0 ; i--) {
+    buff = MUL_ND_N(num1, num2.a[i]);//умножаем разряд на все число поразрядно
+    buff = MUL_Nk_N(buff, num2.a.length-1 - i);//делаем сдвиг для сложения
+    result  = ADD_NN_N(result, buff);//складываем результат с промежуточным значением
+  }
+  return result;
 }
 
 // Пегушина
