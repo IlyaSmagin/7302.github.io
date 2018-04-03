@@ -172,6 +172,81 @@ var Modules = {
     }],
     description: 'Преобразование целого неотрицательного в натуральное'
   },
+  ADD_ZZ_Z: {
+    func: ADD_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Сложение целых чисел"
+  },
+  MUL_ZZ_Z: {
+    func: MUL_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Умножение целых чисел"
+  },
+  SUB_ZZ_Z: {
+    func: SUB_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Вычитание целых чисел"
+  },
+  DIV_ZZ_Z: {
+    func: DIV_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+  },
+  MOD_ZZ_Z: {
+    func: MOD_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+  },
   INT_Q_B: {
     func: INT_Q_B,
     reqFields: [{
@@ -214,7 +289,34 @@ var Modules = {
       classType: Polynomial,
       regexType: 'P'
     }],
-    description: 'Производная многочлена',
+    description: "Производная многочлена",
+    comment: "Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: '-3/2 1/2 0 42' будет соответствовать многочлену -3/2x³+1/2x²+42"
+  },
+  MUL_PP_P: {
+    func: MUL_PP_P,
+    reqFields: [
+      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+    ],
+    description: 'Умножение многочленов',
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+  },
+  DIV_PP_P: {
+    func: DIV_PP_P,
+    reqFields: [
+      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+    ],
+    description: 'Частное от деления многочлена на многочлен при делении с остатком',
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+  },
+  MOD_PP_P: {
+    func: MOD_PP_P,
+    reqFields: [
+      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
+      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
+    ],
+    description: 'Остаток от деления многочлена на многочлен при делении с остатком',
     comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
   }
 };
@@ -262,7 +364,8 @@ function ADD_1N_N(num) {
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
   if (COM_NN_D(num1, num2) == 1)
-    return 'Ошибка: вычитаемое больше уменьшаемого';else {
+    return 'Ошибка: вычитаемое больше уменьшаемого';
+  else {
     // Если вычитаемое больше или равно уменьшаемому
     var i = num1.n - 1;
     result.a[i] = 0;
@@ -397,4 +500,135 @@ function DER_P_P(poly) {
   if (poly.m < 0)
     poly.c.push(new Rational(0));
   return poly;
+}
+
+//Умножение многочленов MUL_PP_P
+//MUL_PQ_P Умножение многочлена на рациональное число
+//MUL_Pxk_P Умножение многочлена на x^k
+//ADD_PP_P Сложение многочленов
+function MUL_PP_P(poly1, poly2) {
+  var poly = new Polynomial();
+  for (let i = 0; i <= poly2.m; i++) {
+    var tempPoly = new Polynomial();
+    tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
+    tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
+    poly = ADD_PP_P(poly, tempPoly);
+  }
+  return poly;
+}
+
+//Частное от деления многочлена на многочлен при делении с остатком DIV_PP_P
+//DIV_QQ_Q Вычитание дробей
+//DEG_P_N Степень многочлена
+//MUL_Pxk_P Умножение многочлена на x^k
+//SUB_PP_P Вычитание многочленов
+//ADD_PP_P 	Сложение многочленов
+function DIV_PP_P(poly1, poly2) {
+  var poly = new Polynomial();
+  while (DEG_P_N(poly1) >= DEG_P_N(poly2)) {
+    var tempPoly = new Polynomial();
+    var x = DIV_QQ_Q(new Rational(poly1.c[i].a), new Rational(poly2.c[poly2.m].a));
+    var k = poly1.m - 1;
+    poly.push(new Rational(x));
+    tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
+    tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
+    poly1 = SUB_PP_P(poly1, tempPoly);
+  }
+  return poly;
+}
+
+//Остаток от деления многочлена на многочлен при делении с остатком MOD_PP_P
+//DIV_PP_P Частное от деления многочлена на многочлен при делении с остатком
+//MUL_PP_P Умножение многочленов
+//SUB_PP_P Вычитание многочленов
+function MOD_PP_P(poly1, poly2) {
+  var tempPoly = DIV_PP_P(poly1, poly2);
+  if (tempPoly.m == 1 && tempPoly.c[0] == 0)
+    return poly1;
+  var int = MUL_PP_P(tempPoly, poly);
+  var poly = SUB_PP_P(tempPoly, poly2);
+  return poly;
+}
+
+//Вычитание Опять же два варианта с и без дополнительными переменными
+function SUB_ZZ_Z(num1, num2) {
+  return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
+}
+
+//Сложение целых чиселок
+function ADD_ZZ_Z(num1, num2) {
+  if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) //если оба положительные
+  {
+    return ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  }
+  else {
+    if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // если оба- отрицательные
+    {
+      return MUL_ZM_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // то ответ = - (|а1| + |а2|)
+
+    }
+    else {
+      if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) // a1 полож, а2 отр
+      {
+        if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 1) // если Num1<num2
+        {
+
+          return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // если |а1| < |а2|, то - (|а2| - |а1|)
+
+        }
+        else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); // |a1| - |a2|
+
+      }
+      else {
+        if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) // а1 отр, а2 полож
+        {
+          if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2) {
+            return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))) // если |а1| > |а2| , то - (|A| - |B|)
+
+          }
+          else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); //  |B| - |A|
+        }
+        else {
+        else
+          if (POZ_Z_D(num1) == 0) // if a1 == 0
+            return num2;
+          else if (POZ_Z_D(num2) == 0) // a2 == 0
+            return num1;
+        }
+      }
+
+    }
+
+  }
+}
+
+//умножение
+function MUL_ZZ_Z(num1, num2) {
+  if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) || (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2)) // если числа одного знака
+    return MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));//просто произведение
+  else {
+    if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) || (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2))//если разных знаков
+    {
+      return MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));	//произведение*(-1)
+    }
+    else {
+      if (POZ_Z_D(num1) == 0 || POZ_Z_D(num2) == 0) // Если чиселки = 0
+        return 0;
+    }
+  }
+}
+
+//остаток
+function MOD_ZZ_Z(num1, num2) {
+  return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+}
+
+//Частное
+function DIV_ZZ_Z(num1, num2) {
+  if (POZ_Z_D(num1) == POZ_Z_D(num2))//если одного знака
+    return DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  else //разных знаков
+  {
+    return MUL_ZM_Z(DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
+  }
 }
