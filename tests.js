@@ -142,7 +142,12 @@ function runTests() {
     //Z5
     th(TRANS_Z_N(new Integer(42)) == '42');
     //Z6
-    //!!!
+    th(ADD_ZZ_Z(new Integer(0), new Integer(0)) == '0');
+    th(ADD_ZZ_Z(new Integer(42), new Integer(1)) == '43');
+    th(ADD_ZZ_Z(new Integer(1), new Integer(42)) == '43');
+    th(ADD_ZZ_Z(new Integer(42), new Integer(17)) == '59');
+    th(ADD_ZZ_Z(new Integer(442), new Integer(442)) == '884');
+    th(ADD_ZZ_Z(new Integer(999), new Integer(999)) == '1998');
     //Z7
     th(SUB_ZZ_Z(new Integer(0), new Integer(0)) == '0');
     th(SUB_ZZ_Z(new Integer(0), new Integer(1)) == '-1');
@@ -151,7 +156,12 @@ function runTests() {
     th(SUB_ZZ_Z(new Integer(17), new Integer(42)) == '-25');
     th(SUB_ZZ_Z(new Integer(42), new Integer(9999)) == '-9957');
     //Z8
-    //!!!
+    th(MUL_ZZ_Z(new Integer(0), new Integer(0)) == '0');
+    th(MUL_ZZ_Z(new Integer(0), new Integer(1)) == '0');
+    th(MUL_ZZ_Z(new Integer(1), new Integer(0)) == '0');
+    th(MUL_ZZ_Z(new Integer(42), new Integer(17)) == '714');
+    th(MUL_ZZ_Z(new Integer(442), new Integer(442)) == '195364');
+    th(MUL_ZZ_Z(new Integer(999), new Integer(777)) == '776223');
     //Z9
     //!!!
     //Z10
