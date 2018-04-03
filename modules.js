@@ -217,21 +217,6 @@ var Modules = {
     }],
     description: "Сложение целых чисел"
   },
-  MUL_ZZ_Z: {
-    func: MUL_ZZ_Z,
-    reqFields: [{
-      caption: "Первое число",
-      name: "a1",
-      classType: Integer,
-      regexType: "Z"
-    }, {
-      caption: "Второе число",
-      name: "a2",
-      classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Умножение целых чисел"
-  },
   SUB_ZZ_Z: {
     func: SUB_ZZ_Z,
     reqFields: [{
@@ -246,6 +231,21 @@ var Modules = {
       regexType: "Z"
     }],
     description: "Вычитание целых чисел"
+  },
+  MUL_ZZ_Z: {
+    func: MUL_ZZ_Z,
+    reqFields: [{
+      caption: "Первое число",
+      name: "a1",
+      classType: Integer,
+      regexType: "Z"
+    }, {
+      caption: "Второе число",
+      name: "a2",
+      classType: Integer,
+      regexType: "Z"
+    }],
+    description: "Умножение целых чисел"
   },
   DIV_ZZ_Z: {
     func: DIV_ZZ_Z,
@@ -391,14 +391,15 @@ function ADD_1N_N(num) {
 }
 
 function ADD_NN_N(num1, num2) {
-  var buff = null;
   var result = new Natural(0);
+  var buff = null;
+  var comp;
   if (COM_NN_D(num1, num2)==1) { // Определяем, какое число больше
     for (var i = num2.a.length-1; i>=0; i--) {
       if(0<=i-(num2.a.length-num1.a.length))
-        var comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
+        comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
       else
-        var comp = new Natural(num2.a[i] + buff);
+        comp = new Natural(num2.a[i] + buff);
       if (comp.n > 1) { // Проверяем на перенос
         buff = comp.a[0];
         result.a[i] = comp.a[1];
@@ -410,11 +411,11 @@ function ADD_NN_N(num1, num2) {
     }
   }
   else {
-    for (var i = num1.a.length-1; i>=0; i--) {
+    for (i = num1.a.length-1; i>=0; i--) {
       if(0<=i-(num1.a.length-num2.a.length))
-        var comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
+        comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
       else
-        var comp = new Natural(num1.a[i] + buff);
+        comp = new Natural(num1.a[i] + buff);
       if (comp.n > 1) { // Проверяем на перенос
         buff = comp.a[0];
         result.a[i] = comp.a[1];
@@ -564,6 +565,63 @@ function TRANS_Z_N(num) {
   return ABS_Z_N(num);
 }
 
+function ADD_ZZ_Z(num1, num2) {
+  var result;
+  var abs1 = ABS_Z_N(num1);
+  var abs2 = ABS_Z_N(num2);
+  var poz1 = POZ_Z_D(num1);
+  var poz2 = POZ_Z_D(num2);
+  if (poz1+poz2 == 0 || poz1 == poz2) // Если одно из чисел - 0, или числа одного знака
+  {
+    result = TRANS_N_Z(ADD_NN_N(abs1, abs2));
+    if(poz1 == 1) // Если оба отрицательные
+      result = MUL_ZM_Z(result);
+  }
+  else
+  {
+    var com = COM_NN_D(abs1, abs2);
+    if(com == 1) // Если второе число > первого
+    {
+      result = TRANS_N_Z(SUB_NN_N(abs2, abs1));
+      if(poz2 == 1) // Если второе число отрицательно
+        result = MUL_ZM_Z(result);
+    }
+    else
+    {
+      result = TRANS_N_Z(SUB_NN_N(abs1, abs2)); // Если первое число > второго или =
+      if(poz1 == 1) // Если первое число отрицательно
+        result = MUL_ZM_Z(result);
+    }
+  }
+  return result;
+}
+
+function SUB_ZZ_Z(num1, num2) {
+  return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
+}
+
+function MUL_ZZ_Z(num1, num2) {
+  var poz1 = POZ_Z_D(num1);
+  var poz2 = POZ_Z_D(num2);
+  if(poz1 == 0 || poz2 == 0)
+    return new Integer(0);
+  var result = MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
+  if (poz1 != poz2) // если разных знаков
+    result = TRANS_N_Z(result);
+  return result;
+}
+
+function DIV_ZZ_Z(num1, num2) {
+  var result =  DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  if (POZ_Z_D(num1) != POZ_Z_D(num2)) // если разных знаков
+    result = MUL_ZM_Z(result);
+  return result;
+}
+
+function MOD_ZZ_Z(num1, num2) {
+  return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+}
+
 function INT_Q_B(num) {
   return num.q.n == 1 && num.q.a[0] == 1 ? 0 : 1;
 }
@@ -636,73 +694,4 @@ function MOD_PP_P(poly1, poly2) {
   var int = MUL_PP_P(tempPoly, poly);
   var poly = SUB_PP_P(tempPoly, poly2);
   return poly;
-}
-
-// Вычитание
-function SUB_ZZ_Z(num1, num2) {
-  return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
-}
-
-// Сложение целых чиселок
-function ADD_ZZ_Z(num1, num2) {
-  if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) // если оба положительные
-    return ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  else {
-    if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // если оба - отрицательные
-      return MUL_ZM_Z(TRANS_N_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))); // то ответ = - (|а1| + |а2|)
-    else {
-      if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) { // a1 полож, а2 отр
-        if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 1) // если Num1<num2
-          return MUL_ZM_Z(TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))); // если |а1| < |а2|, то - (|а2| - |а1|)
-        else
-          return TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // |a1| - |a2|
-      }
-      else {
-        if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) // а1 отр, а2 полож
-        {
-          if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2)
-            return MUL_ZM_Z(TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)))) // если |а1| > |а2| , то - (|A| - |B|)
-          else
-            return TRANS_N_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // |B| - |A|
-        }
-        else {
-          if (POZ_Z_D(num1) == 0) // if a1 == 0
-            return new Integer(num2);
-          else if (POZ_Z_D(num2) == 0) // a2 == 0
-            return new Integer(num1);
-        }
-      }
-    }
-  }
-}
-
-//умножение
-function MUL_ZZ_Z(num1, num2) {
-  if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) || (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2)) // если числа одного знака
-    return MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));//просто произведение
-  else {
-    if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) || (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2))//если разных знаков
-    {
-      return MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));	//произведение*(-1)
-    }
-    else {
-      if (POZ_Z_D(num1) == 0 || POZ_Z_D(num2) == 0) // Если чиселки = 0
-        return 0;
-    }
-  }
-}
-
-//остаток
-function MOD_ZZ_Z(num1, num2) {
-  return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-}
-
-//Частное
-function DIV_ZZ_Z(num1, num2) {
-  if (POZ_Z_D(num1) == POZ_Z_D(num2))//если одного знака
-    return DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  else //разных знаков
-  {
-    return MUL_ZM_Z(DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
-  }
 }

@@ -210,7 +210,7 @@ function runTests() {
     //P13
     //!!!
   } catch (e) {
-    printResult('Критическая ошибка! ' + e.name + ': ' + e.message);
+    printResult('Критическая ошибка: ' + e.message);
     console.error('Critical!');
     console.trace();
     console.info(e.stack);
