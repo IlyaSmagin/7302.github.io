@@ -373,55 +373,53 @@ function NZER_N_B(num) {
 }
 
 function ADD_1N_N(num) {
+  var result = new Natural(num);
   // Проходимся с конца
-  for (var i = num.a.length - 1; i >= 0; i--) {
+  for (var i = result.a.length - 1; i >= 0; i--) {
     // Если не 9 - просто прибавляем 1
-    if (num.a[i] != 9) {
-      num.a[i]++;
+    if (result.a[i] != 9) {
+      result.a[i]++;
       break;
     }
     else
-      num.a[i] = 0; // Девятки обнуляем
+      result.a[i] = 0; // Девятки обнуляем
   }
-
   // Если все цифры были девятками, создаем единичку
   if (i < 0)
-    num.a.unshift(1);
-  return num;
+    result.a.unshift(1);
+  return result;
 }
 
-function ADD_NN_N(num1, num2){
-  var buff=null;
+function ADD_NN_N(num1, num2) {
+  var buff = null;
   var result = new Natural(0);
-  if (COM_NN_D(num1, num2)==1) {//определяем, какое число больше
-    for (var i = num2.a.length-1; i>=0; i--)
-    {
+  if (COM_NN_D(num1, num2)==1) { // Определяем, какое число больше
+    for (var i = num2.a.length-1; i>=0; i--) {
       if(0<=i-(num2.a.length-num1.a.length))
-        var comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);//складываем разряды и прибавляем перенос с прошлой итерации
+        var comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
       else
         var comp = new Natural(num2.a[i] + buff);
-      if (comp.n > 1) {//проверяем на перенос
+      if (comp.n > 1) { // Проверяем на перенос
         buff = comp.a[0];
         result.a[i] = comp.a[1];
       }
-      else{
+      else {
         result.a[i] = comp.a[0];
         buff = null;
       }
     }
   }
-  else{
-    for (var i = num1.a.length-1; i>=0; i--)
-    {
+  else {
+    for (var i = num1.a.length-1; i>=0; i--) {
       if(0<=i-(num1.a.length-num2.a.length))
-        var comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff);//складываем разряды и прибавляем перенос с прошлой итерации
+        var comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
       else
         var comp = new Natural(num1.a[i] + buff);
-      if (comp.n > 1) {//проверяем на перенос
+      if (comp.n > 1) { // Проверяем на перенос
         buff = comp.a[0];
         result.a[i] = comp.a[1];
       }
-      else{
+      else {
         result.a[i] = comp.a[0];
         buff = null;
       }
@@ -430,7 +428,6 @@ function ADD_NN_N(num1, num2){
   }
   if (buff == 1)
     result.a.unshift(buff);
-
 
   return result;
 }
@@ -481,38 +478,40 @@ function SUB_NN_N(num1, num2) {
 function MUL_ND_N(num, k){
   if (k == 0)
     return new Natural(0);
+
+  var result = new Natural(num);
   var perenos = null;
-  for (var i = num.n - 1; i >= 0; i--){
-    var comp = new Natural(num.a[i]*k + perenos);//Перемножаем каждую цифру числа на данную цифру
-    if (comp.n > 1){//Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
-      num.a[i] = comp.a[1];
+  for (var i = result.n - 1; i >= 0; i--){
+    var comp = new Natural(result.a[i]*k + perenos); // Перемножаем каждую цифру числа на данную цифру
+    if (comp.n > 1){ // Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
+      result.a[i] = comp.a[1];
       perenos = comp.a[0];
     } else{
-      num.a[i] = comp.a[0];
+      result.a[i] = comp.a[0];
       perenos = null;
     }
   }
-  if (i < 0)//Если при последенем умножении получилось двухзначное число
-    num.a.unshift(perenos);//Добавляем еще одну цифру слева
-  return num;
+  if (i < 0 && perenos !== null) // Если при последенем умножении получилось двухзначное число
+    result.a.unshift(perenos); // Добавляем еще одну цифру слева
+  return result;
 }
 
 function MUL_Nk_N(num, k) {
   if (!Number.isSafeInteger(+k))
     return 'Ошибка: недопустимое значение k';
-  if (num.n > 0)
+  var result = new Natural(num);
+  if (result.n > 0)
     while (k--)
-      num.a.push(0);
-  return num;
+      result.a.push(0);
+  return result;
 }
 
 function MUL_NN_N(num1, num2){
   var result = new Natural(0);
-  var buff = new Natural(0);
   for (var i = num2.a.length-1; i >=0 ; i--) {
-    buff = MUL_ND_N(num1, num2.a[i]);//умножаем разряд на все число поразрядно
-    buff = MUL_Nk_N(buff, num2.a.length-1 - i);//делаем сдвиг для сложения
-    result  = ADD_NN_N(result, buff);//складываем результат с промежуточным значением
+    var buff = MUL_ND_N(num1, num2.a[i]); // Умножаем разряд на все число поразрядно
+    buff = MUL_Nk_N(buff, num2.a.length-1 - i); // Делаем сдвиг для сложения
+    result = ADD_NN_N(result, buff); // Складываем результат с промежуточным значением
   }
   return result;
 }
@@ -528,7 +527,7 @@ function DIV_NN_Dk(num1, num2) {
   var orderDiff = num1.n - num2.n;
   if (num1.a[0] <= num2.a[0])
     orderDiff--;
-  MUL_Nk_N(num2, orderDiff);
+  num2 = MUL_Nk_N(num2, orderDiff);
   var result = 0;
   while (COM_NN_D(num1, num2) != 1) {
     num1 = SUB_NN_N(num1, num2);
@@ -540,8 +539,9 @@ function DIV_NN_Dk(num1, num2) {
 
 
 function ABS_Z_N(num) {
-  num.b = false;
-  return new Natural(num);
+  var result = new Integer(num);
+  result.b = false;
+  return new Natural(result);
 }
 
 function POZ_Z_D(num) {
@@ -549,10 +549,11 @@ function POZ_Z_D(num) {
 }
 
 function MUL_ZM_Z(num) {
+  var result = new Integer(num);
   if (num.n == 0)
     return num;
-  num.b = !num.b;
-  return num;
+  result.b = !result.b;
+  return result;
 }
 
 function TRANS_N_Z(num) {
@@ -578,14 +579,15 @@ function TRANS_Q_Z(num) {
 }
 
 function DER_P_P(poly) {
+  var result = new Polynomial(poly);
   // TODO: use big number arithmetics
-  for (var i = 0; i <= poly.m; i++) {
-    poly.c[i].p.a = (poly.c[i].p.a.join('') * (poly.m - i)).toString().split('');
+  for (var i = 0; i <= result.m; i++) {
+    result.c[i].p.a = (result.c[i].p.a.join('') * (result.m - i)).toString().split('');
   }
-  poly.c.pop(); // degrade
-  if (poly.m < 0)
-    poly.c.push(new Rational(0));
-  return poly;
+  result.c.pop(); // degrade
+  if (result.m < 0)
+    result.c.push(new Rational(0));
+  return result;
 }
 
 //Умножение многочленов MUL_PP_P
