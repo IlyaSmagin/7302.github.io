@@ -605,9 +605,9 @@ function MUL_ZZ_Z(num1, num2) {
   var poz2 = POZ_Z_D(num2);
   if(poz1 == 0 || poz2 == 0)
     return new Integer(0);
-  var result = MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
+  var result = TRANS_N_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
   if (poz1 != poz2) // если разных знаков
-    result = TRANS_N_Z(result);
+    result = MUL_ZM_Z(result);
   return result;
 }
 
