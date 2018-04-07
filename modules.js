@@ -289,6 +289,14 @@ var Modules = {
       regexType: 'Z'
     }]
   },
+  RED_Q_Q: {
+    description: 'Сокращение дроби',
+    reqFields: [{
+      caption: 'Число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
   INT_Q_B: {
     description: 'Проверка на целое, если рациональное число является целым',
     reqFields: [{
@@ -312,6 +320,31 @@ var Modules = {
   TRANS_Q_Z: {
     description: 'Преобразование дробного в целое (если знаменатель равен 1)',
     reqFields: [{
+      caption: 'Число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
+  MUL_QQ_Q: {
+    description: 'Умножение дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
+  MUL_PQ_P: {
+    description: 'Умножение многочлена на рациональное число',
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
+    reqFields: [{
+      caption: 'Коэффициенты многочлена',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
       caption: 'Число',
       classType: Rational,
       regexType: 'Q'
@@ -702,6 +735,13 @@ function MOD_ZZ_Z(num1, num2) {
   return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
 }
 
+function RED_Q_Q(num){
+  var result = new Rational(num);
+  result.p = DIV_ZZ_Z(num.p, GCF_NN_N(ABS_Z_N(num.p), num.q));
+  result.q = DIV_ZZ_Z(num.q, GCF_NN_N(ABS_Z_N(num.p), num.q));
+  return result;
+}
+
 function INT_Q_B(num) {
   return num.q.n == 1 && num.q.a[0] == 1 ? 0 : 1;
 }
@@ -716,6 +756,13 @@ function TRANS_Q_Z(num) {
   return new Integer(num.p);
 }
 
+function MUL_QQ_Q(num1, num2){
+  var result = new Rational(0);
+  result.p = num1.p * num2.p;
+  result.q = num1.q * num2.q;
+  return result;
+}
+
 function DER_P_P(poly) {
   var result = new Polynomial(poly);
   // TODO: use big number arithmetic
@@ -726,6 +773,15 @@ function DER_P_P(poly) {
   if (result.m < 0)
     result.c.push(new Rational(0));
   return result;
+}
+
+//Умножение многочлена на рациональное число MUL_PQ_P
+//MUL_QQ_Q Умножение дробей
+function MUL_PQ_P(poly, num) {
+  for (var i = 0; i <= poly.m; i++) {
+    poly.c[i] = MUL_QQ_Q(poly.c[i], num);
+  }
+  return poly;
 }
 
 //Умножение многочленов MUL_PP_P
