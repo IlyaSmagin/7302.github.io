@@ -59,7 +59,6 @@ var Modules = {
     }]
   },
   SUB_NN_N: {
-
     description: 'Вычитание из первого большего натурального числа второго меньшего или равного',
     reqFields: [{
       caption: 'Уменьшаемое',
@@ -109,10 +108,14 @@ var Modules = {
   },
   SUB_NDN_N: {
     description: 'Вычитание из натурального другого натурального, умноженного на цифру',
-        reqFields: [{
+    reqFields: [{
       caption: 'Первое число',
       classType: Natural,
       regexType: 'N0'
+    }, {
+      caption: 'Цифра',
+      classType: Number,
+      regexType: 'digit'
     }, {
       caption: 'Второе число',
       classType: Natural,
