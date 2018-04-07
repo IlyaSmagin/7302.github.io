@@ -134,9 +134,7 @@ var Modules = {
       classType: Natural,
       regexType: 'N'
     }],
-    formatter: function formatter(dk) {
-      return dk.d + '*10' + Utils.subU(dk.k);
-    }
+    formatter: function (dk) { return dk.d + '*10' + Utils.subU(dk.k); }
   },
   DIV_NN_N: {
     description: 'Частное от деления большего натурального числа на меньшее или равное натуральное с остатком',
