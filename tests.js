@@ -195,7 +195,13 @@ function runTests() {
     //Z10
     //!!!
     //Q1
-    //!!!
+    th(RED_Q_Q(new Rational('0/1')) == '0/1');
+    th(RED_Q_Q(new Rational('1/1')) == '1/1');
+    th(RED_Q_Q(new Rational('2/1')) == '2/1');
+    th(RED_Q_Q(new Rational('12/2')) == '6/1');
+    th(RED_Q_Q(new Rational('123/6')) == '41/2');
+    th(RED_Q_Q(new Rational('333/666')) == '1/2');
+    th(RED_Q_Q(new Rational('777/316')) == '777/316');
     //Q2
     th(INT_Q_B(new Rational('0/1')) == 0);
     th(INT_Q_B(new Rational('42/1')) == 0);
@@ -212,7 +218,13 @@ function runTests() {
     //Q6
     //!!!
     //Q7
-    //!!!
+    th(MUL_QQ_Q(new Rational('0/1'), new Rational('0/1')) == '0/1');
+    th(MUL_QQ_Q(new Rational('0/1'), new Rational('1/1')) == '0/1');
+    th(MUL_QQ_Q(new Rational('1/1'), new Rational('0/1')) == '0/1');
+    th(MUL_QQ_Q(new Rational('1/1'), new Rational('1/1')) == '1/1');
+    th(MUL_QQ_Q(new Rational('42/1'), new Rational('42/1')) == '1764/1');
+    th(MUL_QQ_Q(new Rational('12/8'), new Rational('42/7')) == '204/56');
+    th(MUL_QQ_Q(new Rational('123/123'), new Rational('123/123')) == '15129/15129');
     //Q8
     //!!!
     //P1

@@ -735,7 +735,7 @@ function MOD_ZZ_Z(num1, num2) {
   return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
 }
 
-function RED_Q_Q(num){
+function RED_Q_Q(num) {
   var result = new Rational(num);
   result.p = DIV_ZZ_Z(num.p, GCF_NN_N(ABS_Z_N(num.p), num.q));
   result.q = DIV_ZZ_Z(num.q, GCF_NN_N(ABS_Z_N(num.p), num.q));
@@ -756,7 +756,7 @@ function TRANS_Q_Z(num) {
   return new Integer(num.p);
 }
 
-function MUL_QQ_Q(num1, num2){
+function MUL_QQ_Q(num1, num2) {
   var result = new Rational(0);
   result.p = num1.p * num2.p;
   result.q = num1.q * num2.q;
