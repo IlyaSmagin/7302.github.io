@@ -107,6 +107,18 @@ var Modules = {
       regexType: 'N0'
     }]
   },
+  SUB_NDN_N: {
+    description: 'Вычитание из натурального другого натурального, умноженного на цифру',
+        reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
   DIV_NN_Dk: {
     description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
     comment: 'k - номер позиции цифры (номер считается с нуля)',
@@ -122,6 +134,54 @@ var Modules = {
     formatter: function formatter(dk) {
       return dk.d + '*10' + Utils.subU(dk.k);
     }
+  },
+  DIV_NN_N: {
+    description: 'Частное от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N'
+    }]
+  },
+  MOD_NN_N: {
+    description: 'Остаток от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N'
+    }]
+  },
+  GCF_NN_N: {
+    description: 'НОД натуральных чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  LCM_NN_N: {
+    description: 'НОК натуральных чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
   },
   ABS_Z_N: {
     description: 'Абсолютная величина числа, результат - натуральное',
@@ -205,7 +265,7 @@ var Modules = {
     }]
   },
   DIV_ZZ_Z: {
-    description: 'Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)',
+    description: 'Частное от деления большего целого числа на меньшее или равное натуральное с остатком',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -217,7 +277,7 @@ var Modules = {
     }]
   },
   MOD_ZZ_Z: {
-    description: 'Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)',
+    description: 'Остаток от деления большего целого числа на меньшее или равное натуральное с остатком',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -388,11 +448,10 @@ function ADD_NN_N(num1, num2) {
   return result;
 }
 
-// Бобриков
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
   if (COM_NN_D(num1, num2) == 1)
-    throw new Error('вычитаемое больше уменьшаемого');
+    throw new Error('[SUB_NN_N] вычитаемое больше уменьшаемого');
   else {
     // Если вычитаемое больше или равно уменьшаемому
     var i = num1.n - 1;
@@ -430,31 +489,30 @@ function SUB_NN_N(num1, num2) {
   return result;
 }
 
-//Смагин
-function MUL_ND_N(num, k){
-  if (k == 0)
+function MUL_ND_N(num, d){
+  if (d == 0)
     return new Natural(0);
 
   var result = new Natural(num);
-  var perenos = null;
+  var overhead = null;
   for (var i = result.n - 1; i >= 0; i--){
-    var comp = new Natural(result.a[i]*k + perenos); // Перемножаем каждую цифру числа на данную цифру
+    var comp = new Natural(result.a[i]*d + overhead); // Перемножаем каждую цифру числа на данную цифру
     if (comp.n > 1){ // Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
       result.a[i] = comp.a[1];
-      perenos = comp.a[0];
+      overhead = comp.a[0];
     } else{
       result.a[i] = comp.a[0];
-      perenos = null;
+      overhead = null;
     }
   }
-  if (i < 0 && perenos !== null) // Если при последенем умножении получилось двухзначное число
-    result.a.unshift(perenos); // Добавляем еще одну цифру слева
+  if (i < 0 && overhead !== null) // Если при последенем умножении получилось двухзначное число
+    result.a.unshift(overhead); // Добавляем еще одну цифру слева
   return result;
 }
 
 function MUL_Nk_N(num, k) {
   if (!Number.isSafeInteger(+k))
-    throw new Error('недопустимое значение k');
+    throw new Error('[MUL_Nk_N] недопустимое значение k');
   var result = new Natural(num);
   if (result.n > 0)
     while (k--)
@@ -472,16 +530,22 @@ function MUL_NN_N(num1, num2){
   return result;
 }
 
-// Пегушина
+function SUB_NDN_N(num1, d , num2) {
+  var mul = MUL_ND_N (num2, d);
+  if (COM_NN_D (num1, mul) == 1)
+    throw Error('[SUB_NDN_N] результат не может быть отрицательным');
+  return SUB_NN_N (num1, mul);
+}
+
 function DIV_NN_Dk(num1, num2) {
   var comp = COM_NN_D(num1, num2);
   if (comp == 1)
-    throw new Error('первое число больше второго');
+    throw new Error('[DIV_NN_Dk] второе число больше первого');
   else if (comp == 0)
     return { d: 1, k: 0 };
 
   var orderDiff = num1.n - num2.n;
-  if (num1.a[0] <= num2.a[0])
+  if (orderDiff > 0 && num1.a[0] <= num2.a[0])
     orderDiff--;
   num2 = MUL_Nk_N(num2, orderDiff);
   var result = 0;
@@ -493,6 +557,65 @@ function DIV_NN_Dk(num1, num2) {
   return { d: result, k: orderDiff };
 }
 
+function DIV_NN_N(num1, num2) {
+  if(COM_NN_D(num1, num2) == 1)
+    throw Error('[DIV_NN_N] второе число больше первого');
+  var result = new Natural(0); // Результат деления
+  var rem = new Natural(num1); // Остаток
+  do {
+    var div = DIV_NN_Dk(rem, num2); // Делим то, что осталось на делитель
+    result = ADD_NN_N(result, MUL_Nk_N(new Natural(div.d), div.k)); // Добавляем к результату
+    rem = SUB_NDN_N(rem, div.d, MUL_Nk_N(num2, div.k)); // Вычисляем остаток
+  } while(COM_NN_D(rem, num2) != 1);
+  return result;
+}
+
+function MOD_NN_N(num1, num2) {
+  //return SUB_NN_N(num1, MUL_NN_N(DIV_NN_N(num1, num2), num2));
+  if(COM_NN_D(num1, num2) == 1)
+    throw Error('[MOD_NN_N] второе число больше первого');
+  var result = new Natural(0); // Результат деления
+  var rem = new Natural(num1); // Остаток
+  do {
+    var div = DIV_NN_Dk(rem, num2); // Делим то, что осталось на делитель
+    result = ADD_NN_N(result, MUL_Nk_N(new Natural(div.d), div.k)); // Добавляем к результату
+    rem = SUB_NDN_N(rem, div.d, MUL_Nk_N(num2, div.k)); // Вычисляем остаток
+  } while(COM_NN_D(rem, num2) != 1);;
+  return rem;
+}
+
+function GCF_NN_N(num1, num2) {
+  // Если один(и только один) из парметров 0 - результатом будет второй
+  var nzer1 = NZER_N_B(num1),
+    nzer2 = NZER_N_B(num2);
+  if(!nzer1 || !nzer2)
+  {
+    if(!nzer1 && !nzer2)
+      throw Error('[GCF_NN_N] оба числа равны 0');
+    else
+      return new Natural(nzer1 ? num1 : num2);
+  }
+  // Берем за 'a' большее число, за 'b' - меньшее
+  if(COM_NN_D(num1, num2) == 2) {
+    var a = new Natural(num1);
+    var b = new Natural(num2);
+  }
+  else {
+    a = new Natural(num2);
+    b = new Natural(num1);
+  }
+  // Считаем НОД по остатку
+  while(NZER_N_B(b)) {
+    var mod = MOD_NN_N(a, b);
+    a = b;
+    b = mod;
+  }
+  return a;
+}
+
+function LCM_NN_N(num1, num2) {
+  return DIV_NN_N(MUL_NN_N(num1, num2), GCF_NN_N(num1, num2)); // Произведение чисел деленное на НОД
+}
 
 function ABS_Z_N(num) {
   var result = new Integer(num);
@@ -587,7 +710,7 @@ function TRANS_Z_Q(num) {
 
 function TRANS_Q_Z(num) {
   if (num.q.n != 1 || num.q.a[0] != 1)
-    throw new Error('знаменатель не равен 1');
+    throw new Error('[TRANS_Q_Z] знаменатель не равен 1');
   return new Integer(num.p);
 }
 
