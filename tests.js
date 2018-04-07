@@ -150,7 +150,7 @@ function runTests() {
     //N14
     th(LCM_NN_N(new Natural(123), new Natural(123)) == '123');
     th(LCM_NN_N(new Natural(42), new Natural(17)) == '714');
-    th(LCM_NN_N(new Natural(123), new Natural(42)) == '246');
+    th(LCM_NN_N(new Natural(123), new Natural(42)) == '1722');
     th(LCM_NN_N(new Natural(15), new Natural(5)) == '15');
     th(LCM_NN_N(new Natural(5), new Natural(15)) == '15');
     //Z1
