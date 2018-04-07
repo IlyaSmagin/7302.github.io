@@ -28,8 +28,8 @@ function clearResults() {
 }
 
 function processForm(form) {
-  var module = Modules[form.select.options[form.select.selectedIndex].value];
-  if (module.func === undefined)
+  var moduleName = form.select.options[form.select.selectedIndex].value;
+  if (typeof window[moduleName] !== 'function')
     return false;
 
   // Проверяем поля
@@ -43,12 +43,13 @@ function processForm(form) {
     return false;
 
   // Формируем аргументы и вызываем функцию
+  var module = Modules[moduleName];
   var args = [];
-  for (var _i = 0; _i < module.reqFields.length; _i++)
-    args.push(new module.reqFields[_i].classType(form[module.reqFields[_i].name].value));
+  for (i = 0; i < module.reqFields.length; i++)
+    args.push(new module.reqFields[i].classType(form['field'+i].value));
   var timeBeforeCall = performance.now();
   try {
-    var retVal = module.func.apply(this, args);
+    var retVal = window[moduleName].apply(this, args);
     var elapsedTime = performance.now() - timeBeforeCall;
     // Формируем результат
     if (module.formatter !== undefined)
@@ -83,7 +84,7 @@ function selectOnChange(select) {
     var divContent = document.createTextNode(field.caption);
     var divInput = document.createElement('input');
     divInput.setAttribute('type', 'text');
-    divInput.setAttribute('name', field.name);
+    divInput.setAttribute('name', 'field'+i);
     divInput.setAttribute('class', field.regexType);
     divInput.setAttribute('onchange', 'validateOpt(this)');
     fieldDiv.appendChild(divContent);
@@ -132,8 +133,7 @@ function formatSelect(radio) {
   if (radio !== undefined) {
     var i = 0;
     for (var moduleName in Modules) {
-      var module = Modules[moduleName];
-      elements[i++].innerHTML = module.func !== undefined && radio.value == 'id' ? moduleName : module.description;
+      elements[i++].innerHTML = typeof window[moduleName] === 'function' && radio.value == 'id' ? moduleName : Modules[moduleName].description;
     }
     return;
   }
@@ -145,14 +145,13 @@ function formatSelect(radio) {
   }
 
   // Формируем список
-  for (var _moduleName in Modules) {
-    var _module = Modules[_moduleName];
+  for (moduleName in Modules) {
     var fieldOpt = document.createElement('option');
-    fieldOpt.setAttribute('value', _moduleName);
-    if (_module.func !== undefined && !document.getElementById('type1').checked)
-      fieldOpt.innerHTML = _moduleName;
+    fieldOpt.setAttribute('value', moduleName);
+    if (typeof window[moduleName] === 'function' && !document.getElementById('type1').checked)
+      fieldOpt.innerHTML = moduleName;
     else
-      fieldOpt.innerHTML = _module.description;
+      fieldOpt.innerHTML = Modules[moduleName].description;
     select.appendChild(fieldOpt);
     select.selectedIndex = index > 0 ? index : 0;
   }

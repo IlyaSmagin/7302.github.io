@@ -5,24 +5,21 @@
 /*******************************************/
 var Modules = {
   def: {
-    reqFields: [],
     description: 'Выберите модуль...',
-    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели в верху страницы.'
+    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели в верху страницы.',
+    reqFields: []
   },
   COM_NN_D: {
-    func: COM_NN_D,
+    description: 'Сравнение натуральных чисел',
     reqFields: [{
       caption: 'Первое число',
-      name: 'a1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'a2',
       classType: Natural,
       regexType: 'N0'
     }],
-    description: 'Сравнение натуральных чисел',
     returnCodes: {
       0: 'Числа одинаковы',
       1: 'Второе число больше первого',
@@ -30,142 +27,117 @@ var Modules = {
     }
   },
   NZER_N_B: {
-    func: NZER_N_B,
+    description: 'Проверка на ноль',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N0'
     }],
-    description: 'Проверка на ноль',
     returnCodes: {
       0: 'Число равно 0',
       1: 'Число не равно 0'
     }
   },
   ADD_1N_N: {
-    func: ADD_1N_N,
+    description: 'Добавление 1 к натуральному числу',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N0'
-    }],
-    description: 'Добавление 1 к натуральному числу'
+    }]
   },
   ADD_NN_N: {
-    func: ADD_NN_N,
+    description: 'Сложение двух натуральных чисел',
     reqFields: [{
       caption: 'Первое число',
-      name: 'num1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'num2',
       classType: Natural,
       regexType: 'N0'
-    }],
-    description: 'Сложение двух натуральных чисел'
+    }]
   },
   SUB_NN_N: {
-    func: SUB_NN_N,
+
+    description: 'Вычитание из первого большего натурального числа второго меньшего или равного',
     reqFields: [{
       caption: 'Уменьшаемое',
-      name: 'a1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Вычитаемое',
-      name: 'a2',
       classType: Natural,
       regexType: 'N0'
-    }],
-    description: 'Вычитание из первого большего натурального числа второго меньшего или равного'
+    }]
   },
   MUL_ND_N: {
-    func: MUL_ND_N,
+    description: 'Умножение натурального на цифру',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'Z'
     },{
       caption: 'Цифра',
-      name: 'd',
       classType: Number,
       regexType: 'digit'
-    }],
-    description: 'Умножение натурального на цифру'
+    }]
   },
   MUL_Nk_N: {
-    func: MUL_Nk_N,
+    description: 'Умножение натурального числа на 10^k',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'k',
-      name: 'k',
       classType: Number,
       regexType: 'N0'
-    }],
-    description: 'Умножение натурального числа на 10^k'
+    }]
   },
   MUL_NN_N: {
-    func: MUL_NN_N,
+    description: 'Умножение двух натуральных чисел',
     reqFields: [{
       caption: 'Первое число',
-      name: 'num1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'num2',
       classType: Natural,
       regexType: 'N0'
-    }],
-    description: 'Умножение двух натуральных чисел'
+    }]
   },
   DIV_NN_Dk: {
-    func: DIV_NN_Dk,
+    description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
+    comment: 'k - номер позиции цифры (номер считается с нуля)',
     reqFields: [{
       caption: 'Первое число',
-      name: 'a1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'a2',
       classType: Natural,
       regexType: 'N'
     }],
-    description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
-    comment: 'k - номер позиции цифры (номер считается с нуля)',
     formatter: function formatter(dk) {
       return dk.d + '*10' + Utils.subU(dk.k);
     }
   },
   ABS_Z_N: {
-    func: ABS_Z_N,
+    description: 'Абсолютная величина числа, результат - натуральное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Абсолютная величина числа, результат - натуральное'
+    }]
   },
   POZ_Z_D: {
-    func: POZ_Z_D,
+    description: 'Определение положительности числа',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
     }],
-    description: 'Определение положительности числа',
     returnCodes: {
       0: 'Число равно нулю',
       1: 'Число отрицательно',
@@ -173,181 +145,164 @@ var Modules = {
     }
   },
   MUL_ZM_Z: {
-    func: MUL_ZM_Z,
+    description: 'Умножение целого на (-1)',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Умножение целого на (-1)'
+    }]
   },
   TRANS_N_Z: {
-    func: TRANS_N_Z,
+    description: 'Преобразование натурального в целое',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N'
-    }],
-    description: 'Преобразование натурального в целое'
+    }]
   },
   TRANS_Z_N: {
-    func: TRANS_Z_N,
+    description: 'Преобразование целого неотрицательного в натуральное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'N0'
-    }],
-    description: 'Преобразование целого неотрицательного в натуральное'
+    }]
   },
   ADD_ZZ_Z: {
-    func: ADD_ZZ_Z,
+    description: 'Сложение целых чисел',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Сложение целых чисел"
+      regexType: 'Z'
+    }]
   },
   SUB_ZZ_Z: {
-    func: SUB_ZZ_Z,
+    description: 'Вычитание целых чисел',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Вычитание целых чисел"
+      regexType: 'Z'
+    }]
   },
   MUL_ZZ_Z: {
-    func: MUL_ZZ_Z,
+    description: 'Умножение целых чисел',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Умножение целых чисел"
+      regexType: 'Z'
+    }]
   },
   DIV_ZZ_Z: {
-    func: DIV_ZZ_Z,
+    description: 'Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+      regexType: 'Z'
+    }]
   },
   MOD_ZZ_Z: {
-    func: MOD_ZZ_Z,
+    description: 'Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+      regexType: 'Z'
+    }]
   },
   INT_Q_B: {
-    func: INT_Q_B,
+    description: 'Проверка на целое, если рациональное число является целым',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Rational,
       regexType: 'Q'
     }],
-    description: 'Проверка на целое, если рациональное число является целым',
     returnCodes: {
       0: 'Число является целым',
       1: 'Число не является целым'
     }
   },
   TRANS_Z_Q: {
-    func: TRANS_Z_Q,
+    description: 'Преобразование целого в дробное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Преобразование целого в дробное'
+    }]
   },
   TRANS_Q_Z: {
-    func: TRANS_Q_Z,
+    description: 'Преобразование дробного в целое (если знаменатель равен 1)',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Rational,
       regexType: 'Q'
-    }],
-    description: 'Преобразование дробного в целое (если знаменатель равен 1)'
+    }]
   },
   DER_P_P: {
-    func: DER_P_P,
+    description: 'Производная многочлена',
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
     reqFields: [{
       caption: 'Коэффициенты многочлена',
-      name: 'a',
       classType: Polynomial,
       regexType: 'P'
-    }],
-    description: "Производная многочлена",
-    comment: "Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: '-3/2 1/2 0 42' будет соответствовать многочлену -3/2x³+1/2x²+42"
+    }]
   },
   MUL_PP_P: {
-    func: MUL_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Умножение многочленов',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
+    reqFields: [{
+      caption: 'Коэффициенты многочлена',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'Коэффициенты многочлена',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
   },
   DIV_PP_P: {
-    func: DIV_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Частное от деления многочлена на многочлен при делении с остатком',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
+    reqFields: [{
+      caption: 'Коэффициенты многочлена',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+        caption: 'Коэффициенты многочлена',
+        classType: Polynomial,
+        regexType: 'P'
+    }]
   },
   MOD_PP_P: {
-    func: MOD_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Остаток от деления многочлена на многочлен при делении с остатком',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42',
+    reqFields: [{
+      caption: 'Коэффициенты многочлена',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+        caption: 'Коэффициенты многочлена',
+        classType: Polynomial,
+        regexType: 'P'
+    }]
   }
 };
 

@@ -19,6 +19,13 @@ function runTests() {
   th(false); // Намеренный фейл для демонстрации работы тестов
 
   try {
+    // Проверка, что все функции из таблицы присутсвуют в коде
+    var assert = true;
+    for(var moduleName in Modules)
+      if(moduleName !== 'def' && typeof window[moduleName] !== 'function')
+        assert = false;
+    th(assert);
+
     // Тесты множеств
     th(new Natural('0') == '0');
     th(new Natural('0').n === 0);
