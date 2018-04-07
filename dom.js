@@ -86,7 +86,7 @@ function selectOnChange(select) {
     divInput.setAttribute('type', 'text');
     divInput.setAttribute('name', 'field'+i);
     divInput.setAttribute('class', field.regexType);
-    divInput.setAttribute('onchange', 'validateOpt(this)');
+    divInput.oninput = validateOpt;
     fieldDiv.appendChild(divContent);
     fieldDiv.appendChild(divInput);
     var form = select.parentNode;
@@ -105,7 +105,8 @@ function selectOnChange(select) {
     comment.appendChild(document.createTextNode(module.comment));
 }
 
-function validateOpt(option) {
+function validateOpt(e) {
+  var option = e.target;
   var regexps = {
     'N': /^(?:[1-9][0-9]*)$/,                                                               // Натуральное
     'N0': /^(?:0|[1-9][0-9]*)$/,                                                            // Натуральное с нулем
