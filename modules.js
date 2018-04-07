@@ -718,10 +718,10 @@ function DIV_ZZ_Z(num1, num2)
 {
   var poz1 = POZ_Z_D(num1),
     poz2 = POZ_Z_D(num2);
-  if(poz1 === 0)
+  if(poz1 == 0)
     return new Integer(0);
   var result = DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  if (poz1 === poz2) // Если знаки равны, т.е. результат положителен
+  if (poz1 == 2) // Если результат положителен
     return TRANS_N_Z(result);
   if (NZER_N_B(MOD_NN_N(TRANS_Z_N(num1), TRANS_Z_N(num2))))
     result = ADD_1N_N(result); // Если остаток от деления ненулевой - добавляем единицу

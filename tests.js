@@ -191,9 +191,21 @@ function runTests() {
     th(MUL_ZZ_Z(new Integer(442), new Integer(442)) == '195364');
     th(MUL_ZZ_Z(new Integer(999), new Integer(777)) == '776223');
     //Z9
-    //!!!
+    th(DIV_ZZ_Z(new Integer(0), new Integer(1)) == '0');
+    th(DIV_ZZ_Z(new Integer(15), new Integer(4)) == '3');
+    th(DIV_ZZ_Z(new Integer(-15), new Integer(4)) == '-4');
+    th(DIV_ZZ_Z(new Integer(15), new Integer(5)) == '3');
+    th(DIV_ZZ_Z(new Integer(-15), new Integer(5)) == '-3');
+    th(DIV_ZZ_Z(new Integer(42), new Integer(17)) == '2');
+    th(DIV_ZZ_Z(new Integer(-42), new Integer(17)) == '-3');
     //Z10
-    //!!!
+    th(MOD_ZZ_Z(new Integer(0), new Integer(1)) == '0');
+    th(MOD_ZZ_Z(new Integer(15), new Integer(4)) == '3');
+    th(MOD_ZZ_Z(new Integer(-15), new Integer(4)) == '1');
+    th(MOD_ZZ_Z(new Integer(15), new Integer(5)) == '0');
+    th(MOD_ZZ_Z(new Integer(-15), new Integer(5)) == '0');
+    th(MOD_ZZ_Z(new Integer(42), new Integer(17)) == '8');
+    th(MOD_ZZ_Z(new Integer(-42), new Integer(17)) == '9');
     //Q1
     th(RED_Q_Q(new Rational('0/1')) == '0/1');
     th(RED_Q_Q(new Rational('1/1')) == '1/1');
@@ -223,7 +235,7 @@ function runTests() {
     th(MUL_QQ_Q(new Rational('1/1'), new Rational('0/1')) == '0/1');
     th(MUL_QQ_Q(new Rational('1/1'), new Rational('1/1')) == '1/1');
     th(MUL_QQ_Q(new Rational('42/1'), new Rational('42/1')) == '1764/1');
-    th(MUL_QQ_Q(new Rational('12/8'), new Rational('42/7')) == '204/56');
+    th(MUL_QQ_Q(new Rational('12/8'), new Rational('42/7')) == '504/56');
     th(MUL_QQ_Q(new Rational('123/123'), new Rational('123/123')) == '15129/15129');
     //Q8
     //!!!
