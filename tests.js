@@ -110,28 +110,49 @@ function runTests() {
     th(MUL_NN_N(new Natural(12), new Natural(12)) == '144');
     th(MUL_NN_N(new Natural(999), new Natural(999)) == '998001');
     //N9
-    //!!!
+    th(SUB_NDN_N(new Natural(0), 0, new Natural(0)) == '0');
+    th(SUB_NDN_N(new Natural(123), 0, new Natural(123)) == '123');
+    th(SUB_NDN_N(new Natural(123), 123, new Natural(0)) == '123');
+    th(SUB_NDN_N(new Natural(123), 1, new Natural(123)) == '0');
+    th(SUB_NDN_N(new Natural(123), 5, new Natural(5)) == '98');
+    th(SUB_NDN_N(new Natural(42), 2, new Natural(20)) == '2');
     //N10
-    th(DIV_NN_Dk(new Natural(42), new Natural(42)).d == 1);
-    th(DIV_NN_Dk(new Natural(42), new Natural(42)).k == 0);
-    th(DIV_NN_Dk(new Natural(123), new Natural(20)).d == 6);
-    th(DIV_NN_Dk(new Natural(123), new Natural(20)).k == 0);
-    th(DIV_NN_Dk(new Natural(123), new Natural(33)).d == 3);
-    th(DIV_NN_Dk(new Natural(123), new Natural(33)).k == 0);
-    th(DIV_NN_Dk(new Natural(1000000), new Natural(3)).d == 3);
-    th(DIV_NN_Dk(new Natural(1000000), new Natural(3)).k == 5);
+    th(DIV_NN_Dk(new Natural(42), new Natural(42)).d == '1');
+    th(DIV_NN_Dk(new Natural(42), new Natural(42)).k == '0');
+    th(DIV_NN_Dk(new Natural(123), new Natural(20)).d == '6');
+    th(DIV_NN_Dk(new Natural(123), new Natural(20)).k == '0');
+    th(DIV_NN_Dk(new Natural(123), new Natural(33)).d == '3');
+    th(DIV_NN_Dk(new Natural(123), new Natural(33)).k == '0');
+    th(DIV_NN_Dk(new Natural(113), new Natural(112)).d == '1');
+    th(DIV_NN_Dk(new Natural(113), new Natural(112)).k == '0');
+    th(DIV_NN_Dk(new Natural(1000000), new Natural(3)).d == '3');
+    th(DIV_NN_Dk(new Natural(1000000), new Natural(3)).k == '5');
     th(DIV_NN_Dk(new Natural('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'), new Natural(3)).d == 4);
     th(DIV_NN_Dk(new Natural('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'), new Natural(3)).k == 438);
     //N10-formatter
     th(Modules.DIV_NN_Dk.formatter(DIV_NN_Dk(new Natural(1000000), new Natural(3))) == '3*10⁵');
     //N11
-    //!!!
+    th(DIV_NN_N(new Natural(123), new Natural(123)) == '1');
+    th(DIV_NN_N(new Natural(123), new Natural(20)) == '6');
+    th(DIV_NN_N(new Natural(123), new Natural(2)) == '61');
+    th(DIV_NN_N(new Natural(42), new Natural(20)) == '2');
     //N12
-    //!!!
+    th(MOD_NN_N(new Natural(123), new Natural(123)) == '0');
+    th(MOD_NN_N(new Natural(123), new Natural(20)) == '3');
+    th(MOD_NN_N(new Natural(123), new Natural(2)) == '1');
+    th(MOD_NN_N(new Natural(42), new Natural(20)) == '2');
     //N13
-    //!!!
+    th(GCF_NN_N(new Natural(123), new Natural(123)) == '123');
+    th(GCF_NN_N(new Natural(42), new Natural(17)) == '1');
+    th(GCF_NN_N(new Natural(123), new Natural(42)) == '3');
+    th(GCF_NN_N(new Natural(15), new Natural(5)) == '5');
+    th(GCF_NN_N(new Natural(5), new Natural(15)) == '5');
     //N14
-    //!!!
+    th(LCM_NN_N(new Natural(123), new Natural(123)) == '123');
+    th(LCM_NN_N(new Natural(42), new Natural(17)) == '714');
+    th(LCM_NN_N(new Natural(123), new Natural(42)) == '246');
+    th(LCM_NN_N(new Natural(15), new Natural(5)) == '15');
+    th(LCM_NN_N(new Natural(5), new Natural(15)) == '15');
     //Z1
     th(ABS_Z_N(new Integer(0)) == '0');
     th(ABS_Z_N(new Integer(-1)) == '1');
