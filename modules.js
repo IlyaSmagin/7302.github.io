@@ -274,7 +274,7 @@ var Modules = {
     }, {
       caption: 'Второе число',
       classType: Integer,
-      regexType: 'Z'
+      regexType: 'N'
     }]
   },
   MOD_ZZ_Z: {
@@ -286,7 +286,7 @@ var Modules = {
     }, {
       caption: 'Второе число',
       classType: Integer,
-      regexType: 'Z'
+      regexType: 'N'
     }]
   },
   RED_Q_Q: {
@@ -606,17 +606,7 @@ function DIV_NN_N(num1, num2) {
 }
 
 function MOD_NN_N(num1, num2) {
-  //return SUB_NN_N(num1, MUL_NN_N(DIV_NN_N(num1, num2), num2));
-  if(COM_NN_D(num1, num2) == 1)
-    throw Error('[MOD_NN_N] второе число больше первого');
-  var result = new Natural(0); // Результат деления
-  var rem = new Natural(num1); // Остаток
-  do {
-    var div = DIV_NN_Dk(rem, num2); // Делим то, что осталось на делитель
-    result = ADD_NN_N(result, MUL_Nk_N(new Natural(div.d), div.k)); // Добавляем к результату
-    rem = SUB_NDN_N(rem, div.d, MUL_Nk_N(num2, div.k)); // Вычисляем остаток
-  } while(COM_NN_D(rem, num2) != 1);;
-  return rem;
+  return SUB_NN_N(num1, MUL_NN_N(DIV_NN_N(num1, num2), num2));
 }
 
 function GCF_NN_N(num1, num2) {
@@ -724,15 +714,22 @@ function MUL_ZZ_Z(num1, num2) {
   return result;
 }
 
-function DIV_ZZ_Z(num1, num2) {
-  var result =  DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  if (POZ_Z_D(num1) != POZ_Z_D(num2)) // если разных знаков
-    result = MUL_ZM_Z(result);
-  return result;
+function DIV_ZZ_Z(num1, num2)
+{
+  var poz1 = POZ_Z_D(num1),
+    poz2 = POZ_Z_D(num2);
+  if(poz1 === 0)
+    return new Integer(0);
+  var result = DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  if (poz1 === poz2) // Если знаки равны, т.е. результат положителен
+    return TRANS_N_Z(result);
+  if (NZER_N_B(MOD_NN_N(TRANS_Z_N(num1), TRANS_Z_N(num2))))
+    result = ADD_1N_N(result); // Если остаток от деления ненулевой - добавляем единицу
+  return MUL_ZM_Z(TRANS_N_Z(result));
 }
 
 function MOD_ZZ_Z(num1, num2) {
-  return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  return SUB_ZZ_Z(num1, MUL_ZZ_Z(DIV_ZZ_Z(num1, num2), num2));
 }
 
 function RED_Q_Q(num) {
