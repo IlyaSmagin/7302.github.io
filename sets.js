@@ -161,8 +161,7 @@ var Rational =
       key: 'p',
       get: function get() {
         return this.numerator;
-      }
-      ,
+      },
       set: function set(val) {
         this.numerator = new Integer(val);
       }

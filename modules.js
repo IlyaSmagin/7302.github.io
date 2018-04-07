@@ -488,6 +488,7 @@ function SUB_NN_N(num1, num2) {
 
     }
   }
+  delete result[-1];
   result.delLeadingZeros();
   return result;
 }
