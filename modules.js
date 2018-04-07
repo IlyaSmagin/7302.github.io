@@ -719,7 +719,7 @@ function TRANS_Q_Z(num) {
 
 function DER_P_P(poly) {
   var result = new Polynomial(poly);
-  // TODO: use big number arithmetics
+  // TODO: use big number arithmetic
   for (var i = 0; i <= result.m; i++) {
     result.c[i].p.a = (result.c[i].p.a.join('') * (result.m - i)).toString().split('');
   }
