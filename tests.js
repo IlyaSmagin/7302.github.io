@@ -261,7 +261,11 @@ function runTests() {
     //P3
     //!!!
     //P4
-    //!!!
+    th(MUL_Pxk_P(new Polynomial('0'), new Natural('0')) == '0');
+    th(MUL_Pxk_P(new Polynomial('0'), new Natural('1')) == '0');
+    th(MUL_Pxk_P(new Polynomial('1'), new Natural('0')) == '1');
+    th(MUL_Pxk_P(new Polynomial('1'), new Natural('1')) == 'x');
+    th(MUL_Pxk_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Natural('1000000000000000000000000000000001')) == '-12/7x¹⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰²⁰+3/2x¹⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰¹³+4x¹⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁸+17x¹⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰²-42x¹⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰¹');
     //P5
     th(LED_P_Q(new Polynomial('0')) == '0/1');
     th(LED_P_Q(new Polynomial('42')) == '42/1');

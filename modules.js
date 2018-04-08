@@ -336,7 +336,6 @@ var Modules = {
       classType: Rational,
       regexType: 'Q'
     }],
-    formatter: Utils.formatQ
   },
   SUB_QQ_Q: {
     description: 'Вычитание дробей',
@@ -349,7 +348,6 @@ var Modules = {
       classType: Rational,
       regexType: 'Q'
     }],
-    formatter: Utils.formatQ
   },
   MUL_QQ_Q: {
     description: 'Умножение дробей',
@@ -362,7 +360,6 @@ var Modules = {
       classType: Rational,
       regexType: 'Q'
     }],
-    formatter: Utils.formatQ
   },
   DIV_QQ_Q: {
     description: 'Деление дробей',
@@ -375,7 +372,6 @@ var Modules = {
       classType: Rational,
       regexType: 'Q/0'
     }],
-    formatter: Utils.formatQ
   },
   MUL_Pxk_P: {
     description: 'Умножение многочлена на x^k',
