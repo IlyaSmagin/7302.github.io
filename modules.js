@@ -386,7 +386,7 @@ var Modules = {
       regexType: 'P'
     }, {
       caption: 'k',
-      classType: Number,
+      classType: Natural,
       regexType: 'N0'
     }]
   },
@@ -863,11 +863,11 @@ function DIV_QQ_Q(num1, num2) {
 }
 
 function MUL_Pxk_P(poly, k) {
-  if (!Number.isSafeInteger(+k))
-    throw new Error('[MUL_Pxk_P] недопустимое значение k');
-  var result = new Polynomial(poly);
-  while (k--)
-    result.c.unshift(undefined);
+  var result = new Polynomial(0);
+  for (var i = 0; i < poly.d.length; i++) {
+    var degree = poly.d[i];
+    result.add(ADD_NN_N(degree, k), poly.c[degree]);
+  }
   return result;
 }
 
