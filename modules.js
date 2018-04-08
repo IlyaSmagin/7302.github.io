@@ -763,9 +763,9 @@ function MUL_QQ_Q(num1, num2) {
 function DER_P_P(poly) {
   var result = new Polynomial(poly);
   // TODO: use big number arithmetic
-  for (var i = 0; i <= result.m; i++) {
-    result.c[i].p.a = (result.c[i].p.a.join('') * (result.m - i)).toString().split('');
-  }
+  for (var i = 0; i <= result.m; i++)
+    if (result.c[i])
+      result.c[i].p.a = (result.c[i].p.a.join('') * (result.m - i)).toString().split('');
   result.c.pop(); // degrade
   if (result.m < 0)
     result.c.push(new Rational(0));

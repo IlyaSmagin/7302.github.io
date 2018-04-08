@@ -254,15 +254,18 @@ Polynomial.prototype.toString = function () {
   }
 
   var str = '';
-  for (var i = 0; i < this.m; i++) {
-    if (this.c[i].p.n != 0) {
+  for (var i = this.m; i > 0; i--) {
+    if (this.c[i]) {
       var k = formatRat(this.c[i]);
-      str += (str.length > 0 ? (this.c[i].b ? '-' : '+') : '') + (k == 1 ? '' : k) + 'x' + Utils.subU(this.m - i);
+      str += (str.length > 0 ? (this.c[i].b ? '-' : '+') : '') + (k == 1 ? '' : k) + 'x' + Utils.subU(i);
     }
   }
 
-  var constant = this.c[this.m];
-  if (constant.p.n != 0 || str.length == 0)
+  var constant = this.c[0];
+  if (constant)
     str += (str.length > 0 ? (constant.b ? '-' : '+') : '') + formatRat(constant);
+  if (str.length == 0)
+    str = '0';
+
   return str;
 };
