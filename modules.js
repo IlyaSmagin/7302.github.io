@@ -325,6 +325,18 @@ var Modules = {
       regexType: 'Q'
     }]
   },
+  ADD_QQ_Q: {
+    description: 'Сложение дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
   MUL_QQ_Q: {
     description: 'Умножение дробей',
     reqFields: [{
@@ -751,6 +763,22 @@ function TRANS_Q_Z(num) {
   if (num.q.n != 1 || num.q.a[0] != 1)
     throw new Error('[TRANS_Q_Z] знаменатель не равен 1');
   return new Integer(num.p);
+}
+
+function ADD_QQ_Q(num1, num2){
+  var result = new Rational(0);
+  if (COM_NN_D(num1.q, num2.q) == 0) { //Если знаменатели равны
+    result.p = ADD_ZZ_Z(num1.p,num2.p); //Складываем числители
+    result.q = num1.q;
+  }
+  else { //если знаменатели разные
+    var nok = LCM_NN_N(num1.q,num2.q); //Находим НОК
+    num1.p = MUL_ZZ_Z(num1.p,DIV_NN_N(nok, num1.q)); //Умножаем числитель первого числа на НОК/знаменатель первого числа
+    num2.p = MUL_ZZ_Z(num2.p,DIV_NN_N(nok, num2.q)); //Умножаем числитель второго числа на НОК/знаменатель второго числа
+    result.p = ADD_ZZ_Z(num1.p,num2.p); // Складываем
+    result.q = nok;
+  }
+  return result;
 }
 
 function MUL_QQ_Q(num1, num2) {
