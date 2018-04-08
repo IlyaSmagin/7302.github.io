@@ -226,7 +226,7 @@ var Polynomial =
             if(!Number.isSafeInteger(parts[1]))
               throw Error('недопустимая степень полинома');
           }
-          if(this.arr[parts[1]] === undefined)
+          if(!this.arr[parts[1]])
             this.arr[parts[1]] = new Rational(parts[0]);
           else
             this.arr[parts[1]] = ADD_QQ_Q(this.arr[parts[1]], new Rational(parts[0]));
