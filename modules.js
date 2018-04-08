@@ -882,19 +882,13 @@ function DEG_P_N(poly) {
 function DER_P_P(poly) {
   var result = new Polynomial(0);
   // Перемножаем коэфы на порядок
-  for (var i = poly.d.length - 1; i >= 0; i--) {
+  for (var i = 0; i < poly.d.length; i++) {
     var degree = poly.d[i];
-    if(NZER_N_B(degree)) {
-      var newDegree = SUB_NN_N(degree, new Natural(1));
-      result.d.push(newDegree);
-      result.d.sort();
-      result.c[newDegree] = MUL_QQ_Q(poly.c[degree], new Rational(degree));
-    }
+    if(NZER_N_B(degree))
+      result.add(SUB_NN_N(degree, new Natural(1)), MUL_QQ_Q(poly.c[degree], new Rational(degree)));
   }
-  if (result.m < 0) {
-    result.d[0] = '0';
-    result.c.push(new Rational(0));
-  }
+  if (result.m < 0)
+    result.add(new Natural(0), new Rational(0));
   return result;
 }
 

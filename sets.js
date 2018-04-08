@@ -232,14 +232,7 @@ var Polynomial =
             parts[1] = new Natural('1');
           else
             parts[1] = new Natural(parts[1].substr(1));
-          if(!this.arr[parts[1]])
-          {
-            this.deg.push(parts[1]);
-            this.deg.sort();
-            this.arr[parts[1]] = new Rational(parts[0]);
-          }
-          else
-            this.arr[parts[1]] = ADD_QQ_Q(this.arr[parts[1]], new Rational(parts[0]));
+          this.add(parts[1], parts[0]);
           this.arr[parts[1]] = RED_Q_Q(this.arr[parts[1]]);
         }
       }
@@ -257,6 +250,22 @@ var Polynomial =
           if (obj.hasOwnProperty(attr))
             copy[attr] = new Rational(obj[attr]);
         return copy;
+      }
+    }, {
+      key: 'add',
+      // Прибавление коэфа по степени
+      value: function add(deg, num) {
+        if(!this.arr[deg])
+        {
+          this.deg.push(deg);
+          this.deg.sort(function (a, b) {
+            var comp = COM_NN_D(a, b);
+            return comp === 2 ? 1 : (comp === 1 ? -1 : 0);
+          });
+          this.arr[deg] = new Rational(num);
+        }
+        else
+          this.arr[deg] = ADD_QQ_Q(this.arr[deg], new Rational(num));
       }
     }]);
 
