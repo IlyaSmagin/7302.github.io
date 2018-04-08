@@ -375,9 +375,9 @@ var Modules = {
   },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
-    comment: 'Коэффициенты вводяться в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }, {
@@ -388,48 +388,48 @@ var Modules = {
   },
   DER_P_P: {
     description: 'Производная многочлена',
-    comment: MUL_PQ_P.comment,
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }]
   },
   MUL_PP_P: {
     description: 'Умножение многочленов',
-    comment: MUL_PQ_P.comment,
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }, {
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }]
   },
   DIV_PP_P: {
     description: 'Частное от деления многочлена на многочлен при делении с остатком',
-    comment: MUL_PQ_P.comment,
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }, {
-        caption: 'Коэффициенты многочлена',
+        caption: 'Многочлен',
         classType: Polynomial,
         regexType: 'P'
     }]
   },
   MOD_PP_P: {
     description: 'Остаток от деления многочлена на многочлен при делении с остатком',
-    comment: MUL_PQ_P.comment,
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
     }, {
-        caption: 'Коэффициенты многочлена',
+        caption: 'Многочлен',
         classType: Polynomial,
         regexType: 'P'
     }]
