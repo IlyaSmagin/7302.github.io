@@ -18,23 +18,15 @@ var Utils =
       // Superscript для Юникода
       value: function subU(n) {
         var supArr = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-        if (n == 0)
+        if (n === 0)
           return supArr[0];
-
-        var minus = false;
-        if (n < 0) {
-          minus = true;
-          n = -n;
-        }
-
+        n = n.toString().split('');
         var result = '';
-        while (n > 0) {
-          var rem = n % 10;
-          result = supArr[rem] + result;
-          n = ~~(n / 10);
+        while (n.length > 0) {
+          result += supArr[n[0]];
+          n.shift();
         }
-
-        return minus ? '⁻' + result : result;
+        return result;
       }
     }, {
       key: 'formatQ',
@@ -209,6 +201,11 @@ var Polynomial =
     }
 
     _createClass(Polynomial, [{
+      key: 'd',
+      get: function get() {
+        return this.deg;
+      }
+    }, {
       key: 'c',
       get: function get() {
         return this.arr;
@@ -216,11 +213,13 @@ var Polynomial =
       set: function set(val) {
         if (Array.isArray(val))
           throw Error();
-        if (val.c && Array.isArray(val.c)) {
-          this.arr = val.c.slice();
+        if (val.d && val.c) {
+          this.deg = val.d.slice(0);
+          this.arr = this.cloneC(val.c);
           return;
         }
 
+        this.deg = [];
         this.arr = [];
         var vars = val.toString().split(/\+|(?=-)/);
         for (var i = 0; i < vars.length; i++) {
@@ -228,16 +227,17 @@ var Polynomial =
           if(parts[0] === '')
             parts[0] = 1;
           if(parts.length === 1) // константа
-            parts[1] = 0;
+            parts[1] = new Natural('0');
           else if(parts[1][0] !== '^') // x^1
-            parts[1] = 1;
-          else {
-            parts[1] = parseInt(parts[1].substr(1));
-            if(!Number.isSafeInteger(parts[1]))
-              throw Error('недопустимая степень полинома');
-          }
+            parts[1] = new Natural('1');
+          else
+            parts[1] = new Natural(parts[1].substr(1));
           if(!this.arr[parts[1]])
+          {
+            this.deg.push(parts[1]);
+            this.deg.sort();
             this.arr[parts[1]] = new Rational(parts[0]);
+          }
           else
             this.arr[parts[1]] = ADD_QQ_Q(this.arr[parts[1]], new Rational(parts[0]));
           this.arr[parts[1]] = RED_Q_Q(this.arr[parts[1]]);
@@ -246,7 +246,17 @@ var Polynomial =
     }, {
       key: 'm',
       get: function get() {
-        return this.arr.length - 1;
+        return this.deg[this.deg.length - 1];
+      }
+    }, {
+      key: 'cloneC',
+      // Клонирование коэфов полинома
+      value: function cloneC(obj) {
+        var copy = [];
+        for (var attr in obj)
+          if (obj.hasOwnProperty(attr))
+            copy[attr] = new Rational(obj[attr]);
+        return copy;
       }
     }]);
 
@@ -254,10 +264,12 @@ var Polynomial =
   }();
 Polynomial.prototype.toString = function () {
   var str = '';
-  for (var i = this.m; i >= 0; i--)
-    if (this.c[i] && this.c[i].p.n > 0) {
-      var k = Utils.formatQ(this.c[i]);
-      str += (str.length > 0 && !this.c[i].b ? '+' : '') + (i == 0 ? k : ((k === '1' ? '' : k) + ('x' + (i > 1 ? Utils.subU(i) : ''))));
+  for(var i = this.deg.length - 1; i >= 0; i--) {
+    var degree = this.deg[i];
+    if (this.c[degree].p.n > 0) {
+      var k = Utils.formatQ(this.c[degree]);
+      str += (str.length > 0 && !this.c[degree].b ? '+' : '') + (!NZER_N_B(degree) ? k : ((k === '1' ? '' : k) + ('x' + (COM_NN_D(degree, new Natural(1)) === 2 ? Utils.subU(degree) : ''))));
     }
+  };
   return str.length > 0 ? str : '0';
 };

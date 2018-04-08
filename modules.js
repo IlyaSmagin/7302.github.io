@@ -377,6 +377,19 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
+  MUL_Pxk_P: {
+    description: 'Умножение многочлена на x^k',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'k',
+      classType: Number,
+      regexType: 'N0'
+    }]
+  },
   LED_P_Q: {
     description: 'Старший коэффициент многочлена',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -849,6 +862,15 @@ function DIV_QQ_Q(num1, num2) {
   return result;
 }
 
+function MUL_Pxk_P(poly, k) {
+  if (!Number.isSafeInteger(+k))
+    throw new Error('[MUL_Pxk_P] недопустимое значение k');
+  var result = new Polynomial(poly);
+  while (k--)
+    result.c.unshift(undefined);
+  return result;
+}
+
 function LED_P_Q(poly) {
   return new Rational(poly.c[poly.m]);
 }
@@ -858,15 +880,21 @@ function DEG_P_N(poly) {
 }
 
 function DER_P_P(poly) {
-  var result = new Polynomial(poly);
+  var result = new Polynomial(0);
   // Перемножаем коэфы на порядок
-  for (var i = 1; i <= DEG_P_N(result); i++)
-    if (result.c[i])
-      result.c[i] = MUL_QQ_Q(result.c[i], new Rational(i));
-  // Трем константу
-  result.c.shift();
-  if (result.m < 0)
+  for (var i = poly.d.length - 1; i >= 0; i--) {
+    var degree = poly.d[i];
+    if(NZER_N_B(degree)) {
+      var newDegree = SUB_NN_N(degree, new Natural(1));
+      result.d.push(newDegree);
+      result.d.sort();
+      result.c[newDegree] = MUL_QQ_Q(poly.c[degree], new Rational(degree));
+    }
+  }
+  if (result.m < 0) {
+    result.d[0] = '0';
     result.c.push(new Rational(0));
+  }
   return result;
 }
 
