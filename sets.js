@@ -207,13 +207,26 @@ var Polynomial =
       },
       set: function set(val) {
         if (Array.isArray(val))
-          this.arr = val.toString().split(',');
-        else if (val.c && Array.isArray(val.c))
-          this.arr = val.c.toString().split(',');
-        else
-          this.arr = val.toString().split(' ');
-        for (var i = 0; i < this.arr.length; i++) {
-          this.arr[i] = new Rational(this.arr[i]);
+          throw Error();
+        if (val.c && Array.isArray(val.c)) {
+          this.arr = val.c.slice();
+          return;
+        }
+
+        this.arr = [];
+        var vars = val.toString().split(/\+|(?=-)/);
+        for (var i = 0; i < vars.length; i++) {
+          var parts = vars[i].split('x');
+          if(parts.length === 1) // константа
+            parts[1] = 0;
+          else if(parts[1][0] !== '^') // x^1
+            parts[1] = 1;
+          else {
+            parts[1] = parseInt(parts[1].substr(1));
+            if(!Number.isSafeInteger(parts[1]))
+              throw Error('недопустимая степень полинома');
+          }
+          this.arr[parts[1]] = new Rational(parts[0]);
         }
       }
     }, {
