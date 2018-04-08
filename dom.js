@@ -28,8 +28,8 @@ function clearResults() {
 }
 
 function processForm(form) {
-  var module = Modules[form.select.options[form.select.selectedIndex].value];
-  if (module.func === undefined)
+  var moduleName = form.select.options[form.select.selectedIndex].value;
+  if (typeof window[moduleName] !== 'function')
     return false;
 
   // Проверяем поля
@@ -43,19 +43,21 @@ function processForm(form) {
     return false;
 
   // Формируем аргументы и вызываем функцию
+  var module = Modules[moduleName];
   var args = [];
-  for (var _i = 0; _i < module.reqFields.length; _i++)
-    args.push(new module.reqFields[_i].classType(form[module.reqFields[_i].name].value));
+  for (i = 0; i < module.reqFields.length; i++)
+    args.push(new module.reqFields[i].classType(form['field'+i].value));
   var timeBeforeCall = performance.now();
-  var retVal = module.func.apply(this, args);
-  var elapsedTime = performance.now() - timeBeforeCall;
-
-  // Формируем результат
-  if (typeof retVal !== 'string') {
+  try {
+    var retVal = window[moduleName].apply(this, args);
+    var elapsedTime = performance.now() - timeBeforeCall;
+    // Формируем результат
     if (module.formatter !== undefined)
       retVal = module.formatter(retVal);
     else if (module.returnCodes !== undefined)
       retVal = module.returnCodes[retVal];
+  } catch (e) {
+    retVal = e;
   }
 
   // Выводим
@@ -82,9 +84,9 @@ function selectOnChange(select) {
     var divContent = document.createTextNode(field.caption);
     var divInput = document.createElement('input');
     divInput.setAttribute('type', 'text');
-    divInput.setAttribute('name', field.name);
+    divInput.setAttribute('name', 'field'+i);
     divInput.setAttribute('class', field.regexType);
-    divInput.setAttribute('onchange', 'validateOpt(this)');
+    divInput.oninput = function (e) { validateOpt(e.target); }
     fieldDiv.appendChild(divContent);
     fieldDiv.appendChild(divInput);
     var form = select.parentNode;
@@ -105,12 +107,13 @@ function selectOnChange(select) {
 
 function validateOpt(option) {
   var regexps = {
-    'N': /^(?:[1-9][0-9]*)$/,                                                               // Натуральное
-    'N0': /^(?:0|[1-9][0-9]*)$/,                                                            // Натуральное с нулем
-    'Z': /^(?:0|-?[1-9][0-9]*)$/,                                                           // Целое
-    'Q': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/,                                         // Рациональное
-    'P': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)(?: 0| -?[1-9][0-9]*(?:\/[1-9][0-9]*)?)*$/, // Коэффициенты многочлена
-    'digit': /^\d$/                                                                         // Цифра
+    'N': /^(?:[1-9][0-9]*)$/, // Натуральное
+    'N0': /^(?:0|[1-9][0-9]*)$/, // Натуральное с нулем
+    'Z': /^(?:0|-?[1-9][0-9]*)$/, // Целое
+    'Q': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/, // Рациональное
+    'Q/0': /^(?:-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/, // Рациональное без нуля
+    'P': /^(?:(?:^-?|(?!^)[+-])(?:(?:x(?:\^[1-9][0-9]*)?)|(?:[1-9][0-9]*(?:\/[1-9][0-9]*)?(?:x(?:\^[1-9][0-9]*)?)?)))+$/, // Коэффициенты многочлена
+    'digit': /^\d$/ // Цифра
   };
   var regexType = option.classList.item(0);
   if (regexps[regexType] === undefined)
@@ -131,8 +134,7 @@ function formatSelect(radio) {
   if (radio !== undefined) {
     var i = 0;
     for (var moduleName in Modules) {
-      var module = Modules[moduleName];
-      elements[i++].innerHTML = module.func !== undefined && radio.value == 'id' ? moduleName : module.description;
+      elements[i++].innerHTML = typeof window[moduleName] === 'function' && radio.value == 'id' ? moduleName : Modules[moduleName].description;
     }
     return;
   }
@@ -144,14 +146,13 @@ function formatSelect(radio) {
   }
 
   // Формируем список
-  for (var _moduleName in Modules) {
-    var _module = Modules[_moduleName];
+  for (moduleName in Modules) {
     var fieldOpt = document.createElement('option');
-    fieldOpt.setAttribute('value', _moduleName);
-    if (_module.func !== undefined && !document.getElementById('type1').checked)
-      fieldOpt.innerHTML = _moduleName;
+    fieldOpt.setAttribute('value', moduleName);
+    if (typeof window[moduleName] === 'function' && !document.getElementById('type1').checked)
+      fieldOpt.innerHTML = moduleName;
     else
-      fieldOpt.innerHTML = _module.description;
+      fieldOpt.innerHTML = Modules[moduleName].description;
     select.appendChild(fieldOpt);
     select.selectedIndex = index > 0 ? index : 0;
   }

@@ -5,24 +5,21 @@
 /*******************************************/
 var Modules = {
   def: {
-    reqFields: [],
     description: 'Выберите модуль...',
-    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели в верху страницы.'
+    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели в верху страницы.',
+    reqFields: []
   },
   COM_NN_D: {
-    func: COM_NN_D,
+    description: 'Сравнение натуральных чисел',
     reqFields: [{
       caption: 'Первое число',
-      name: 'a1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'a2',
       classType: Natural,
       regexType: 'N0'
     }],
-    description: 'Сравнение натуральных чисел',
     returnCodes: {
       0: 'Числа одинаковы',
       1: 'Второе число больше первого',
@@ -30,112 +27,178 @@ var Modules = {
     }
   },
   NZER_N_B: {
-    func: NZER_N_B,
+    description: 'Проверка на ноль',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N0'
     }],
-    description: 'Проверка на ноль',
     returnCodes: {
       0: 'Число равно 0',
       1: 'Число не равно 0'
     }
   },
   ADD_1N_N: {
-    func: ADD_1N_N,
+    description: 'Добавление 1 к натуральному числу',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N0'
-    }],
-    description: 'Добавление 1 к натуральному числу'
+    }]
   },
-  SUB_NN_N: {
-    func: SUB_NN_N,
-    reqFields: [{
-      caption: 'Уменьшаемое',
-      name: 'a1',
-      classType: Natural,
-      regexType: 'N0'
-    }, {
-      caption: 'Вычитаемое',
-      name: 'a2',
-      classType: Natural,
-      regexType: 'N0'
-    }],
-    description: 'Вычитание из первого большего натурального числа второго меньшего или равного'
-  },
-  MUL_ND_N: {
-    func: MUL_ND_N,
-    reqFields: [{
-      caption: 'Число',
-      name: 'a',
-      classType: Natural,
-      regexType: 'Z'
-    },{
-      caption: 'Цифра',
-      name: 'd',
-      classType: Number,
-      regexType: 'digit'
-    }],
-    description: 'Умножение натурального на цифру'
-  },
-  MUL_Nk_N: {
-    func: MUL_Nk_N,
-    reqFields: [{
-      caption: 'Число',
-      name: 'a',
-      classType: Natural,
-      regexType: 'N0'
-    }, {
-      caption: 'k',
-      name: 'k',
-      classType: Number,
-      regexType: 'N0'
-    }],
-    description: 'Умножение натурального числа на 10^k'
-  },
-  DIV_NN_Dk: {
-    func: DIV_NN_Dk,
+  ADD_NN_N: {
+    description: 'Сложение двух натуральных чисел',
     reqFields: [{
       caption: 'Первое число',
-      name: 'a1',
       classType: Natural,
       regexType: 'N0'
     }, {
       caption: 'Второе число',
-      name: 'a2',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  SUB_NN_N: {
+    description: 'Вычитание из первого большего натурального числа второго меньшего или равного',
+    reqFields: [{
+      caption: 'Уменьшаемое',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Вычитаемое',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  MUL_ND_N: {
+    description: 'Умножение натурального на цифру',
+    reqFields: [{
+      caption: 'Число',
+      classType: Natural,
+      regexType: 'Z'
+    },{
+      caption: 'Цифра',
+      classType: Number,
+      regexType: 'digit'
+    }]
+  },
+  MUL_Nk_N: {
+    description: 'Умножение натурального числа на 10^k',
+    reqFields: [{
+      caption: 'Число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'k',
+      classType: Number,
+      regexType: 'N0'
+    }]
+  },
+  MUL_NN_N: {
+    description: 'Умножение двух натуральных чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  SUB_NDN_N: {
+    description: 'Вычитание из натурального другого натурального, умноженного на цифру',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Цифра',
+      classType: Number,
+      regexType: 'digit'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  DIV_NN_Dk: {
+    description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
+    comment: 'k - номер позиции цифры (номер считается с нуля)',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
       classType: Natural,
       regexType: 'N'
     }],
-    description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
-    comment: 'k - номер позиции цифры (номер считается с нуля)',
-    formatter: function formatter(dk) {
-      return dk.d + '*10' + Utils.subU(dk.k);
-    }
+    formatter: function (dk) { return dk.d + '*10' + Utils.subU(dk.k); }
+  },
+  DIV_NN_N: {
+    description: 'Частное от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N'
+    }]
+  },
+  MOD_NN_N: {
+    description: 'Остаток от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N'
+    }]
+  },
+  GCF_NN_N: {
+    description: 'НОД натуральных чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  LCM_NN_N: {
+    description: 'НОК натуральных чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Natural,
+      regexType: 'N0'
+    }, {
+      caption: 'Второе число',
+      classType: Natural,
+      regexType: 'N0'
+    }]
   },
   ABS_Z_N: {
-    func: ABS_Z_N,
+    description: 'Абсолютная величина числа, результат - натуральное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Абсолютная величина числа, результат - натуральное'
+    }]
   },
   POZ_Z_D: {
-    func: POZ_Z_D,
+    description: 'Определение положительности числа',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
     }],
-    description: 'Определение положительности числа',
     returnCodes: {
       0: 'Число равно нулю',
       1: 'Число отрицательно',
@@ -143,181 +206,237 @@ var Modules = {
     }
   },
   MUL_ZM_Z: {
-    func: MUL_ZM_Z,
+    description: 'Умножение целого на (-1)',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Умножение целого на (-1)'
+    }]
   },
   TRANS_N_Z: {
-    func: TRANS_N_Z,
+    description: 'Преобразование натурального в целое',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Natural,
       regexType: 'N'
-    }],
-    description: 'Преобразование натурального в целое'
+    }]
   },
   TRANS_Z_N: {
-    func: TRANS_Z_N,
+    description: 'Преобразование целого неотрицательного в натуральное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'N0'
-    }],
-    description: 'Преобразование целого неотрицательного в натуральное'
+    }]
   },
   ADD_ZZ_Z: {
-    func: ADD_ZZ_Z,
+    description: 'Сложение целых чисел',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Сложение целых чисел"
-  },
-  MUL_ZZ_Z: {
-    func: MUL_ZZ_Z,
-    reqFields: [{
-      caption: "Первое число",
-      name: "a1",
-      classType: Integer,
-      regexType: "Z"
-    }, {
-      caption: "Второе число",
-      name: "a2",
-      classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Умножение целых чисел"
+      regexType: 'Z'
+    }]
   },
   SUB_ZZ_Z: {
-    func: SUB_ZZ_Z,
+    description: 'Вычитание целых чисел',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Вычитание целых чисел"
+      regexType: 'Z'
+    }]
+  },
+  MUL_ZZ_Z: {
+    description: 'Умножение целых чисел',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Integer,
+      regexType: 'Z'
+    }, {
+      caption: 'Второе число',
+      classType: Integer,
+      regexType: 'Z'
+    }]
   },
   DIV_ZZ_Z: {
-    func: DIV_ZZ_Z,
+    description: 'Частное от деления большего целого числа на меньшее или равное натуральное с остатком',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Частное от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+      regexType: 'N'
+    }]
   },
   MOD_ZZ_Z: {
-    func: MOD_ZZ_Z,
+    description: 'Остаток от деления большего целого числа на меньшее или равное натуральное с остатком',
     reqFields: [{
-      caption: "Первое число",
-      name: "a1",
+      caption: 'Первое число',
       classType: Integer,
-      regexType: "Z"
+      regexType: 'Z'
     }, {
-      caption: "Второе число",
-      name: "a2",
+      caption: 'Второе число',
       classType: Integer,
-      regexType: "Z"
-    }],
-    description: "Остаток от деления большего целого числа на меньшее или равное натуральное с остатком (делитель отличен от нуля)"
+      regexType: 'N'
+    }]
   },
-  INT_Q_B: {
-    func: INT_Q_B,
+  RED_Q_Q: {
+    description: 'Сокращение дроби',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
+  INT_Q_B: {
+    description: 'Проверка на целое, если рациональное число является целым',
+    reqFields: [{
+      caption: 'Число',
       classType: Rational,
       regexType: 'Q'
     }],
-    description: 'Проверка на целое, если рациональное число является целым',
     returnCodes: {
       0: 'Число является целым',
       1: 'Число не является целым'
     }
   },
   TRANS_Z_Q: {
-    func: TRANS_Z_Q,
+    description: 'Преобразование целого в дробное',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
       classType: Integer,
       regexType: 'Z'
-    }],
-    description: 'Преобразование целого в дробное'
+    }]
   },
   TRANS_Q_Z: {
-    func: TRANS_Q_Z,
+    description: 'Преобразование дробного в целое (если знаменатель равен 1)',
     reqFields: [{
       caption: 'Число',
-      name: 'a',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
+  ADD_QQ_Q: {
+    description: 'Сложение дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
       classType: Rational,
       regexType: 'Q'
     }],
-    description: 'Преобразование дробного в целое (если знаменатель равен 1)'
+    formatter: Utils.formatQ
   },
-  DER_P_P: {
-    func: DER_P_P,
+  SUB_QQ_Q: {
+    description: 'Вычитание дробей',
     reqFields: [{
-      caption: 'Коэффициенты многочлена',
-      name: 'a',
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q'
+    }],
+    formatter: Utils.formatQ
+  },
+  MUL_QQ_Q: {
+    description: 'Умножение дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q'
+    }],
+    formatter: Utils.formatQ
+  },
+  DIV_QQ_Q: {
+    description: 'Деление дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q/0'
+    }],
+    formatter: Utils.formatQ
+  },
+  MUL_PQ_P: {
+    description: 'Умножение многочлена на рациональное число',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
-    }],
-    description: "Производная многочлена",
-    comment: "Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: '-3/2 1/2 0 42' будет соответствовать многочлену -3/2x³+1/2x²+42"
+    }, {
+      caption: 'Число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
+  DER_P_P: {
+    description: 'Производная многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
   },
   MUL_PP_P: {
-    func: MUL_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Умножение многочленов',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
   },
   DIV_PP_P: {
-    func: DIV_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Частное от деления многочлена на многочлен при делении с остатком',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+        caption: 'Многочлен',
+        classType: Polynomial,
+        regexType: 'P'
+    }]
   },
   MOD_PP_P: {
-    func: MOD_PP_P,
-    reqFields: [
-      {caption: 'Коэффициенты многочлена', name: 'a1', classType: Polynomial, regexType: 'P'},
-      {caption: 'Коэффициенты многочлена', name: 'a2', classType: Polynomial, regexType: 'P'}
-    ],
     description: 'Остаток от деления многочлена на многочлен при делении с остатком',
-    comment: 'Коэффициенты вводяться через пробел в порядке убывания степени многочлена, дробь задается знаком деления. Пример: "-3/2 1/2 0 42" будет соответствовать многочлену -3/2x³+1/2x²+42'
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+        caption: 'Многочлен',
+        classType: Polynomial,
+        regexType: 'P'
+    }]
   }
 };
 
@@ -343,28 +462,70 @@ function NZER_N_B(num) {
 }
 
 function ADD_1N_N(num) {
+  var result = new Natural(num);
   // Проходимся с конца
-  for (var i = num.a.length - 1; i >= 0; i--) {
+  for (var i = result.a.length - 1; i >= 0; i--) {
     // Если не 9 - просто прибавляем 1
-    if (num.a[i] != 9) {
-      num.a[i]++;
+    if (result.a[i] != 9) {
+      result.a[i]++;
       break;
     }
     else
-      num.a[i] = 0; // Девятки обнуляем
+      result.a[i] = 0; // Девятки обнуляем
   }
-
   // Если все цифры были девятками, создаем единичку
   if (i < 0)
-    num.a.unshift(1);
-  return num;
+    result.a.unshift(1);
+  return result;
 }
 
-// Бобриков
+function ADD_NN_N(num1, num2) {
+  var result = new Natural(0);
+  var buff = null;
+  var comp;
+  if (COM_NN_D(num1, num2) == 1) { // Определяем, какое число больше
+    for (var i = num2.a.length-1; i >= 0; i--) {
+      if(0 <= i - (num2.a.length - num1.a.length))
+        comp = new Natural(num1.a[i - (num2.a.length - num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
+      else
+        comp = new Natural(num2.a[i] + buff);
+      if (comp.n > 1) { // Проверяем на перенос
+        buff = comp.a[0];
+        result.a[i] = comp.a[1];
+      }
+      else {
+        result.a[i] = comp.a[0];
+        buff = null;
+      }
+    }
+  }
+  else {
+    for (i = num1.a.length-1; i >= 0; i--) {
+      if(0 <= i - (num1.a.length - num2.a.length))
+        comp = new Natural(num1.a[i] + num2.a[i - (num1.a.length - num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
+      else
+        comp = new Natural(num1.a[i] + buff);
+      if (comp.n > 1) { // Проверяем на перенос
+        buff = comp.a[0];
+        result.a[i] = comp.a[1];
+      }
+      else {
+        result.a[i] = comp.a[0];
+        buff = null;
+      }
+
+    }
+  }
+  if (buff == 1)
+    result.a.unshift(buff);
+
+  return result;
+}
+
 function SUB_NN_N(num1, num2) {
   var result = new Natural(0);
   if (COM_NN_D(num1, num2) == 1)
-    return 'Ошибка: вычитаемое больше уменьшаемого';
+    throw new Error('[SUB_NN_N] вычитаемое больше уменьшаемого');
   else {
     // Если вычитаемое больше или равно уменьшаемому
     var i = num1.n - 1;
@@ -398,51 +559,70 @@ function SUB_NN_N(num1, num2) {
 
     }
   }
+  delete result[-1];
   result.delLeadingZeros();
   return result;
 }
 
-//Смагин
-function MUL_ND_N(num, k){
-  if (k == 0)
+function MUL_ND_N(num, d){
+  if (d == 0)
     return new Natural(0);
-  var perenos = null;
-  for (var i = num.n - 1; i >= 0; i--){
-    var comp = new Natural(num.a[i]*k + perenos);//Перемножаем каждую цифру числа на данную цифру
-    if (comp.n > 1){//Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
-      num.a[i] = comp.a[1];
-      perenos = comp.a[0];
+
+  var result = new Natural(num);
+  var overhead = null;
+  for (var i = result.n - 1; i >= 0; i--){
+    var comp = new Natural(result.a[i]*d + overhead); // Перемножаем каждую цифру числа на данную цифру
+    if (comp.n > 1){ // Если получаем двухзначное, первую цифру оставляем, вторую запоминаем
+      result.a[i] = comp.a[1];
+      overhead = comp.a[0];
     } else{
-      num.a[i] = comp.a[0];
-      perenos = null;
+      result.a[i] = comp.a[0];
+      overhead = null;
     }
   }
-  if (i < 0)//Если при последенем умножении получилось двухзначное число
-    num.a.unshift(perenos);//Добавляем еще одну цифру слева
-  return num;
+  if (i < 0 && overhead !== null) // Если при последенем умножении получилось двухзначное число
+    result.a.unshift(overhead); // Добавляем еще одну цифру слева
+  return result;
 }
 
 function MUL_Nk_N(num, k) {
   if (!Number.isSafeInteger(+k))
-    return 'Ошибка: недопустимое значение k';
-  if (num.n > 0)
+    throw new Error('[MUL_Nk_N] недопустимое значение k');
+  var result = new Natural(num);
+  if (result.n > 0)
     while (k--)
-      num.a.push(0);
-  return num;
+      result.a.push(0);
+  return result;
 }
 
-// Пегушина
+function MUL_NN_N(num1, num2){
+  var result = new Natural(0);
+  for (var i = num2.a.length-1; i >=0 ; i--) {
+    var buff = MUL_ND_N(num1, num2.a[i]); // Умножаем разряд на все число поразрядно
+    buff = MUL_Nk_N(buff, num2.a.length-1 - i); // Делаем сдвиг для сложения
+    result = ADD_NN_N(result, buff); // Складываем результат с промежуточным значением
+  }
+  return result;
+}
+
+function SUB_NDN_N(num1, d , num2) {
+  var mul = MUL_ND_N (num2, d);
+  if (COM_NN_D (num1, mul) == 1)
+    throw Error('[SUB_NDN_N] результат не может быть отрицательным');
+  return SUB_NN_N (num1, mul);
+}
+
 function DIV_NN_Dk(num1, num2) {
   var comp = COM_NN_D(num1, num2);
   if (comp == 1)
-    return 'Ошибка: первое число больше второго';
+    throw new Error('[DIV_NN_Dk] второе число больше первого');
   else if (comp == 0)
     return { d: 1, k: 0 };
 
   var orderDiff = num1.n - num2.n;
-  if (num1.a[0] <= num2.a[0])
+  if (orderDiff > 0 && num1.a[0] <= num2.a[0])
     orderDiff--;
-  MUL_Nk_N(num2, orderDiff);
+  num2 = MUL_Nk_N(num2, orderDiff);
   var result = 0;
   while (COM_NN_D(num1, num2) != 1) {
     num1 = SUB_NN_N(num1, num2);
@@ -452,10 +632,60 @@ function DIV_NN_Dk(num1, num2) {
   return { d: result, k: orderDiff };
 }
 
+function DIV_NN_N(num1, num2) {
+  if(COM_NN_D(num1, num2) == 1)
+    throw Error('[DIV_NN_N] второе число больше первого');
+  var result = new Natural(0); // Результат деления
+  var rem = new Natural(num1); // Остаток
+  do {
+    var div = DIV_NN_Dk(rem, num2); // Делим то, что осталось на делитель
+    result = ADD_NN_N(result, MUL_Nk_N(new Natural(div.d), div.k)); // Добавляем к результату
+    rem = SUB_NDN_N(rem, div.d, MUL_Nk_N(num2, div.k)); // Вычисляем остаток
+  } while(COM_NN_D(rem, num2) != 1);
+  return result;
+}
+
+function MOD_NN_N(num1, num2) {
+  return SUB_NN_N(num1, MUL_NN_N(DIV_NN_N(num1, num2), num2));
+}
+
+function GCF_NN_N(num1, num2) {
+  // Если один(и только один) из парметров 0 - результатом будет второй
+  var nzer1 = NZER_N_B(num1),
+    nzer2 = NZER_N_B(num2);
+  if(!nzer1 || !nzer2)
+  {
+    if(!nzer1 && !nzer2)
+      throw Error('[GCF_NN_N] оба числа равны 0');
+    else
+      return new Natural(nzer1 ? num1 : num2);
+  }
+  // Берем за 'a' большее число, за 'b' - меньшее
+  if(COM_NN_D(num1, num2) == 2) {
+    var a = new Natural(num1);
+    var b = new Natural(num2);
+  }
+  else {
+    a = new Natural(num2);
+    b = new Natural(num1);
+  }
+  // Считаем НОД по остатку
+  while(NZER_N_B(b)) {
+    var mod = MOD_NN_N(a, b);
+    a = b;
+    b = mod;
+  }
+  return a;
+}
+
+function LCM_NN_N(num1, num2) {
+  return DIV_NN_N(MUL_NN_N(num1, num2), GCF_NN_N(num1, num2)); // Произведение чисел деленное на НОД
+}
 
 function ABS_Z_N(num) {
-  num.b = false;
-  return new Natural(num);
+  var result = new Integer(num);
+  result.b = false;
+  return new Natural(result);
 }
 
 function POZ_Z_D(num) {
@@ -463,10 +693,11 @@ function POZ_Z_D(num) {
 }
 
 function MUL_ZM_Z(num) {
+  var result = new Integer(num);
   if (num.n == 0)
-    return num;
-  num.b = !num.b;
-  return num;
+    return result;
+  result.b = !result.b;
+  return result;
 }
 
 function TRANS_N_Z(num) {
@@ -475,6 +706,77 @@ function TRANS_N_Z(num) {
 
 function TRANS_Z_N(num) {
   return ABS_Z_N(num);
+}
+
+function ADD_ZZ_Z(num1, num2) {
+  var result;
+  var abs1 = ABS_Z_N(num1);
+  var abs2 = ABS_Z_N(num2);
+  var poz1 = POZ_Z_D(num1);
+  var poz2 = POZ_Z_D(num2);
+  if (poz1+poz2 == 0 || poz1 == poz2) // Если одно из чисел - 0, или числа одного знака
+  {
+    result = TRANS_N_Z(ADD_NN_N(abs1, abs2));
+    if(poz1 == 1) // Если оба отрицательные
+      result = MUL_ZM_Z(result);
+  }
+  else
+  {
+    var com = COM_NN_D(abs1, abs2);
+    if(com == 1) // Если второе число > первого
+    {
+      result = TRANS_N_Z(SUB_NN_N(abs2, abs1));
+      if(poz2 == 1) // Если второе число отрицательно
+        result = MUL_ZM_Z(result);
+    }
+    else
+    {
+      result = TRANS_N_Z(SUB_NN_N(abs1, abs2)); // Если первое число > второго или =
+      if(poz1 == 1) // Если первое число отрицательно
+        result = MUL_ZM_Z(result);
+    }
+  }
+  return result;
+}
+
+function SUB_ZZ_Z(num1, num2) {
+  return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
+}
+
+function MUL_ZZ_Z(num1, num2) {
+  var poz1 = POZ_Z_D(num1);
+  var poz2 = POZ_Z_D(num2);
+  if(poz1 == 0 || poz2 == 0)
+    return new Integer(0);
+  var result = TRANS_N_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
+  if (poz1 != poz2) // если разных знаков
+    result = MUL_ZM_Z(result);
+  return result;
+}
+
+function DIV_ZZ_Z(num1, num2)
+{
+  var poz1 = POZ_Z_D(num1),
+    poz2 = POZ_Z_D(num2);
+  if(poz1 == 0)
+    return new Integer(0);
+  var result = DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
+  if (poz1 == 2) // Если результат положителен
+    return TRANS_N_Z(result);
+  if (NZER_N_B(MOD_NN_N(TRANS_Z_N(num1), TRANS_Z_N(num2))))
+    result = ADD_1N_N(result); // Если остаток от деления ненулевой - добавляем единицу
+  return MUL_ZM_Z(TRANS_N_Z(result));
+}
+
+function MOD_ZZ_Z(num1, num2) {
+  return SUB_ZZ_Z(num1, MUL_ZZ_Z(DIV_ZZ_Z(num1, num2), num2));
+}
+
+function RED_Q_Q(num) {
+  var result = new Rational(num);
+  result.p = DIV_ZZ_Z(num.p, GCF_NN_N(ABS_Z_N(num.p), num.q));
+  result.q = DIV_ZZ_Z(num.q, GCF_NN_N(ABS_Z_N(num.p), num.q));
+  return result;
 }
 
 function INT_Q_B(num) {
@@ -487,18 +789,67 @@ function TRANS_Z_Q(num) {
 
 function TRANS_Q_Z(num) {
   if (num.q.n != 1 || num.q.a[0] != 1)
-    return 'Ошибка: знаменатель не равен 1';
+    throw new Error('[TRANS_Q_Z] знаменатель не равен 1');
   return new Integer(num.p);
 }
 
-function DER_P_P(poly) {
-  // TODO: use big number arithmetics
-  for (var i = 0; i <= poly.m; i++) {
-    poly.c[i].p.a = (poly.c[i].p.a.join('') * (poly.m - i)).toString().split('');
+function ADD_QQ_Q(num1, num2) {
+  var result = new Rational(0);
+  if (COM_NN_D(num1.q, num2.q) == 0) { //Если знаменатели равны
+    result.p = ADD_ZZ_Z(num1.p,num2.p); //Складываем числители
+    result.q = num1.q;
   }
-  poly.c.pop(); // degrade
-  if (poly.m < 0)
-    poly.c.push(new Rational(0));
+  else { //если знаменатели разные
+    var nok = LCM_NN_N(num1.q,num2.q); //Находим НОК
+    num1.p = MUL_ZZ_Z(num1.p,DIV_NN_N(nok, num1.q)); //Умножаем числитель первого числа на НОК/знаменатель первого числа
+    num2.p = MUL_ZZ_Z(num2.p,DIV_NN_N(nok, num2.q)); //Умножаем числитель второго числа на НОК/знаменатель второго числа
+    result.p = ADD_ZZ_Z(num1.p,num2.p); // Складываем
+    result.q = nok;
+  }
+  return result;
+}
+
+function SUB_QQ_Q(num1, num2) {
+  var sub = new Rational(num2);
+  sub.p.b = !sub.p.b;
+  return ADD_QQ_Q(num1, sub);
+}
+
+function MUL_QQ_Q(num1, num2) {
+  var result = new Rational(0);
+  result.p = MUL_ZZ_Z(num1.p, num2.p);
+  result.q = MUL_NN_N(num1.q, num2.q);
+  return result;
+}
+
+function DIV_QQ_Q(num1, num2) {
+  var result = new Rational(0);
+  result.p = MUL_ZZ_Z(num1.p, TRANS_N_Z(num2.q));
+  result.q = MUL_NN_N(num1.q, ABS_Z_N(num2.p));
+  if (POZ_Z_D(num2.p) === 1)
+    MUL_ZM_Z(result);
+  return result;
+}
+
+function DER_P_P(poly) {
+  var result = new Polynomial(poly);
+  // Перемножаем коэфы на порядок
+  for (var i = 1; i <= result.m; i++)
+    if (result.c[i])
+      result.c[i] = MUL_QQ_Q(result.c[i], new Rational(i));
+  // Трем константу
+  result.c.shift();
+  if (result.m < 0)
+    result.c.push(new Rational(0));
+  return result;
+}
+
+//Умножение многочлена на рациональное число MUL_PQ_P
+//MUL_QQ_Q Умножение дробей
+function MUL_PQ_P(poly, num) {
+  for (var i = 0; i <= poly.m; i++) {
+    poly.c[i] = MUL_QQ_Q(poly.c[i], num);
+  }
   return poly;
 }
 
@@ -548,84 +899,4 @@ function MOD_PP_P(poly1, poly2) {
   var int = MUL_PP_P(tempPoly, poly);
   var poly = SUB_PP_P(tempPoly, poly2);
   return poly;
-}
-
-//Вычитание Опять же два варианта с и без дополнительными переменными
-function SUB_ZZ_Z(num1, num2) {
-  return ADD_ZZ_Z(num1, MUL_ZM_Z(num2)); // представляем A - B как A + (-B)
-}
-
-//Сложение целых чиселок
-function ADD_ZZ_Z(num1, num2) {
-  if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2) //если оба положительные
-  {
-    return ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  }
-  else {
-    if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) // если оба- отрицательные
-    {
-      return MUL_ZM_Z(ADD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // то ответ = - (|а1| + |а2|)
-
-    }
-    else {
-      if (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 1) // a1 полож, а2 отр
-      {
-        if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 1) // если Num1<num2
-        {
-
-          return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))); // если |а1| < |а2|, то - (|а2| - |а1|)
-
-        }
-        else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); // |a1| - |a2|
-
-      }
-      else {
-        if (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) // а1 отр, а2 полож
-        {
-          if (COM_NN_D(ABS_Z_N(num1), ABS_Z_N(num2)) == 2) {
-            return MUL_ZM_Z(SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2))) // если |а1| > |а2| , то - (|A| - |B|)
-
-          }
-          else return SUB_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)); //  |B| - |A|
-        }
-        else {
-          if (POZ_Z_D(num1) == 0) // if a1 == 0
-            return num2;
-          else if (POZ_Z_D(num2) == 0) // a2 == 0
-            return num1;
-        }
-      }
-    }
-  }
-}
-
-//умножение
-function MUL_ZZ_Z(num1, num2) {
-  if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 1) || (POZ_Z_D(num1) == 2 && POZ_Z_D(num2) == 2)) // если числа одного знака
-    return MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));//просто произведение
-  else {
-    if ((POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2) || (POZ_Z_D(num1) == 1 && POZ_Z_D(num2) == 2))//если разных знаков
-    {
-      return MUL_ZM_Z(MUL_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));	//произведение*(-1)
-    }
-    else {
-      if (POZ_Z_D(num1) == 0 || POZ_Z_D(num2) == 0) // Если чиселки = 0
-        return 0;
-    }
-  }
-}
-
-//остаток
-function MOD_ZZ_Z(num1, num2) {
-  return MOD_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-}
-
-//Частное
-function DIV_ZZ_Z(num1, num2) {
-  if (POZ_Z_D(num1) == POZ_Z_D(num2))//если одного знака
-    return DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
-  else //разных знаков
-  {
-    return MUL_ZM_Z(DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2)));
-  }
 }

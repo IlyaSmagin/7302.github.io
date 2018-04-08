@@ -36,6 +36,15 @@ var Utils =
 
         return minus ? '⁻' + result : result;
       }
+    }, {
+      key: 'formatQ',
+      // formatter для рациональных чисел
+      value: function formatQ(num) {
+        var red = RED_Q_Q(num);
+        if (red.q == '1')
+          return red.p.toString();
+        return red.toString();
+      }
     }]);
 
     return Utils;
@@ -65,9 +74,12 @@ var Natural =
         return this.arr;
       },
       set: function set(val) {
-        if (!Array.isArray(val))
-          val = val.toString().split('');
-        this.arr = val.map(function (digit) { return Number(digit); });
+       var num;
+        if (Array.isArray(val))
+          num = val;
+        else
+          num = val.toString().split('');
+        this.arr = num.map(function (digit) { return Number(digit); });
         if (!/^\d+$/.test(this.arr.join('')))
           throw new Error('Invalid value for Natural');
       }
@@ -84,7 +96,6 @@ var Natural =
     return Natural;
   }();
 Natural.prototype.toString = function () { return this.a.join(''); };
-Natural.prototype.valueOf = Natural.prototype.toString;
 
 // Множество целых чисел
 var Integer =
@@ -101,19 +112,22 @@ var Integer =
         return this.natural.a;
       },
       set: function set(val) {
-        if (!Array.isArray(val))
-          val = val.toString().split('');
-        if (!/^-?\d+$/.test(val.join('')))
+        var num;
+        if (Array.isArray(val))
+          num = val.slice(0);
+        else
+          num = val.toString().split('');
+        if (!/^-?\d+$/.test(num.join('')))
          throw new Error('Invalid value for Integer');
 
-        if (val[0] === '-') {
+        if (num[0] === '-') {
           this.negative = true;
-          val.shift();
+          num.shift();
         }
         else
           this.negative = false;
 
-        this.natural = new Natural(val);
+        this.natural = new Natural(num);
       }
     }, {
       key: 'n',
@@ -133,7 +147,6 @@ var Integer =
     return Integer;
   }();
 Integer.prototype.toString = function () { return (this.b ? '-' : '') + this.natural; };
-Integer.prototype.valueOf = Integer.prototype.toString;
 
 // Множество рациональных чисел
 var Rational =
@@ -152,13 +165,11 @@ var Rational =
       this.q = denumerator; // Знаменатель
     }
 
-
     _createClass(Rational, [{
       key: 'p',
       get: function get() {
         return this.numerator;
-      }
-      ,
+      },
       set: function set(val) {
         this.numerator = new Integer(val);
       }
@@ -187,7 +198,6 @@ Rational.prototype.toString = function () {
     str += '/' + this.denumerator;
   return str;
 };
-Rational.prototype.valueOf = Rational.prototype.toString;
 
 // Многочлен
 var Polynomial =
@@ -205,9 +215,30 @@ var Polynomial =
       },
       set: function set(val) {
         if (Array.isArray(val))
-          this.arr = val;else this.arr = val.toString().split(' ');
-        for (var i = 0; i < this.arr.length; i++) {
-          this.arr[i] = new Rational(this.arr[i]);
+          throw Error();
+        if (val.c && Array.isArray(val.c)) {
+          this.arr = val.c.slice();
+          return;
+        }
+
+        this.arr = [];
+        var vars = val.toString().split(/\+|(?=-)/);
+        for (var i = 0; i < vars.length; i++) {
+          var parts = vars[i].split('x');
+          if(parts.length === 1) // константа
+            parts[1] = 0;
+          else if(parts[1][0] !== '^') // x^1
+            parts[1] = 1;
+          else {
+            parts[1] = parseInt(parts[1].substr(1));
+            if(!Number.isSafeInteger(parts[1]))
+              throw Error('недопустимая степень полинома');
+          }
+          if(!this.arr[parts[1]])
+            this.arr[parts[1]] = new Rational(parts[0]);
+          else
+            this.arr[parts[1]] = ADD_QQ_Q(this.arr[parts[1]], new Rational(parts[0]));
+          this.arr[parts[1]] = RED_Q_Q(this.arr[parts[1]]);
         }
       }
     }, {
@@ -220,31 +251,11 @@ var Polynomial =
     return Polynomial;
   }();
 Polynomial.prototype.toString = function () {
-  // TODO: use big number arithmetics
-  function intRat(rat) {
-    if (rat.q.m == 1 && rat.q.a[0] == 1)
-      return rat.p.a.join('');
-    return rat.p.a.join('') % rat.q.a.join('') ? null : rat.p.a.join('') / rat.q.a.join('');
-  }
-
-  function formatRat(rat) {
-    var result = intRat(rat);
-    if (result === null)
-      result = rat;
-    return result.toString();
-  }
-
   var str = '';
-  for (var i = 0; i < this.m; i++) {
-    if (this.c[i].p.n != 0) {
-      var k = formatRat(this.c[i]);
-      str += (str.length > 0 && !this.c[i].b > 0 ? '+' : '') + (k == 1 ? '' : k) + 'x' + Utils.subU(this.m - i);
+  for (var i = this.m; i >= 0; i--)
+    if (this.c[i] && this.c[i].p.n > 0) {
+      var k = Utils.formatQ(this.c[i]);
+      str += (str.length > 0 && !this.c[i].b ? '+' : '') + (i == 0 ? k : ((k === '1' ? '' : k) + ('x' + (i > 1 ? Utils.subU(i) : ''))));
     }
-  }
-
-  var constant = this.c[this.m];
-  if (constant.p.n != 0 || str.length == 0)
-    str += (str.length > 0 && !constant.b ? '+' : '') + formatRat(constant);
-  return str;
+  return str.length > 0 ? str : '0';
 };
-Polynomial.prototype.valueOf = Polynomial.prototype.toString;
