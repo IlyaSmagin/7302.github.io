@@ -233,7 +233,11 @@ function runTests() {
     th(ADD_QQ_Q(new Rational('34/12'), new Rational('-8/7')) == '142/84');
     th(ADD_QQ_Q(new Rational('-34/12'), new Rational('8/7')) == '-142/84');
     //Q6
-    //!!!
+    th(SUB_QQ_Q(new Rational('11/2'), new Rational('11/4')) == '11/4');
+    th(SUB_QQ_Q(new Rational('5/7'), new Rational('7/12')) == '11/84');
+    th(SUB_QQ_Q(new Rational('12/42'), new Rational('12/42')) == '0/42');
+    th(SUB_QQ_Q(new Rational('34/12'), new Rational('-8/7')) == '334/84');
+    th(SUB_QQ_Q(new Rational('-34/12'), new Rational('8/7')) == '-334/84');
     //Q7
     th(MUL_QQ_Q(new Rational('0/1'), new Rational('0/1')) == '0/1');
     th(MUL_QQ_Q(new Rational('0/1'), new Rational('1/1')) == '0/1');

@@ -337,6 +337,18 @@ var Modules = {
       regexType: 'Q'
     }]
   },
+  SUB_QQ_Q: {
+    description: 'Вычитание дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q'
+    }]
+  },
   MUL_QQ_Q: {
     description: 'Умножение дробей',
     reqFields: [{
@@ -765,7 +777,7 @@ function TRANS_Q_Z(num) {
   return new Integer(num.p);
 }
 
-function ADD_QQ_Q(num1, num2){
+function ADD_QQ_Q(num1, num2) {
   var result = new Rational(0);
   if (COM_NN_D(num1.q, num2.q) == 0) { //Если знаменатели равны
     result.p = ADD_ZZ_Z(num1.p,num2.p); //Складываем числители
@@ -779,6 +791,12 @@ function ADD_QQ_Q(num1, num2){
     result.q = nok;
   }
   return result;
+}
+
+function SUB_QQ_Q(num1, num2) {
+  var sub = new Rational(num2);
+  sub.p.b = !sub.p.b;
+  return ADD_QQ_Q(num1, sub);
 }
 
 function MUL_QQ_Q(num1, num2) {
