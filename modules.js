@@ -808,11 +808,12 @@ function MUL_QQ_Q(num1, num2) {
 
 function DER_P_P(poly) {
   var result = new Polynomial(poly);
-  // TODO: use big number arithmetic
+  // Перемножаем коэфы на порядок
   for (var i = 1; i <= result.m; i++)
     if (result.c[i])
-      result.c[i].p.a = (result.c[i].p.a.join('') * i).toString().split('');
-  result.c.shift(); // degrade
+      result.c[i] = MUL_QQ_Q(result.c[i], new Rational(i));
+  // Трем константу
+  result.c.shift();
   if (result.m < 0)
     result.c.push(new Rational(0));
   return result;
