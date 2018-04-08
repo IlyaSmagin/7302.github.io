@@ -227,7 +227,11 @@ function runTests() {
     th(TRANS_Q_Z(new Rational('-42/1')) == '-42');
     th(TRANS_Q_Z(new Rational('0/1')) == '0');
     //Q5
-    //!!!
+    th(ADD_QQ_Q(new Rational('11/2'), new Rational('11/4')) == '33/4');
+    th(ADD_QQ_Q(new Rational('5/7'), new Rational('7/12')) == '109/84');
+    th(ADD_QQ_Q(new Rational('12/42'), new Rational('12/42')) == '24/42');
+    th(ADD_QQ_Q(new Rational('34/12'), new Rational('-8/7')) == '142/84');
+    th(ADD_QQ_Q(new Rational('-34/12'), new Rational('8/7')) == '-142/84');
     //Q6
     //!!!
     //Q7
