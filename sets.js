@@ -226,7 +226,11 @@ var Polynomial =
             if(!Number.isSafeInteger(parts[1]))
               throw Error('недопустимая степень полинома');
           }
-          this.arr[parts[1]] = new Rational(parts[0]);
+          if(this.arr[parts[1]] === undefined)
+            this.arr[parts[1]] = new Rational(parts[0]);
+          else
+            this.arr[parts[1]] = ADD_QQ_Q(this.arr[parts[1]], new Rational(parts[0]));
+          this.arr[parts[1]] = RED_Q_Q(this.arr[parts[1]]);
         }
       }
     }, {
