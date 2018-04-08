@@ -361,6 +361,18 @@ var Modules = {
       regexType: 'Q'
     }]
   },
+  DIV_QQ_Q: {
+    description: 'Деление дробей',
+    reqFields: [{
+      caption: 'Первое число',
+      classType: Rational,
+      regexType: 'Q'
+    }, {
+      caption: 'Второе число',
+      classType: Rational,
+      regexType: 'Q/0'
+    }]
+  },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
     comment: 'Коэффициенты вводяться в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -803,6 +815,15 @@ function MUL_QQ_Q(num1, num2) {
   var result = new Rational(0);
   result.p = MUL_ZZ_Z(num1.p, num2.p);
   result.q = MUL_NN_N(num1.q, num2.q);
+  return result;
+}
+
+function DIV_QQ_Q(num1, num2) {
+  var result = new Rational(0);
+  result.p = MUL_ZZ_Z(num1.p, TRANS_N_Z(num2.q));
+  result.q = MUL_NN_N(num1.q, ABS_Z_N(num2.p));
+  if (POZ_Z_D(num2.p) === 1)
+    MUL_ZM_Z(result);
   return result;
 }
 

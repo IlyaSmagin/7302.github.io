@@ -245,7 +245,7 @@ var Polynomial =
 Polynomial.prototype.toString = function () {
   function formatQ(num) {
     var red = RED_Q_Q(num);
-    if (red.q === 1 || (red.q.n === 1 && red.q.a[0] === 1))
+    if (red.q == '1')
       return red.p.toString();
     return red.toString();
   }
