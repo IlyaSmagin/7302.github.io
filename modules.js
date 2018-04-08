@@ -377,6 +377,32 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
+  ADD_PP_P: {
+     description: 'Сложение многочленов',
+     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+     reqFields: [{
+       caption: 'Многочлен',
+       classType: Polynomial,
+       regexType: 'P'
+     }, {
+       caption: 'Многочлен',
+       classType: Polynomial,
+       regexType: 'P'
+     }]
+  },
+  SUB_PP_P: {
+     description: 'Вычитание многочленов',
+     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+     reqFields: [{
+       caption: 'Многочлен',
+       classType: Polynomial,
+       regexType: 'P'
+     }, {
+       caption: 'Многочлен',
+       classType: Polynomial,
+       regexType: 'P'
+     }]
+  },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -847,25 +873,75 @@ function DER_P_P(poly) {
 //Умножение многочлена на рациональное число MUL_PQ_P
 //MUL_QQ_Q Умножение дробей
 function MUL_PQ_P(poly, num) {
-  for (var i = 0; i <= poly.m; i++) {
-    poly.c[i] = MUL_QQ_Q(poly.c[i], num);
-  }
-  return poly;
+  var result = new Polynomial(poly);
+  for (var i = 0; i <= result.m; i++)
+    if (result.c[i])
+      result.c[i] = MUL_QQ_Q(result.c[i], new Rational(num));
+  if (result.m < 0)
+    result.c.push(new Rational(0));
+  return result;
 }
 
 //Умножение многочленов MUL_PP_P
 //MUL_PQ_P Умножение многочлена на рациональное число
 //MUL_Pxk_P Умножение многочлена на x^k
 //ADD_PP_P Сложение многочленов
-function MUL_PP_P(poly1, poly2) {
-  var poly = new Polynomial();
-  for (let i = 0; i <= poly2.m; i++) {
-    var tempPoly = new Polynomial();
-    tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
-    tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
-    poly = ADD_PP_P(poly, tempPoly);
+function MUL_PP_P(_poly1, _poly2) {
+  var result = new Polynomial(new Rational(0));
+  var poly1 = new Polynomial(_poly1);
+  var poly2 = new Polynomial(_poly2);
+  for (var i = 0; i <= poly2.m; i++) {
+    var tempPoly = new Polynomial(new Rational(0));
+    if(poly2.c[i]){
+    tempPoly = MUL_PQ_P(new Polynomial(poly1), new Rational(poly2.c[i]));
+    tempPoly = MUL_Pxk_P(tempPoly, i);
+    result = ADD_PP_P(result, tempPoly);
+    }
   }
-  return poly;
+  return result;
+}
+
+//Сложение многочленов ADD_PP_P
+//ADD_QQ_Q
+function ADD_PP_P(_poly1, _poly2){
+  var poly1 = new Polynomial(_poly1);
+  var poly2 = new Polynomial(_poly2);
+  var max = poly1.m > poly2.m ? poly1 : poly2;
+  var result = new Polynomial(max);
+  for(var i = 0; i<= max.m; i++){
+    var num1 = poly1.c[i] ? poly1.c[i] : new Rational(0);
+    var num2 = poly2.c[i] ? poly2.c[i] : new Rational(0);
+    result.c[i] = ADD_QQ_Q(num1, num2);
+  }
+  if (result.m < 0)
+    result.c.push(new Rational(0));
+  return result;
+}
+
+//Вычитание многочленов SUB_PP_P
+//SUB_QQ_Q
+function SUB_PP_P(_poly1, _poly2){
+  var poly1 = new Polynomial(_poly1);
+  var poly2 = new Polynomial(_poly2);
+  var max = poly1.m > poly2.m ? poly1 : poly2;
+  var result = new Polynomial(new Rational(0));
+  for(var i = 0; i<= max.m; i++){
+    var num1 = poly1.c[i] ? poly1.c[i] : new Rational(0);
+    var num2 = poly2.c[i] ? poly2.c[i] : new Rational(0);
+    result.c[i] = SUB_QQ_Q(num1, num2);
+  }
+  if (result.m < 0)
+    result.c.push(new Rational(0));
+  return result;
+}
+
+
+function MUL_Pxk_P(poly, xk){
+  var result = new Polynomial(poly);
+  for(var i = 0; i < xk; i++){
+    result.c.unshift(new Rational(0));
+  }
+  return result;
 }
 
 //Частное от деления многочлена на многочлен при делении с остатком DIV_PP_P
@@ -874,29 +950,41 @@ function MUL_PP_P(poly1, poly2) {
 //MUL_Pxk_P Умножение многочлена на x^k
 //SUB_PP_P Вычитание многочленов
 //ADD_PP_P 	Сложение многочленов
-function DIV_PP_P(poly1, poly2) {
-  var poly = new Polynomial();
-  while (DEG_P_N(poly1) >= DEG_P_N(poly2)) {
-    var tempPoly = new Polynomial();
-    var x = DIV_QQ_Q(new Rational(poly1.c[i].a), new Rational(poly2.c[poly2.m].a));
-    var k = poly1.m - 1;
-    poly.push(new Rational(x));
-    tempPoly = MUL_PQ_P(poly1, new Rational(poly2.c[i].a));
-    tempPoly = MUL_Pxk_P(tempPoly, poly2.m - i);
+function DIV_PP_P(_poly1, _poly2)
+{
+  var poly1 = new Polynomial(_poly1);
+  var poly2 = new Polynomial(_poly2);
+  var result = new Polynomial(new Rational(0));
+  while (DEG_P_N(poly1) >= DEG_P_N(poly2))
+  {
+    var tempPoly = new Polynomial(new Rational(0));
+    var x = RED_Q_Q(DIV_QQ_Q(new Rational(poly1.c[poly1.m]), new Rational(poly2.c[poly2.m])));
+    var k = DEG_P_N(poly1) - DEG_P_N(poly2);
+    result.c[k] = new Rational(x);
+    tempPoly = MUL_PQ_P(poly2, result.c[k]);
+    tempPoly = MUL_Pxk_P(tempPoly, k);
     poly1 = SUB_PP_P(poly1, tempPoly);
+    for (var i = poly1.m; i >= 0; i--)
+     if(poly1.c[i] || poly1.c[i].p == '0')
+      poly1.c.pop(i);
+    else
+      break;
   }
-  return poly;
+  return result;
 }
 
 //Остаток от деления многочлена на многочлен при делении с остатком MOD_PP_P
 //DIV_PP_P Частное от деления многочлена на многочлен при делении с остатком
 //MUL_PP_P Умножение многочленов
 //SUB_PP_P Вычитание многочленов
-function MOD_PP_P(poly1, poly2) {
-  var tempPoly = DIV_PP_P(poly1, poly2);
-  if (tempPoly.m == 1 && tempPoly.c[0] == 0)
+function MOD_PP_P(_poly1, _poly2)
+{
+  var poly1 = new Polynomial(_poly1);
+  var poly2 = new Polynomial(_poly2);
+  var tempPoly = new Polynomial(DIV_PP_P(poly1, poly2));
+  if (tempPoly.m == '0' && tempPoly.c[0].p == '0')
     return poly1;
-  var int = MUL_PP_P(tempPoly, poly);
-  var poly = SUB_PP_P(tempPoly, poly2);
-  return poly;
+  var integer = new Polynomial(MUL_PP_P(tempPoly, poly2));
+  var result = new Polynomial(SUB_PP_P(poly1, integer));
+  return result;
 }
