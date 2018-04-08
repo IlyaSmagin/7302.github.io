@@ -377,6 +377,24 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
+  LED_P_Q: {
+    description: 'Старший коэффициент многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
+  DEG_P_N: {
+    description: 'Степень многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -831,10 +849,18 @@ function DIV_QQ_Q(num1, num2) {
   return result;
 }
 
+function LED_P_Q(poly) {
+  return new Rational(poly.c[poly.m]);
+}
+
+function DEG_P_N(poly) {
+  return new Natural(poly.m);
+}
+
 function DER_P_P(poly) {
   var result = new Polynomial(poly);
   // Перемножаем коэфы на порядок
-  for (var i = 1; i <= result.m; i++)
+  for (var i = 1; i <= DEG_P_N(result); i++)
     if (result.c[i])
       result.c[i] = MUL_QQ_Q(result.c[i], new Rational(i));
   // Трем константу
