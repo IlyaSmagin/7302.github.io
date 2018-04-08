@@ -243,33 +243,17 @@ var Polynomial =
     return Polynomial;
   }();
 Polynomial.prototype.toString = function () {
-  // TODO: use big number arithmetic
-  function intRat(rat) {
-    if (rat.q.m == 1 && rat.q.a[0] == 1)
-      return rat.p.a.join('');
-    return rat.p.a.join('') % rat.q.a.join('') ? null : rat.p.a.join('') / rat.q.a.join('');
+  function formatQ(num) {
+    var red = RED_Q_Q(num);
+    if (red.q === 1 || (red.q.n === 1 && red.q.a[0] === 1))
+      return red.p.toString();
+    return red.toString();
   }
-
-  function formatRat(rat) {
-    var result = intRat(rat);
-    if (result === null)
-      result = rat;
-    return result.toString();
-  }
-
   var str = '';
-  for (var i = this.m; i > 0; i--) {
+  for (var i = this.m; i >= 0; i--)
     if (this.c[i] && this.c[i].p.n > 0) {
-      var k = formatRat(this.c[i]);
-      str += (this.c[i].b ? '-' : (str.length > 0 ? '+' : '')) + (k == 1 ? '' : k) + 'x' + Utils.subU(i);
+      var k = formatQ(this.c[i]);
+      str += (str.length > 0 && !this.c[i].b ? '+' : '') + (i == 0 ? k : ((k === '1' ? '' : k) + ('x' + (i > 1 ? Utils.subU(i) : ''))));
     }
-  }
-
-  var constant = this.c[0];
-  if (constant && constant.p.n > 0)
-    str += (constant.b ? '-' : (str.length > 0 ? '+' : '')) + formatRat(constant);
-  if (str.length == 0)
-    str = '0';
-
-  return str;
+  return str.length > 0 ? str : '0';
 };
