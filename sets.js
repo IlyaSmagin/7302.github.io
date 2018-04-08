@@ -36,6 +36,15 @@ var Utils =
 
         return minus ? '⁻' + result : result;
       }
+    }, {
+      key: 'formatQ',
+      // formatter для рациональных чисел
+      value: function formatQ(num) {
+        var red = RED_Q_Q(num);
+        if (red.q == '1')
+          return red.p.toString();
+        return red.toString();
+      }
     }]);
 
     return Utils;
@@ -156,7 +165,6 @@ var Rational =
       this.q = denumerator; // Знаменатель
     }
 
-
     _createClass(Rational, [{
       key: 'p',
       get: function get() {
@@ -243,16 +251,10 @@ var Polynomial =
     return Polynomial;
   }();
 Polynomial.prototype.toString = function () {
-  function formatQ(num) {
-    var red = RED_Q_Q(num);
-    if (red.q == '1')
-      return red.p.toString();
-    return red.toString();
-  }
   var str = '';
   for (var i = this.m; i >= 0; i--)
     if (this.c[i] && this.c[i].p.n > 0) {
-      var k = formatQ(this.c[i]);
+      var k = Utils.formatQ(this.c[i]);
       str += (str.length > 0 && !this.c[i].b ? '+' : '') + (i == 0 ? k : ((k === '1' ? '' : k) + ('x' + (i > 1 ? Utils.subU(i) : ''))));
     }
   return str.length > 0 ? str : '0';

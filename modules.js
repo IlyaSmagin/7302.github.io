@@ -335,7 +335,8 @@ var Modules = {
       caption: 'Второе число',
       classType: Rational,
       regexType: 'Q'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   SUB_QQ_Q: {
     description: 'Вычитание дробей',
@@ -347,7 +348,8 @@ var Modules = {
       caption: 'Второе число',
       classType: Rational,
       regexType: 'Q'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   MUL_QQ_Q: {
     description: 'Умножение дробей',
@@ -359,7 +361,8 @@ var Modules = {
       caption: 'Второе число',
       classType: Rational,
       regexType: 'Q'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   DIV_QQ_Q: {
     description: 'Деление дробей',
@@ -371,7 +374,8 @@ var Modules = {
       caption: 'Второе число',
       classType: Rational,
       regexType: 'Q/0'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
@@ -479,10 +483,10 @@ function ADD_NN_N(num1, num2) {
   var result = new Natural(0);
   var buff = null;
   var comp;
-  if (COM_NN_D(num1, num2)==1) { // Определяем, какое число больше
-    for (var i = num2.a.length-1; i>=0; i--) {
-      if(0<=i-(num2.a.length-num1.a.length))
-        comp = new Natural(num1.a[i-(num2.a.length-num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
+  if (COM_NN_D(num1, num2) == 1) { // Определяем, какое число больше
+    for (var i = num2.a.length-1; i >= 0; i--) {
+      if(0 <= i - (num2.a.length - num1.a.length))
+        comp = new Natural(num1.a[i - (num2.a.length - num1.a.length)] + num2.a[i] + buff);  // Складываем разряды и прибавляем перенос с прошлой итерации
       else
         comp = new Natural(num2.a[i] + buff);
       if (comp.n > 1) { // Проверяем на перенос
@@ -496,9 +500,9 @@ function ADD_NN_N(num1, num2) {
     }
   }
   else {
-    for (i = num1.a.length-1; i>=0; i--) {
-      if(0<=i-(num1.a.length-num2.a.length))
-        comp = new Natural(num1.a[i] + num2.a[i-(num1.a.length-num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
+    for (i = num1.a.length-1; i >= 0; i--) {
+      if(0 <= i - (num1.a.length - num2.a.length))
+        comp = new Natural(num1.a[i] + num2.a[i - (num1.a.length - num2.a.length)] + buff); // Складываем разряды и прибавляем перенос с прошлой итерации
       else
         comp = new Natural(num1.a[i] + buff);
       if (comp.n > 1) { // Проверяем на перенос
