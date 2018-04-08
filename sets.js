@@ -255,15 +255,15 @@ Polynomial.prototype.toString = function () {
 
   var str = '';
   for (var i = this.m; i > 0; i--) {
-    if (this.c[i]) {
+    if (this.c[i] && this.c[i].p.n > 0) {
       var k = formatRat(this.c[i]);
-      str += (str.length > 0 ? (this.c[i].b ? '-' : '+') : '') + (k == 1 ? '' : k) + 'x' + Utils.subU(i);
+      str += (this.c[i].b ? '-' : (str.length > 0 ? '+' : '')) + (k == 1 ? '' : k) + 'x' + Utils.subU(i);
     }
   }
 
   var constant = this.c[0];
-  if (constant)
-    str += (str.length > 0 ? (constant.b ? '-' : '+') : '') + formatRat(constant);
+  if (constant && constant.p.n > 0)
+    str += (constant.b ? '-' : (str.length > 0 ? '+' : '')) + formatRat(constant);
   if (str.length == 0)
     str = '0';
 
