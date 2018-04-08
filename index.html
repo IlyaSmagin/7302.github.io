@@ -17,10 +17,14 @@
 <div id="left-half">
 <form action="#" onsubmit="return processForm(this)">
   <div id="types">
-    <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
-    <label for="type1">Краткое описание</label>
-    <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
-    <label for="type2">Код функции</label>
+    <div class="block">
+      <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
+      <label for="type1">Краткое описание</label>
+    </div>
+    <div class="block">
+      <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
+      <label for="type2">Код функции</label>
+    </div>
   </div>
   <select id="select" onchange="selectOnChange(this)">
   </select><br>

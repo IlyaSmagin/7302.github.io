@@ -86,7 +86,7 @@ function selectOnChange(select) {
     divInput.setAttribute('type', 'text');
     divInput.setAttribute('name', 'field'+i);
     divInput.setAttribute('class', field.regexType);
-    divInput.oninput = function (e) { validateOpt(e.target); }
+    divInput.oninput = function (e) { validateOpt(e.target); };
     fieldDiv.appendChild(divContent);
     fieldDiv.appendChild(divInput);
     var form = select.parentNode;

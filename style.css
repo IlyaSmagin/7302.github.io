@@ -5,28 +5,27 @@ body {
 	background:linear-gradient(to right, #fff, #ddd);
 	border-top:0.2em solid #9400D3;
 }
-
 h1 {
 	text-align:center;
 	font-weight:300;
 	font-size:3.4em;
 	margin:0
 }
-
 form, div {
 	display: flex;
 	flex-direction: column;
 }
-
 :focus {
     outline: none;
 }
-
 #types {
 	flex-direction: row;
 	margin: 0.5em 0;
 }
-
+.block {
+  flex-direction: row;
+  width:200px;
+}
 #comment {
 	background:#ffffb3;
 	margin:0.3em 0;
@@ -36,36 +35,30 @@ form, div {
 #comment:empty {
 	display:none;
 }
-
 #container {
 	display: flex;
 }
-
 #left-half {
 	flex: 1;
 	padding: 1em;
 }
-
 #right-half {
 	flex: 1;
 	padding: 1em;
 }
-
 #submit {
 	margin:1em 0;
 }
-
 #footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 	font-weight: 100;
 	font-size: 0.8em;
 	background: rgba(55,55,55,0.8);
 }
-
 .invalidated {
 	background-color:#ffe6e6;
 }
@@ -75,15 +68,12 @@ form, div {
 	flex-direction: row;
 	color:#595959;
 }
-
 .result.last {
 	color:#1e1e1e;
 }
-
 span {
 	margin-left: auto;
 }
-
 a {
 	color: #ccc;
 	display:inline-block;
@@ -91,7 +81,6 @@ a {
 	transition:color .2s,border-bottom-color .2s;
 	border-bottom:2px solid #9370DB;
 }
-
 a:hover {
 	border-bottom-color:#9400D3;
 }
