@@ -262,9 +262,15 @@ function runTests() {
     //P4
     //!!!
     //P5
-    //!!!
+    th(LED_P_Q(new Polynomial('0')) == '0/1');
+    th(LED_P_Q(new Polynomial('42')) == '42/1');
+    th(LED_P_Q(new Polynomial('1x^4+2x^3+3x^2+4x+5')) == '1/1');
+    th(LED_P_Q(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42')) == '-12/7');
     //P6
-    //!!!
+    th(DEG_P_N(new Polynomial('0')) == '0');
+    th(DEG_P_N(new Polynomial('42')) == '0');
+    th(DEG_P_N(new Polynomial('1x^4+2x^3+3x^2+4x+5')) == '4');
+    th(DEG_P_N(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42')) == '19');
     //P7
     //!!!
     //P8
