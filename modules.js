@@ -801,8 +801,8 @@ function SUB_QQ_Q(num1, num2) {
 
 function MUL_QQ_Q(num1, num2) {
   var result = new Rational(0);
-  result.p = num1.p * num2.p;
-  result.q = num1.q * num2.q;
+  result.p = MUL_ZZ_Z(num1.p, num2.p);
+  result.q = MUL_NN_N(num1.q, num2.q);
   return result;
 }
 
