@@ -494,6 +494,20 @@ var Modules = {
       classType: Polynomial,
       regexType: 'P'
     }]
+  },
+  GCF_PP_P: {
+    description: 'НОД многочленов',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields:
+    [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
   }
 };
 
@@ -884,7 +898,7 @@ function DIV_QQ_Q(num1, num2) {
   result.p = MUL_ZZ_Z(num1.p, TRANS_N_Z(num2.q));
   result.q = MUL_NN_N(num1.q, ABS_Z_N(num2.p));
   if (POZ_Z_D(num2.p) === 1)
-    MUL_ZM_Z(result);
+    result.p = MUL_ZM_Z(result.p);
   return result;
 }
 
@@ -932,19 +946,6 @@ function LED_P_Q(poly) {
 
 function DEG_P_N(poly) {
   return new Natural(poly.m);
-}
-
-function DER_P_P(poly) {
-  var result = new Polynomial(0);
-  // Перемножаем коэфы на порядок
-  for (var i = 0; i < poly.d.length; i++) {
-    var degree = poly.d[i];
-    if(NZER_N_B(degree))
-      result.add(SUB_NN_N(degree, new Natural(1)), MUL_QQ_Q(poly.c[degree], new Rational(degree)));
-  }
-  if (result.m < 0)
-    result.add(new Natural(0), new Rational(0));
-  return result;
 }
 
 //Умножение многочленов MUL_PP_P
@@ -999,5 +1000,34 @@ function MOD_PP_P(poly1, poly2)
    return poly1;
   var integer = MUL_PP_P(tempPoly, poly2);
   var result = SUB_PP_P(poly1, integer);
+  return result;
+}
+
+function GCF_PP_P(poly1, poly2) {
+  if (poly1 == '0' && poly2 == '0')
+    throw Error('[GCF_PP_P] оба полинома равны 0');
+  var result1 = new Polynomial(poly1);
+  var result2 = new Polynomial(poly2);
+  while (result1 != '0' && result2 != '0')
+    if (DEG_P_N(result1)>DEG_P_N(result2))
+      result1 = MOD_PP_P(result1, result2);
+    else
+      result2 = MOD_PP_P(result2, result2);
+  if (result1 == '0')
+    return result2;
+  else
+    return result1;
+}
+
+function DER_P_P(poly) {
+  var result = new Polynomial(0);
+  // Перемножаем коэфы на порядок
+  for (var i = 0; i < poly.d.length; i++) {
+    var degree = poly.d[i];
+    if(NZER_N_B(degree))
+      result.add(SUB_NN_N(degree, new Natural(1)), MUL_QQ_Q(poly.c[degree], new Rational(degree)));
+  }
+  if (result.m < 0)
+    result.add(new Natural(0), new Rational(0));
   return result;
 }

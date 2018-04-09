@@ -246,6 +246,7 @@ function runTests() {
     th(MUL_QQ_Q(new Rational('1/1'), new Rational('0/1')) == '0/1');
     th(MUL_QQ_Q(new Rational('1/1'), new Rational('1/1')) == '1/1');
     th(MUL_QQ_Q(new Rational('42/1'), new Rational('42/1')) == '1764/1');
+    th(MUL_QQ_Q(new Rational('42/1'), new Rational('-42/1')) == '-1764/1');
     th(MUL_QQ_Q(new Rational('12/8'), new Rational('42/7')) == '504/56');
     th(MUL_QQ_Q(new Rational('123/123'), new Rational('123/123')) == '15129/15129');
     //Q8
@@ -253,6 +254,7 @@ function runTests() {
     th(DIV_QQ_Q(new Rational('1/1'), new Rational('1/1')) == '1/1');
     th(DIV_QQ_Q(new Rational('42/1'), new Rational('42/1')) == '42/42');
     th(DIV_QQ_Q(new Rational('12/8'), new Rational('42/7')) == '84/336');
+    th(DIV_QQ_Q(new Rational('12/8'), new Rational('-42/7')) == '-84/336');
     th(DIV_QQ_Q(new Rational('123/123'), new Rational('123/123')) == '15129/15129');
     //P1
     th(ADD_PP_P(new Polynomial('0'), new Polynomial('0')) == '0');
