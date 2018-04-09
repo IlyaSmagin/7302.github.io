@@ -947,40 +947,6 @@ function MUL_PP_P(poly1, poly2) {
   return result;
 }
 
-//Сложение многочленов ADD_PP_P
-//ADD_QQ_Q
-function ADD_PP_P(poly1, poly2){
-  var max = (COM_NN_D(DEG_P_N(poly1), DEG_P_N(poly2)) != 1) ? DEG_P_N(poly1) : DEG_P_N(poly2);
-  var result = new Polynomial(0);
-  for(var i = 0; i<= max; i++){
-    var num1 = poly1.c[i] ? poly1.c[i] : new Rational(0);
-    var num2 = poly2.c[i] ? poly2.c[i] : new Rational(0);
-    var k = new Rational(ADD_QQ_Q(num1, num2));
-    if(k && k.p != '0')
-      result.add(new Natural(i), k);
-  }
-  if (result.m < 0)
-    result.add(new Natural(0), new Rational(0));
-  return result;
-}
-
-//Вычитание многочленов SUB_PP_P
-//SUB_QQ_Q
-function SUB_PP_P(poly1, poly2){
-  var max = (COM_NN_D(DEG_P_N(poly1), DEG_P_N(poly2)) != 1) ? DEG_P_N(poly1) : DEG_P_N(poly2);
-  var result = new Polynomial(0);
-  for(var i = 0; i<= max; i++){
-    var num1 = poly1.c[i] ? poly1.c[i] : new Rational(0);
-    var num2 = poly2.c[i] ? poly2.c[i] : new Rational(0);
-    var k = new Rational(SUB_QQ_Q(num1, num2));
-    if(k && k.p != '0')
-     result.add(new Natural(i), k);
-  }
-  if (result.m < 0)
-    result.add(new Natural(0), new Rational(0));
-  return result;
-}
-
 //Частное от деления многочлена на многочлен при делении с остатком DIV_PP_P
 //DIV_QQ_Q Вычитание дробей
 //DEG_P_N Степень многочлена
