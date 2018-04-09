@@ -447,15 +447,6 @@ var Modules = {
       regexType: 'P'
     }]
   },
-  DER_P_P: {
-    description: 'Производная многочлена',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
-    reqFields: [{
-      caption: 'Многочлен',
-      classType: Polynomial,
-      regexType: 'P'
-    }]
-  },
   MUL_PP_P: {
     description: 'Умножение многочленов',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -504,6 +495,15 @@ var Modules = {
       classType: Polynomial,
       regexType: 'P'
     }, {
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
+  DER_P_P: {
+    description: 'Производная многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
