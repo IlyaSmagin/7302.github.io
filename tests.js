@@ -291,9 +291,9 @@ function runTests() {
     //P7
     //!!!
     //P8
-    th(MUL_PQ_P(new Polynomial('0'), new Polynomial('0')) == '0');
-    th(MUL_PQ_P(new Polynomial('42'), new Polynomial('0')) == '0');
-    th(MUL_PQ_P(new Polynomial('42'), new Polynomial('42')) == '1764');
+    th(MUL_PP_P(new Polynomial('0'), new Polynomial('0')) == '0');
+    th(MUL_PP_P(new Polynomial('42'), new Polynomial('0')) == '0');
+    th(MUL_PP_P(new Polynomial('42'), new Polynomial('42')) == '1764');
     th(MUL_PP_P(new Polynomial('1x^4+2x^3+3x^2+4x+5'), new Polynomial('3x^3+x+6')) == '3x⁷+6x⁶+10x⁵+20x⁴+30x³+22x²+29x+30');
     th(MUL_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3x^3+x+6')) == '-36/7x²²-12/7x²⁰-72/7x¹⁹+9/2x¹⁵+3/2x¹³+9x¹²+12x¹⁰+4x⁸+24x⁷+51x⁴-126x³+17x²+60x-252');
     //P9
