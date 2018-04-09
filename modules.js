@@ -377,6 +377,32 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
+  ADD_PP_P: {
+    description: 'Сложение многочленов',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
+  SUB_PP_P: {
+    description: 'Вычитание многочленов',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
   MUL_Pxk_P: {
     description: 'Умножение многочлена на x^k',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -862,6 +888,35 @@ function DIV_QQ_Q(num1, num2) {
   return result;
 }
 
+function ADD_PP_P(poly1, poly2) {
+  var result = new Polynomial(poly1);
+  for (var i = 0; i < poly2.d.length; i++) {
+    var degree = poly2.d[i];
+    result.add(degree, poly2.c[degree]);
+  }
+  return result;
+}
+
+function SUB_PP_P(poly1, poly2) {
+  var result = new Polynomial(poly1);
+  for (var i = 0; i < poly2.d.length; i++) {
+    var degree = poly2.d[i];
+    var sub = new Rational(poly2.c[degree]);
+    sub.p.b = !sub.p.b; // Меняем знак
+    result.add(degree, sub);
+  }
+  return result;
+}
+
+function MUL_PQ_P(poly, num) {
+  var result = new Polynomial(poly);
+  for (var i = 0; i < result.d.length; i++) {
+    var degree = result.d[i];
+    result.c[degree] = MUL_QQ_Q(result.c[degree], num); // Перемножаем каждый коэф на число
+  }
+  return result;
+}
+
 function MUL_Pxk_P(poly, k) {
   var result = new Polynomial(0);
   for (var i = 0; i < poly.d.length; i++) {
@@ -890,15 +945,6 @@ function DER_P_P(poly) {
   if (result.m < 0)
     result.add(new Natural(0), new Rational(0));
   return result;
-}
-
-//Умножение многочлена на рациональное число MUL_PQ_P
-//MUL_QQ_Q Умножение дробей
-function MUL_PQ_P(poly, num) {
-  for (var i = 0; i <= poly.m; i++) {
-    poly.c[i] = MUL_QQ_Q(poly.c[i], num);
-  }
-  return poly;
 }
 
 //Умножение многочленов MUL_PP_P
