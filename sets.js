@@ -277,8 +277,23 @@ Polynomial.prototype.toString = function () {
     var degree = this.deg[i];
     if (this.c[degree].p.n > 0) {
       var k = Utils.formatQ(this.c[degree]);
-      str += (str.length > 0 && !this.c[degree].b ? '+' : '') + (!NZER_N_B(degree) ? k : ((k === '1' ? '' : k) + ('x' + (COM_NN_D(degree, new Natural(1)) === 2 ? Utils.subU(degree) : ''))));
+      if (str.length > 0 && !this.c[degree].b)
+        str += '+';
+      if (!NZER_N_B(degree))
+        str += k;
+      else
+      {
+        if (k !== '1') {
+          if (k !== '-1')
+            str += k;
+          else
+            str += '-';
+        }
+        str += 'x';
+        if (COM_NN_D(degree, new Natural(1)))
+          str += Utils.subU(degree);
+      }
     }
-  };
+  }
   return str.length > 0 ? str : '0';
 };
