@@ -58,6 +58,9 @@ function processForm(form) {
       retVal = module.returnCodes[retVal];
   } catch (e) {
     retVal = e;
+    console.error(e.message);
+    console.trace();
+    console.info(e.stack);
   }
 
   // Выводим

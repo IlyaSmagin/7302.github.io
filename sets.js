@@ -226,6 +226,8 @@ var Polynomial =
           var parts = vars[i].split('x');
           if(parts[0] === '')
             parts[0] = 1;
+          if(parts[0] === '-')
+            parts[0] = -1;
           if(parts.length === 1) // константа
             parts[1] = new Natural('0');
           else if(parts[1][0] !== '^') // x^1
