@@ -377,41 +377,10 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
-  MUL_Pxk_P: {
-    description: 'Умножение многочлена на x^k',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
-    reqFields: [{
-      caption: 'Многочлен',
-      classType: Polynomial,
-      regexType: 'P'
-    }, {
-      caption: 'k',
-      classType: Natural,
-      regexType: 'N0'
-    }]
-  },
-  LED_P_Q: {
-    description: 'Старший коэффициент многочлена',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
-    reqFields: [{
-      caption: 'Многочлен',
-      classType: Polynomial,
-      regexType: 'P'
-    }]
-  },
-  DEG_P_N: {
-    description: 'Степень многочлена',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
-    reqFields: [{
-      caption: 'Многочлен',
-      classType: Polynomial,
-      regexType: 'P'
-    }]
-  },
   ADD_PP_P: {
     description: 'Сложение многочленов',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
-      reqFields: [{
+    reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
@@ -445,6 +414,37 @@ var Modules = {
       caption: 'Число',
       classType: Rational,
       regexType: 'Q'
+    }]
+  },
+  MUL_Pxk_P: {
+    description: 'Умножение многочлена на x^k',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }, {
+      caption: 'k',
+      classType: Natural,
+      regexType: 'N0'
+    }]
+  },
+  LED_P_Q: {
+    description: 'Старший коэффициент многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
+  DEG_P_N: {
+    description: 'Степень многочлена',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
     }]
   },
   DER_P_P: {
@@ -888,6 +888,35 @@ function DIV_QQ_Q(num1, num2) {
   return result;
 }
 
+function ADD_PP_P(poly1, poly2) {
+  var result = new Polynomial(poly1);
+  for (var i = 0; i < poly2.d.length; i++) {
+    var degree = poly2.d[i];
+    result.add(degree, poly2.c[degree]);
+  }
+  return result;
+}
+
+function SUB_PP_P(poly1, poly2) {
+  var result = new Polynomial(poly1);
+  for (var i = 0; i < poly2.d.length; i++) {
+    var degree = poly2.d[i];
+    var sub = new Rational(poly2.c[degree]);
+    sub.p.b = !sub.p.b; // Меняем знак
+    result.add(degree, sub);
+  }
+  return result;
+}
+
+function MUL_PQ_P(poly, num) {
+  var result = new Polynomial(poly);
+  for (var i = 0; i < result.d.length; i++) {
+    var degree = result.d[i];
+    result.c[degree] = MUL_QQ_Q(result.c[degree], num); // Перемножаем каждый коэф на число
+  }
+  return result;
+}
+
 function MUL_Pxk_P(poly, k) {
   var result = new Polynomial(0);
   for (var i = 0; i < poly.d.length; i++) {
@@ -912,19 +941,6 @@ function DER_P_P(poly) {
     var degree = poly.d[i];
     if(NZER_N_B(degree))
       result.add(SUB_NN_N(degree, new Natural(1)), MUL_QQ_Q(poly.c[degree], new Rational(degree)));
-  }
-  if (result.m < 0)
-    result.add(new Natural(0), new Rational(0));
-  return result;
-}
-
-//Умножение многочлена на рациональное число MUL_PQ_P
-//MUL_QQ_Q Умножение дробей
-function MUL_PQ_P(poly, num) {
-  var result = new Polynomial(0);
-  for (var i = 0; i < poly.d.length; i++) {
-    var degree = poly.d[i];
-    result.add(new Natural(degree), MUL_QQ_Q(poly.c[degree], new Rational(num)));
   }
   if (result.m < 0)
     result.add(new Natural(0), new Rational(0));
