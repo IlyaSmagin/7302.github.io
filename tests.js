@@ -264,7 +264,7 @@ function runTests() {
     th(SUB_PP_P(new Polynomial('0'), new Polynomial('0')) == '0');
     th(SUB_PP_P(new Polynomial('42'), new Polynomial('42')) == '0');
     th(SUB_PP_P(new Polynomial('42'), new Polynomial('-42')) == '84');
-    th(SUB_PP_P(new Polynomial('1x^4+2x^3+3x^2+4x+5'), new Polynomial('3x^3+x+6')) == 'x⁴-1x³+3x²+3x-1');
+    th(SUB_PP_P(new Polynomial('1x^4+2x^3+3x^2+4x+5'), new Polynomial('3x^3+x+6')) == 'x⁴-x³+3x²+3x-1');
     th(SUB_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3x^3+x+6')) == '-12/7x¹⁹+3/2x¹²+4x⁷-3x³+16x-48');
     //P3
     th(MUL_PQ_P(new Polynomial('0'), new Rational('0')) == '0');
