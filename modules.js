@@ -1018,7 +1018,7 @@ function GCF_PP_P(poly1, poly2) {
     if (DEG_P_N(result1)>DEG_P_N(result2))
       result1 = MOD_PP_P(result1, result2);
     else
-      result2 = MOD_PP_P(result2, result2);
+      result2 = MOD_PP_P(result2, result1);
   if (result1 == '0')
     return result2;
   else
