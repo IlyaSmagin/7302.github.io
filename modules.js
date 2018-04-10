@@ -908,6 +908,7 @@ function ADD_PP_P(poly1, poly2) {
     var degree = poly2.d[i];
     result.add(degree, poly2.c[degree]);
   }
+  result.delZeros();
   return result;
 }
 
@@ -919,6 +920,7 @@ function SUB_PP_P(poly1, poly2) {
     sub.p.b = !sub.p.b; // Меняем знак
     result.add(degree, sub);
   }
+  result.delZeros();
   return result;
 }
 
@@ -1001,11 +1003,9 @@ function DIV_PP_P(poly1, poly2)
 function MOD_PP_P(poly1, poly2)
 {
   var tempPoly = DIV_PP_P(poly1, poly2);
-  if (tempPoly.m == '0' && tempPoly.c[0].p == '0')
+  if (tempPoly == '0')
    return poly1;
-  var integer = MUL_PP_P(tempPoly, poly2);
-  var result = SUB_PP_P(poly1, integer);
-  return result;
+  return SUB_PP_P(poly1, MUL_PP_P(tempPoly, poly2));
 }
 
 function GCF_PP_P(poly1, poly2) {

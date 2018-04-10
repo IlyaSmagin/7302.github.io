@@ -257,8 +257,7 @@ var Polynomial =
       key: 'add',
       // Прибавление коэфа по степени
       value: function add(deg, num) {
-        if(!this.arr[deg])
-        {
+        if (!this.arr[deg]) {
           this.deg.push(deg);
           this.deg.sort(function (a, b) {
             var comp = COM_NN_D(a, b);
@@ -268,6 +267,19 @@ var Polynomial =
         }
         else
           this.arr[deg] = ADD_QQ_Q(this.arr[deg], new Rational(num));
+      }
+    }, {
+      key: 'delZeros',
+      // Прибавление коэфа по степени
+      value: function delZeros() {
+        for (var i = 0; i < this.d.length; i++) {
+          var degree = this.d[i];
+          if (this.c[degree] == '0') {
+            delete this.c[degree];
+            this.d.splice(i, 1);
+            i--;
+          }
+        }
       }
     }]);
 
