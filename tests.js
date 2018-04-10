@@ -66,6 +66,14 @@ function runTests() {
     th(new Polynomial('999999999999999999999999999x-999999999999999999999999999') == '999999999999999999999999999x-999999999999999999999999999');
     th(new Polynomial('10x^999999999999999999999999999-999999999999999999999999999') == '10x⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹-999999999999999999999999999');
 
+    // Rational formatter
+    th(Utils.formatQ(new Rational('0')) == '0');
+    th(Utils.formatQ(new Rational('1')) == '1');
+    th(Utils.formatQ(new Rational('2')) == '2');
+    th(Utils.formatQ(new Rational('2/2')) == '1');
+    th(Utils.formatQ(new Rational('2/4')) == '1/2');
+    th(Utils.formatQ(new Rational('-12/240')) == '-1/20');
+
     // Тесты модулей
     //N1
     th(COM_NN_D(new Natural(0), new Natural(0)) == 0);
