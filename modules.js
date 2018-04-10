@@ -979,12 +979,17 @@ function DIV_PP_P(poly1, poly2)
     var tempPoly = new Polynomial(0);
     var x = new Rational(RED_Q_Q(DIV_QQ_Q(new Rational(temp.c[DEG_P_N(temp)]), new Rational(poly2.c[DEG_P_N(poly2)]))));
     var k = new Natural(DEG_P_N(temp) - DEG_P_N(poly2));
-    if(!x.p || x.p == '0')
+    if(x && x.p == '0')
       break;
     result.add(k, new Rational(x));
-    tempPoly = MUL_PQ_P(poly2, result.c[k]);
-    tempPoly = MUL_Pxk_P(tempPoly, k);
-    temp = SUB_PP_P(temp, tempPoly);
+    tempPoly = SUB_PP_P(temp, MUL_Pxk_P(MUL_PQ_P(poly2, result.c[k]), k));
+    temp = new Polynomial(0);
+    for (var i = 0; i < tempPoly.d.length; i++) {
+      var degree = tempPoly.d[i];
+      var n = new Rational(tempPoly.c[degree]);
+      if(n && n.p != '0')
+       temp.add(new Natural(degree), new Rational(tempPoly.c[degree]));
+    }
   }
   return result;
 }
