@@ -950,10 +950,6 @@ function DEG_P_N(poly) {
   return new Natural(poly.m);
 }
 
-//Умножение многочленов MUL_PP_P
-//MUL_PQ_P Умножение многочлена на рациональное число
-//MUL_Pxk_P Умножение многочлена на x^k
-//ADD_PP_P Сложение многочленов
 function MUL_PP_P(poly1, poly2) {
   var result = new Polynomial(0);
   for (var i = 0; i < poly1.d.length; i++) {
@@ -966,12 +962,6 @@ function MUL_PP_P(poly1, poly2) {
   return result;
 }
 
-//Частное от деления многочлена на многочлен при делении с остатком DIV_PP_P
-//DIV_QQ_Q Вычитание дробей
-//DEG_P_N Степень многочлена
-//MUL_Pxk_P Умножение многочлена на x^k
-//SUB_PP_P Вычитание многочленов
-//ADD_PP_P  Сложение многочленов
 function DIV_PP_P(poly1, poly2)
 {
   var result = new Polynomial(0);
@@ -997,10 +987,6 @@ function DIV_PP_P(poly1, poly2)
   return result;
 }
 
-//Остаток от деления многочлена на многочлен при делении с остатком MOD_PP_P
-//DIV_PP_P Частное от деления многочлена на многочлен при делении с остатком
-//MUL_PP_P Умножение многочленов
-//SUB_PP_P Вычитание многочленов
 function MOD_PP_P(poly1, poly2)
 {
   var tempPoly = DIV_PP_P(poly1, poly2);

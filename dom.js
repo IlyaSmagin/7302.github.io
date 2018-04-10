@@ -93,7 +93,7 @@ function selectOnChange(select) {
     fieldDiv.appendChild(divContent);
     fieldDiv.appendChild(divInput);
     var form = select.parentNode;
-    form.insertBefore(fieldDiv, form.submit);
+    form.insertBefore(fieldDiv, form.elements['submit']);
   }
 
   // Удаляем комментарий (справку)
