@@ -274,7 +274,7 @@ var Polynomial =
       value: function delZeros() {
         for (var i = 0; i < this.d.length; i++) {
           var degree = this.d[i];
-          if (this.c[degree] == '0') {
+          if (this.c[degree].p == '0') {
             delete this.c[degree];
             this.d.splice(i, 1);
             i--;

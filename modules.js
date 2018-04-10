@@ -993,6 +993,7 @@ function DIV_PP_P(poly1, poly2)
        temp.add(new Natural(degree), new Rational(tempPoly.c[degree]));
     }
   }
+  result.delZeros();
   return result;
 }
 
