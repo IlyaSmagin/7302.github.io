@@ -309,7 +309,12 @@ function runTests() {
     th(MOD_PP_P(new Polynomial('1x^4+2x^3+3x^2+4x+5'), new Polynomial('3x^3+x+6')) == '8/3x²+4/3x+1');
     th(MOD_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3x^3+x+6')) == '-964199/10206x²-1182866/45927x+1078766/15309');
     //P11
-    //!!!
+    th(GCF_PP_P(new Polynomial('0'), new Polynomial('1')) == '1');
+    th(GCF_PP_P(new Polynomial('1'), new Polynomial('0')) == '1');
+    th(GCF_PP_P(new Polynomial('1'), new Polynomial('1')) == '1');
+    th(GCF_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42')) == '-12/7x¹⁹+3/2x¹²+4x⁷+17x-42');
+    th(GCF_PP_P(new Polynomial('x^3+x^2+x+1'), new Polynomial('x+1')) == 'x+1');
+    th(GCF_PP_P(new Polynomial('x^3-x^2-100x+100'), new Polynomial('x^3-x')) == '9900x-9900');
     //P12
     th(DER_P_P(new Polynomial('42')) == '0');
     th(DER_P_P(new Polynomial('1x')) == '1');
