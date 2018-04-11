@@ -454,7 +454,8 @@ var Modules = {
       caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   MUL_PP_P: {
     description: 'Умножение многочленов',
@@ -845,8 +846,7 @@ function MUL_ZZ_Z(num1, num2) {
 
 function DIV_ZZ_Z(num1, num2)
 {
-  var poz1 = POZ_Z_D(num1),
-    poz2 = POZ_Z_D(num2);
+  var poz1 = POZ_Z_D(num1);
   if(poz1 == 0)
     return new Integer(0);
   var result = DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
@@ -969,7 +969,9 @@ function DEG_P_N(poly) {
 }
 
 function FAC_P_Q(poly) {
-  var result = new Rational(0/1);
+  var result = new Rational(0);
+  if (poly == '0')
+    return result;
   for (var i = 0; i < poly.deg.length; i++) {
     var degree = poly.c[poly.d[i]];
     result.p = TRANS_N_Z(GCF_NN_N(TRANS_Z_N(degree.p), TRANS_Z_N(result.p)));
