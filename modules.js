@@ -6,8 +6,10 @@
 var Modules = {
   def: {
     description: 'Выберите модуль...',
-    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели вверху страницы.',
-    reqFields: []
+    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели вверху страницы.'
+  },
+  sep_N: {
+    description: 'Натуральные числа'
   },
   COM_NN_D: {
     description: 'Сравнение натуральных чисел',
@@ -184,6 +186,9 @@ var Modules = {
       regexType: 'N0'
     }]
   },
+  sep_Z: {
+    description: 'Целые числа'
+  },
   ABS_Z_N: {
     description: 'Абсолютная величина числа, результат - натуральное',
     reqFields: [{
@@ -289,6 +294,9 @@ var Modules = {
       regexType: 'N'
     }]
   },
+  sep_Q: {
+    description: 'Рациональные числа'
+  },
   RED_Q_Q: {
     description: 'Сокращение дроби',
     reqFields: [{
@@ -376,6 +384,9 @@ var Modules = {
       regexType: 'Q/0'
     }],
     formatter: Utils.formatQ
+  },
+  sep_P: {
+    description: 'Многочлены'
   },
   ADD_PP_P: {
     description: 'Сложение многочленов',
