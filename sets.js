@@ -270,7 +270,7 @@ var Polynomial =
       }
     }, {
       key: 'delZeros',
-      // Прибавление коэфа по степени
+      // Удаление нулевых коэфов
       value: function delZeros() {
         for (var i = 0; i < this.d.length; i++) {
           var degree = this.d[i];

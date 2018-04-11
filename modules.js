@@ -508,6 +508,15 @@ var Modules = {
       classType: Polynomial,
       regexType: 'P'
     }]
+  },
+  NMR_P_P: {
+    description: 'Преобразование многочлена — кратные корни в простыеа',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
   }
 };
 
@@ -1022,4 +1031,15 @@ function DER_P_P(poly) {
   if (result.m < 0)
     result.add(new Natural(0), new Rational(0));
   return result;
+}
+
+function NMR_P_P(poly) {
+  if (poly == '0')
+    return new Polynomial(poly);
+  do {
+    var gcf = GCF_PP_P(poly, DER_P_P(poly));
+    gcf = DIV_PP_P(gcf, new Polynomial(LED_P_Q(gcf)));  //Приведение многочлена к виду кратного корня
+    poly = DIV_PP_P(poly, gcf);                         //Кратные корни преобразовываются к простым
+  } while (DEG_P_N(gcf) != 0); //Выполняется пока не останется кратных корней (пока степень нод!=0, то есть пока нод не равен просто числу)
+  return poly;
 }

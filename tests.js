@@ -331,7 +331,12 @@ function runTests() {
     th(DER_P_P(new Polynomial('999999999999999999999999999x^1000000+999999999999999999999999999')) == '999999999999999999999999999000000x⁹⁹⁹⁹⁹⁹');
     th(DER_P_P(new Polynomial('1000000x^999999999999999999999999999+999999999999999999999999999')) == '999999999999999999999999999000000x⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁸');
     //P13
-    //!!!
+    th(NMR_P_P(new Polynomial('0')) == '0');
+    th(NMR_P_P(new Polynomial('1')) == '1');
+    th(NMR_P_P(new Polynomial('1')) == '1');
+    th(NMR_P_P(new Polynomial('x^3+4x^2+5x+2')) == 'x²+3x+2');
+    th(NMR_P_P(new Polynomial('x^4+5x^3+6x^2-4x-8')) == 'x²+x-2');
+    th(NMR_P_P(new Polynomial('x^3-13x^2+56x-80')) == 'x²-9x+20');
   } catch (e) {
     printResult('Критическая ошибка: ' + e.message);
     console.error('Critical!');
