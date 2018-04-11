@@ -27,7 +27,7 @@ form, div {
   width:200px;
 }
 #comment {
-	background:#ffffb3;
+	background-color:#ffffb3;
 	margin:0.3em 0;
 	padding:0.3em;
 	border: 3px dashed #ccc;
@@ -85,5 +85,5 @@ a:hover {
 	border-bottom-color:#9400D3;
 }
 .separator {
-  background: #e8e8e8;
+  background-color: #e8e8e8;
 }
