@@ -22,7 +22,7 @@ function runTests() {
     // Проверка, что все функции из таблицы присутсвуют в коде
     var assert = true;
     for(var moduleName in Modules)
-      if(moduleName !== 'def' && typeof window[moduleName] !== 'function')
+      if(moduleName.reqFields != undefined && typeof window[moduleName] !== 'function')
         assert = false;
     th(assert);
 
