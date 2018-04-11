@@ -447,6 +447,15 @@ var Modules = {
       regexType: 'P'
     }]
   },
+  FAC_P_Q: {
+    description: 'Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
   MUL_PP_P: {
     description: 'Умножение многочленов',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
@@ -957,6 +966,16 @@ function LED_P_Q(poly) {
 
 function DEG_P_N(poly) {
   return new Natural(poly.m);
+}
+
+function FAC_P_Q(poly) {
+  var result = new Rational(0/1);
+  for (var i = 0; i < poly.deg.length; i++) {
+    var degree = poly.c[poly.d[i]];
+    result.p = TRANS_N_Z(GCF_NN_N(TRANS_Z_N(degree.p), TRANS_Z_N(result.p)));
+    result.q = LCM_NN_N(degree.q, result.q);
+  }
+  return result;
 }
 
 function MUL_PP_P(poly1, poly2) {
