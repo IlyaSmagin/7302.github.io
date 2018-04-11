@@ -104,8 +104,13 @@ function selectOnChange(select) {
   }
 
   // И пишем новый (если есть)
-  if (module.comment !== undefined)
+  if (module.author !== undefined)
+    comment.appendChild(document.createTextNode('Автор: ' + module.author));
+  if (module.comment !== undefined) {
+    if (module.author !== undefined)
+      comment.appendChild(document.createElement('br'));
     comment.appendChild(document.createTextNode(module.comment));
+  }
 }
 
 function validateOpt(option) {

@@ -16,7 +16,7 @@ form, div {
 	flex-direction: column;
 }
 :focus {
-    outline: none;
+	outline: none;
 }
 #types {
 	flex-direction: row;
