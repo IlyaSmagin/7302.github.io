@@ -70,7 +70,7 @@ function processForm(form) {
 
 function selectOnChange(select) {
   var module = Modules[select.options[select.selectedIndex].value];
-  if (module === undefined || module.reqFields === undefined)
+  if (module === undefined)
     throw new Error();
 
   // Удаляем старые поля
@@ -80,20 +80,24 @@ function selectOnChange(select) {
   }
 
   // И создаем новые
-  for (var i = 0; i < module.reqFields.length; i++) {
-    var field = module.reqFields[i];
-    var fieldDiv = document.createElement('div');
-    fieldDiv.setAttribute('class', 'arg');
-    var divContent = document.createTextNode(field.caption);
-    var divInput = document.createElement('input');
-    divInput.setAttribute('type', 'text');
-    divInput.setAttribute('name', 'field'+i);
-    divInput.setAttribute('class', field.regexType);
-    divInput.oninput = function (e) { validateOpt(e.target); };
-    fieldDiv.appendChild(divContent);
-    fieldDiv.appendChild(divInput);
-    var form = select.parentNode;
-    form.insertBefore(fieldDiv, form.elements['submit']);
+  if(module.reqFields !== undefined) {
+    for (var i = 0; i < module.reqFields.length; i++) {
+      var field = module.reqFields[i];
+      var fieldDiv = document.createElement('div');
+      fieldDiv.setAttribute('class', 'arg');
+      var divContent = document.createTextNode(field.caption);
+      var divInput = document.createElement('input');
+      divInput.setAttribute('type', 'text');
+      divInput.setAttribute('name', 'field' + i);
+      divInput.setAttribute('class', field.regexType);
+      divInput.oninput = function (e) {
+        validateOpt(e.target);
+      };
+      fieldDiv.appendChild(divContent);
+      fieldDiv.appendChild(divInput);
+      var form = select.parentNode;
+      form.insertBefore(fieldDiv, form.elements['submit']);
+    }
   }
 
   // Удаляем комментарий (справку)
@@ -161,6 +165,10 @@ function formatSelect(radio) {
       fieldOpt.innerHTML = moduleName;
     else
       fieldOpt.innerHTML = Modules[moduleName].description;
+    if(window[moduleName] === undefined && Modules[moduleName].comment === undefined) {
+      fieldOpt.disabled = true;
+      fieldOpt.classList.add('separator');
+    }
     select.appendChild(fieldOpt);
     select.selectedIndex = index > 0 ? index : 0;
   }

@@ -6,11 +6,14 @@
 var Modules = {
   def: {
     description: 'Выберите модуль...',
-    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели вверху страницы.',
-    reqFields: []
+    comment: 'Выберите модуль из списка для начала работы. Для смены типа отображения функций в списке используйте соотвествующие переключатели вверху страницы.'
+  },
+  sep_N: {
+    description: 'Натуральные числа'
   },
   COM_NN_D: {
     description: 'Сравнение натуральных чисел',
+    author: 'Шутова Полина',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -28,6 +31,7 @@ var Modules = {
   },
   NZER_N_B: {
     description: 'Проверка на ноль',
+    author: 'Шутова Полина',
     reqFields: [{
       caption: 'Число',
       classType: Natural,
@@ -40,6 +44,7 @@ var Modules = {
   },
   ADD_1N_N: {
     description: 'Добавление 1 к натуральному числу',
+    author: 'Шутова Полина',
     reqFields: [{
       caption: 'Число',
       classType: Natural,
@@ -48,6 +53,7 @@ var Modules = {
   },
   ADD_NN_N: {
     description: 'Сложение двух натуральных чисел',
+    author: 'Шеянова Алина',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -60,6 +66,7 @@ var Modules = {
   },
   SUB_NN_N: {
     description: 'Вычитание из первого большего натурального числа второго меньшего или равного',
+    author: 'Бобриков Александр',
     reqFields: [{
       caption: 'Уменьшаемое',
       classType: Natural,
@@ -72,6 +79,7 @@ var Modules = {
   },
   MUL_ND_N: {
     description: 'Умножение натурального на цифру',
+    author: 'Малапура Виктор',
     reqFields: [{
       caption: 'Число',
       classType: Natural,
@@ -84,6 +92,7 @@ var Modules = {
   },
   MUL_Nk_N: {
     description: 'Умножение натурального числа на 10^k',
+    author: 'Малапура Виктор',
     reqFields: [{
       caption: 'Число',
       classType: Natural,
@@ -96,6 +105,7 @@ var Modules = {
   },
   MUL_NN_N: {
     description: 'Умножение двух натуральных чисел',
+    author: 'Шеянова Алина',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -108,6 +118,7 @@ var Modules = {
   },
   SUB_NDN_N: {
     description: 'Вычитание из натурального другого натурального, умноженного на цифру',
+    author: 'Шпилевая Татьяна',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -124,6 +135,7 @@ var Modules = {
   },
   DIV_NN_Dk: {
     description: 'Вычисление первой цифры деления большего натурального на меньшее, домноженное на 10^k',
+    author: 'Шпилевая Татьяна',
     comment: 'k - номер позиции цифры (номер считается с нуля)',
     reqFields: [{
       caption: 'Первое число',
@@ -138,6 +150,7 @@ var Modules = {
   },
   DIV_NN_N: {
     description: 'Частное от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    author: 'Пегушина Валерерия',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -150,6 +163,7 @@ var Modules = {
   },
   MOD_NN_N: {
     description: 'Остаток от деления большего натурального числа на меньшее или равное натуральное с остатком',
+    author: 'Пегушина Валерерия',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -162,6 +176,7 @@ var Modules = {
   },
   GCF_NN_N: {
     description: 'НОД натуральных чисел',
+    author: 'Пегушина Валерерия',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -174,6 +189,7 @@ var Modules = {
   },
   LCM_NN_N: {
     description: 'НОК натуральных чисел',
+    author: 'Пегушина Валерерия',
     reqFields: [{
       caption: 'Первое число',
       classType: Natural,
@@ -184,8 +200,12 @@ var Modules = {
       regexType: 'N0'
     }]
   },
+  sep_Z: {
+    description: 'Целые числа'
+  },
   ABS_Z_N: {
     description: 'Абсолютная величина числа, результат - натуральное',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Integer,
@@ -194,6 +214,7 @@ var Modules = {
   },
   POZ_Z_D: {
     description: 'Определение положительности числа',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Integer,
@@ -207,6 +228,7 @@ var Modules = {
   },
   MUL_ZM_Z: {
     description: 'Умножение целого на (-1)',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Integer,
@@ -215,6 +237,7 @@ var Modules = {
   },
   TRANS_N_Z: {
     description: 'Преобразование натурального в целое',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Natural,
@@ -223,6 +246,7 @@ var Modules = {
   },
   TRANS_Z_N: {
     description: 'Преобразование целого неотрицательного в натуральное',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Integer,
@@ -231,6 +255,7 @@ var Modules = {
   },
   ADD_ZZ_Z: {
     description: 'Сложение целых чисел',
+    author: 'Новикова Анастасия',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -243,6 +268,7 @@ var Modules = {
   },
   SUB_ZZ_Z: {
     description: 'Вычитание целых чисел',
+    author: 'Новикова Анастасия',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -255,6 +281,7 @@ var Modules = {
   },
   MUL_ZZ_Z: {
     description: 'Умножение целых чисел',
+    author: 'Новикова Анастасия',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -267,6 +294,7 @@ var Modules = {
   },
   DIV_ZZ_Z: {
     description: 'Частное от деления большего целого числа на меньшее или равное натуральное с остатком',
+    author: 'Новикова Анастасия',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -279,6 +307,7 @@ var Modules = {
   },
   MOD_ZZ_Z: {
     description: 'Остаток от деления большего целого числа на меньшее или равное натуральное с остатком',
+    author: 'Новикова Анастасия',
     reqFields: [{
       caption: 'Первое число',
       classType: Integer,
@@ -289,8 +318,12 @@ var Modules = {
       regexType: 'N'
     }]
   },
+  sep_Q: {
+    description: 'Рациональные числа'
+  },
   RED_Q_Q: {
     description: 'Сокращение дроби',
+    author: 'Скокова Виктория',
     reqFields: [{
       caption: 'Число',
       classType: Rational,
@@ -299,6 +332,7 @@ var Modules = {
   },
   INT_Q_B: {
     description: 'Проверка на целое, если рациональное число является целым',
+    author: 'Шеянова Алина',
     reqFields: [{
       caption: 'Число',
       classType: Rational,
@@ -311,6 +345,7 @@ var Modules = {
   },
   TRANS_Z_Q: {
     description: 'Преобразование целого в дробное',
+    author: 'Шпилевая Татьяна',
     reqFields: [{
       caption: 'Число',
       classType: Integer,
@@ -319,6 +354,7 @@ var Modules = {
   },
   TRANS_Q_Z: {
     description: 'Преобразование дробного в целое (если знаменатель равен 1)',
+    author: 'Кондаков Иван',
     reqFields: [{
       caption: 'Число',
       classType: Rational,
@@ -327,6 +363,7 @@ var Modules = {
   },
   ADD_QQ_Q: {
     description: 'Сложение дробей',
+    author: 'Малапура Виктор',
     reqFields: [{
       caption: 'Первое число',
       classType: Rational,
@@ -340,6 +377,7 @@ var Modules = {
   },
   SUB_QQ_Q: {
     description: 'Вычитание дробей',
+    author: 'Скокова Виктория',
     reqFields: [{
       caption: 'Первое число',
       classType: Rational,
@@ -353,6 +391,7 @@ var Modules = {
   },
   MUL_QQ_Q: {
     description: 'Умножение дробей',
+    author: 'Визгунов Андрей',
     reqFields: [{
       caption: 'Первое число',
       classType: Rational,
@@ -366,6 +405,7 @@ var Modules = {
   },
   DIV_QQ_Q: {
     description: 'Деление дробей',
+    author: 'Шутова Полина',
     reqFields: [{
       caption: 'Первое число',
       classType: Rational,
@@ -377,8 +417,12 @@ var Modules = {
     }],
     formatter: Utils.formatQ
   },
+  sep_P: {
+    description: 'Многочлены'
+  },
   ADD_PP_P: {
     description: 'Сложение многочленов',
+    author: 'Бобриков Александр',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -392,6 +436,7 @@ var Modules = {
   },
   SUB_PP_P: {
     description: 'Вычитание многочленов',
+    author: 'Бобриков Александр',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -405,6 +450,7 @@ var Modules = {
   },
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
+    author: 'Бобриков Александр',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -418,6 +464,7 @@ var Modules = {
   },
   MUL_Pxk_P: {
     description: 'Умножение многочлена на x^k',
+    author: 'Илюхин Евгений',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -431,6 +478,7 @@ var Modules = {
   },
   LED_P_Q: {
     description: 'Старший коэффициент многочлена',
+    author: 'Илюхин Евгений',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -440,6 +488,7 @@ var Modules = {
   },
   DEG_P_N: {
     description: 'Степень многочлена',
+    author: 'Смагин Илья',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -449,15 +498,18 @@ var Modules = {
   },
   FAC_P_Q: {
     description: 'Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей',
+    author: 'Смагин Илья',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
-    }]
+    }],
+    formatter: Utils.formatQ
   },
   MUL_PP_P: {
     description: 'Умножение многочленов',
+    author: 'Визгунов Андрей',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -471,6 +523,7 @@ var Modules = {
   },
   DIV_PP_P: {
     description: 'Частное от деления многочлена на многочлен при делении с остатком',
+    author: 'Визгунов Андрей',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -484,6 +537,7 @@ var Modules = {
   },
   MOD_PP_P: {
     description: 'Остаток от деления многочлена на многочлен при делении с остатком',
+    author: 'Визгунов Андрей',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -497,6 +551,7 @@ var Modules = {
   },
   GCF_PP_P: {
     description: 'НОД многочленов',
+    author: 'Илюхин Евгений',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields:
     [{
@@ -511,6 +566,17 @@ var Modules = {
   },
   DER_P_P: {
     description: 'Производная многочлена',
+    author: 'Кондаков Иван',
+    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    reqFields: [{
+      caption: 'Многочлен',
+      classType: Polynomial,
+      regexType: 'P'
+    }]
+  },
+  NMR_P_P: {
+    description: 'Преобразование многочлена — кратные корни в простые',
+    author: 'Скокова Виктория',
     comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
     reqFields: [{
       caption: 'Многочлен',
@@ -593,7 +659,6 @@ function ADD_NN_N(num1, num2) {
         result.a[i] = comp.a[0];
         buff = null;
       }
-
     }
   }
   if (buff == 1)
@@ -836,8 +901,7 @@ function MUL_ZZ_Z(num1, num2) {
 
 function DIV_ZZ_Z(num1, num2)
 {
-  var poz1 = POZ_Z_D(num1),
-    poz2 = POZ_Z_D(num2);
+  var poz1 = POZ_Z_D(num1);
   if(poz1 == 0)
     return new Integer(0);
   var result = DIV_NN_N(ABS_Z_N(num1), ABS_Z_N(num2));
@@ -960,7 +1024,9 @@ function DEG_P_N(poly) {
 }
 
 function FAC_P_Q(poly) {
-  var result = new Rational(0/1);
+  var result = new Rational(0);
+  if (poly == '0')
+    return result;
   for (var i = 0; i < poly.deg.length; i++) {
     var degree = poly.c[poly.d[i]];
     result.p = TRANS_N_Z(GCF_NN_N(TRANS_Z_N(degree.p), TRANS_Z_N(result.p)));
@@ -1041,4 +1107,15 @@ function DER_P_P(poly) {
   if (result.m < 0)
     result.add(new Natural(0), new Rational(0));
   return result;
+}
+
+function NMR_P_P(poly) {
+  if (poly == '0')
+    return new Polynomial(poly);
+  do {
+    var gcf = GCF_PP_P(poly, DER_P_P(poly));
+    gcf = DIV_PP_P(gcf, new Polynomial(LED_P_Q(gcf)));  //Приведение многочлена к виду кратного корня
+    poly = DIV_PP_P(poly, gcf);                         //Кратные корни преобразовываются к простым
+  } while (DEG_P_N(gcf) != 0); //Выполняется пока не останется кратных корней (пока степень нод!=0, то есть пока нод не равен просто числу)
+  return poly;
 }

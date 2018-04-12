@@ -22,7 +22,7 @@ function runTests() {
     // Проверка, что все функции из таблицы присутсвуют в коде
     var assert = true;
     for(var moduleName in Modules)
-      if(moduleName !== 'def' && typeof window[moduleName] !== 'function')
+      if(moduleName.reqFields != undefined && typeof window[moduleName] !== 'function')
         assert = false;
     th(assert);
 
@@ -140,7 +140,7 @@ function runTests() {
     th(DIV_NN_Dk(new Natural(1000000), new Natural(3)).k == '5');
     th(DIV_NN_Dk(new Natural('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'), new Natural(3)).d == 4);
     th(DIV_NN_Dk(new Natural('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'), new Natural(3)).k == 438);
-    //N10-formatter
+    //N10 formatter
     th(Modules.DIV_NN_Dk.formatter(DIV_NN_Dk(new Natural(1000000), new Natural(3))) == '3*10⁵');
     //N11
     th(DIV_NN_N(new Natural(123), new Natural(123)) == '1');
@@ -299,7 +299,11 @@ function runTests() {
     th(DEG_P_N(new Polynomial('1x^4+2x^3+3x^2+4x+5')) == '4');
     th(DEG_P_N(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42')) == '19');
     //P7
-    //!!!
+    th(FAC_P_Q(new Polynomial('0')) == '0/1');
+    th(FAC_P_Q(new Polynomial('1')) == '1/1');
+    th(FAC_P_Q(new Polynomial('8/2x^12+4x^7-12/7x^19+24x-36')) == '4/7');
+    th(FAC_P_Q(new Polynomial('13/7x^19-26/14x-39')) == '13/7');
+    th(FAC_P_Q(new Polynomial('797/7x^6-842/3x-1/2')) == '1/42');
     //P8
     th(MUL_PP_P(new Polynomial('0'), new Polynomial('0')) == '0');
     th(MUL_PP_P(new Polynomial('42'), new Polynomial('0')) == '0');
@@ -331,7 +335,12 @@ function runTests() {
     th(DER_P_P(new Polynomial('999999999999999999999999999x^1000000+999999999999999999999999999')) == '999999999999999999999999999000000x⁹⁹⁹⁹⁹⁹');
     th(DER_P_P(new Polynomial('1000000x^999999999999999999999999999+999999999999999999999999999')) == '999999999999999999999999999000000x⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁹⁸');
     //P13
-    //!!!
+    th(NMR_P_P(new Polynomial('0')) == '0');
+    th(NMR_P_P(new Polynomial('1')) == '1');
+    th(NMR_P_P(new Polynomial('1')) == '1');
+    th(NMR_P_P(new Polynomial('x^3+4x^2+5x+2')) == 'x²+3x+2');
+    th(NMR_P_P(new Polynomial('x^4+5x^3+6x^2-4x-8')) == 'x²+x-2');
+    th(NMR_P_P(new Polynomial('x^3-13x^2+56x-80')) == 'x²-9x+20');
   } catch (e) {
     printResult('Критическая ошибка: ' + e.message);
     console.error('Critical!');
