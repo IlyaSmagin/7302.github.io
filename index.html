@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="cache-control" content="no-cache">
@@ -8,39 +9,40 @@
   <script src="modules.js"></script>
   <script src="dom.js"></script>
   <script src="tests.js"></script>
+  <title>Коллоквиум ДМ-2018</title>
   <link href="switch.css" rel="stylesheet" type="text/css">
   <link href="style_new.css" rel="stylesheet" type="text/css" title="New Style">
   <link href="style.css" rel="alternate stylesheet" type="text/css" title="Old Style">
-<title>Коллоквиум ДМ-2018</title>
 </head>
 <body onload="onLoad()">
 <header>
   <h1>Коллоквиум ДМ-2018</h1>
 </header>
-
-<section id="container">
-<div id="left-half">
-<form action="#" onsubmit="return processForm(this)">
-  <div id="types">
-    <div class="block">
-      <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
-      <label for="type1">Краткое описание</label>
+  <section id="container">
+    <div id="left-half">
+      <form action="#" onsubmit="return processForm(this)">
+        <div id="types">
+          <div class="block">
+            <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
+            <label for="type1">Краткое описание</label>
+          </div>
+          <div class="block">
+            <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
+            <label for="type2">Код функции</label>
+          </div>
+        </div>
+        <select id="select" onchange="selectOnChange(this)">
+        </select>
+        <br>
+        <input type="submit" value="Обработать" id="submit">
+        <button type="button" onclick="clearResults()">Очистить поле результатов</button>
+      </form>
+      <div id="comment">
+        <noscript>Для работы скрипта необходим современный браузер с включенной обработкой JavaScript</noscript>
+      </div>
     </div>
-    <div class="block">
-      <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
-      <label for="type2">Код функции</label>
-    </div>
-  </div>
-  <select id="select" onchange="selectOnChange(this)">
-  </select><br>
-  <input type="submit" value="Обработать" id="submit">
-  <button type="button" onclick="clearResults()">Очистить поле результатов</button>
-</form>
-<div id="comment"><noscript>Для работы скрипта необходим современный браузер с включенной обработкой JavaScript</noscript></div>
-</div>
-<div id="right-half"></div>
-</section>
-
+    <div id="right-half"></div>
+  </section>
 <footer>
 <label class="switch">
   <input type="checkbox" onclick="switchStyle()" id="oldStyle">
@@ -50,4 +52,5 @@
 </footer>
 
 </body>
+
 </html>
