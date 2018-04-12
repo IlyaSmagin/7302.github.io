@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="cache-control" content="no-cache">
-<script src="sets.js"></script>
-<script src="modules.js"></script>
-<script src="dom.js"></script>
-<script src="tests.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="sets.js"></script>
+  <script src="modules.js"></script>
+  <script src="dom.js"></script>
+  <script src="tests.js"></script>
+  <link href="switch.css" rel="stylesheet" type="text/css">
+  <link href="style_new.css" rel="stylesheet" type="text/css" title="New Style">
+  <link href="style.css" rel="alternate stylesheet" type="text/css" title="Old Style">
 <title>Коллоквиум ДМ-2018</title>
 </head>
 <body onload="formatSelect()">
-<h1>Коллоквиум ДМ-2018</h1>
+<header>
+  <h1>Коллоквиум ДМ-2018</h1>
+</header>
 
 <section id="container">
 <div id="left-half">
@@ -36,9 +41,13 @@
 <div id="right-half"></div>
 </section>
 
-<div id="footer">
-  <p><a href="javascript:runTests()">Запуск тестов</a> | <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> | <a href="https://github.com/7302/7302.github.io">GitHub</a> | <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> | <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a></p>
-</div>
+<footer>
+<label class="switch">
+  <input type="checkbox" onclick="switchStyle()">
+  <span class="slider"></span>
+</label>
+<p><a href="javascript:runTests()">Запуск тестов</a> | <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> | <a href="https://github.com/7302/7302.github.io">GitHub</a> | <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> | <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a></p>
+</footer>
 
 </body>
 </html>
