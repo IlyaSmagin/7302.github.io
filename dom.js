@@ -183,6 +183,8 @@ function switchStyle() {
 }
 
 function onLoad() {
+  document.getElementById('new').disabled = false;
+  document.getElementById('old').disabled = true;
   if (document.getElementById('oldStyle').checked)
     switchStyle();
   formatSelect();
