@@ -2,14 +2,14 @@ body {
 	font:normal 20px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	margin:0;
 	color:#333;
-	background:linear-gradient(to right, rgb(255, 255, 255), #ddd);
-	border-top:0.2em solid #9400D3;
+	background-color: fff;
+	border-top:0.4em solid #512DA8;
 }
 header {
     top: 0;
     width: 100%;
     height: 200px;
-	background-color: #4527A0;
+	background-color: #673AB7;
 	z-index: -1;
 }
 h1 {
@@ -35,10 +35,9 @@ form, div {
   width:200px;
 }
 #comment {
-	background-color:#ffffb3;
+	background-color:#D1C4E9;
 	margin:0.3em 0;
-	padding:0.3em;
-	border: 3px dashed #ccc;
+	padding:0.5em;
 }
 #comment:empty {
 	display:none;
@@ -91,11 +90,14 @@ input, select, button {
 }
 input[type=submit]{
 	width: 200px;
-	background-color: #5677fc;
+	background-color: #448AFF;
 }
 button[type=button]{
 	width: 350px;
-	background-color: #ffa000;
+	background-color: #448AFF;
+}
+input[type="radio"] {
+	margin: 10px 3px 0px 5px;
 }
 #footer {
   position: fixed;
@@ -105,10 +107,10 @@ button[type=button]{
   text-align: center;
 	font-weight: 100;
 	font-size: 0.8em;
-	background: rgba(55,55,55,0.8);
+	background: #757575;
 }
 .invalidated {
-	background-color:#ffe6e6;
+	background-color:rgb(238, 152, 146);
 }
 .result {
 	word-break:break-all;
@@ -130,7 +132,7 @@ a {
 	border-bottom:2px solid #9370DB;
 }
 a:hover {
-	border-bottom-color:#9400D3;
+	border-bottom-color:#673AB7;
 }
 @media only screen and (max-width: 800px) {
 	#left-half {
@@ -138,5 +140,5 @@ a:hover {
 		max-width: 90%;
 	}
 .separator {
-  background-color: #e8e8e8;
+  background-color: #D1C4E9;
 }
