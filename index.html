@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="cache-control" content="no-cache">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="sets.js"></script>
-<script src="modules.js"></script>
-<script src="dom.js"></script>
-<script src="tests.js"></script>
-<link rel="stylesheet" href="style.css">
-<title>Коллоквиум ДМ-2018</title>
+  <meta charset="utf-8">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <script src="sets.js"></script>
+  <script src="modules.js"></script>
+  <script src="dom.js"></script>
+  <script src="tests.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>Коллоквиум ДМ-2018</title>
 </head>
+
 <body onload="formatSelect()">
-<header>
-  <h1>Коллоквиум ДМ-2</h1>
-</header>
-
-<section id="container">
-<div id="left-half">
-<form action="#" onsubmit="return processForm(this)">
-  <div id="types">
-    <div class="block">
-      <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
-      <label for="type1">Краткое описание</label>
+  <header>
+    <h1>Коллоквиум ДМ-2</h1>
+  </header>
+  <section id="container">
+    <div id="left-half">
+      <form action="#" onsubmit="return processForm(this)">
+        <div id="types">
+          <div class="block">
+            <input type="radio" name="type" value="description" id="type1" onclick="formatSelect(this)" checked>
+            <label for="type1">Краткое описание</label>
+          </div>
+          <div class="block">
+            <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
+            <label for="type2">Код функции</label>
+          </div>
+        </div>
+        <select id="select" onchange="selectOnChange(this)">
+        </select>
+        <br>
+        <input type="submit" value="Обработать" id="submit">
+        <button type="button" onclick="clearResults()">Очистить поле результатов</button>
+      </form>
+      <div id="comment">
+        <noscript>Для работы скрипта необходим современный браузер с включенной обработкой JavaScript</noscript>
+      </div>
     </div>
-    <div class="block">
-      <input type="radio" name="type" value="id" id="type2" onclick="formatSelect(this)">
-      <label for="type2">Код функции</label>
-    </div>
-  </div>
-  <select id="select" onchange="selectOnChange(this)">
-  </select><br>
-  <input type="submit" value="Обработать" id="submit">
-  <button type="button" onclick="clearResults()">Очистить поле результатов</button>
-</form>
-<div id="comment"><noscript>Для работы скрипта необходим современный браузер с включенной обработкой JavaScript</noscript></div>
-</div>
-<div id="right-half"></div>
-</section>
+    <div id="right-half"></div>
+  </section>
 
-<div id="footer">
-  <p><a href="javascript:runTests()">Запуск тестов</a> | <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> | <a href="https://github.com/7302/7302.github.io">GitHub</a> | <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> | <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a></p>
-</div>
+  <footer>
+      <p>
+        <a href="javascript:runTests()">Запуск тестов</a> |
+        <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> |
+        <a href="https://github.com/7302/7302.github.io">GitHub</a> |
+        <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> |
+        <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a>
+      </p>
+  </footer>
 
 </body>
+
 </html>
