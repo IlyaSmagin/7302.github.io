@@ -181,3 +181,9 @@ function switchStyle() {
   for (var i = 0; i < styles.length; i++)
     styles[i].disabled =  !styles[i].disabled;
 }
+
+function onLoad() {
+  if (document.getElementById('oldStyle').checked)
+    switchStyle();
+  formatSelect();
+}
