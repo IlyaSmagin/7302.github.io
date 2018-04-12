@@ -11,80 +11,6 @@ h1 {
 	font-size:3.4em;
 	margin:0;
 }
-header {
-    top: 0;
-    width: 100%;
-    height: 200px;
-	background-color: #673AB7;
-	z-index: -1;
-}
-h1 {
-	color: #fff;
-}
-
-#container {
-	margin-top: -100px;
-	margin-bottom: 2em;
-	flex-wrap: wrap;
-}
-#left-half {
-    background-color: white;
-    border-radius: 2px;
-	max-width: 50%;
-	-webkit-flex: 1;
-    -ms-flex: 1;
-	flex: 1;
-	margin: 1em;
-    -webkit-box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-       -moz-box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-}
-#right-half {
-    background-color: white;
-    border-radius: 2px;
-	min-width: 250px;
-	-webkit-flex: 1;
-    -ms-flex: 1;
-	flex: 1;
-	margin: 1em;
-    -webkit-box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-       -moz-box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.37);
-}
-input, select, button {
-	font-size: .85em;
-	padding: 5px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-}
-#submit, button {display: inline-block;
-	color: white;
-	text-transform: uppercase;
-	height: 40px;
-	border-radius: 0;
-	margin: 1em 0;
-	border: none;
-}
-input[type=submit]{
-	width: 200px;
-	background-color: #448AFF;
-}
-button[type=button]{
-	width: 350px;
-	background-color: #448AFF;
-}
-input[type="radio"] {
-	margin: 10px 3px 0px 5px;
-}
-@media only screen and (max-width: 850px) {
-	#left-half {
-		min-width: 80%;
-		max-width: 90%;
-	}
-	button[type=button]{
-		width: 300px;
-	}
-}
 form, div {
 	display: flex;
 	flex-direction: column;
@@ -96,12 +22,6 @@ form, div {
 .block {
   flex-direction: row;
   width:200px;
-}
-:focus {
-	outline: none;
-}
-#submit {
-	margin:1em 0;
 }
 #comment {
 	background-color:#D1C4E9;
@@ -126,14 +46,20 @@ form, div {
   	background-color: #D1C4E9;
 }
 footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
+  	position: fixed;
+ 	left: 0;
+  	bottom: 0;
+  	width: 100%;
+  	text-align: center;
 	font-weight: 100;
 	font-size: 0.8em;
 	background: #757575;
+}
+:focus {
+	outline: none;
+}
+#submit {
+	margin:1em 0;
 }
 .invalidated {
 	background-color:#ffe6e6;
