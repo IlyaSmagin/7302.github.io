@@ -123,11 +123,11 @@ form, div {
   	background-color: #D1C4E9;
 }
 footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
+  	position: fixed;
+ 	left: 0;
+  	bottom: 0;
+  	width: 100%;
+  	text-align: center;
 	font-weight: 100;
 	font-size: 0.8em;
 	background: #757575;

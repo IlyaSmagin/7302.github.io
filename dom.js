@@ -175,3 +175,15 @@ function formatSelect(radio) {
 
   selectOnChange(document.getElementById('select'));
 }
+
+function switchStyle() {
+  var styles = document.querySelectorAll("link[title]");
+  for (var i = 0; i < styles.length; i++)
+    styles[i].disabled =  !styles[i].disabled;
+}
+
+function onLoad() {
+  if (document.getElementById('oldStyle').checked)
+    switchStyle();
+  formatSelect();
+}

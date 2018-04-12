@@ -9,9 +9,15 @@
   <script src="modules.js"></script>
   <script src="dom.js"></script>
   <script src="tests.js"></script>
-  <link rel="stylesheet" href="style.css">
   <title>Коллоквиум ДМ-2018</title>
+  <link href="switch.css" rel="stylesheet" type="text/css">
+  <link href="style_new.css" rel="stylesheet" type="text/css" title="New Style">
+  <link href="style.css" rel="alternate stylesheet" type="text/css" title="Old Style">
 </head>
+<body onload="onLoad()">
+<header>
+  <h1>Коллоквиум ДМ-2018</h1>
+</header>
 
 <body onload="formatSelect()">
   <header>
@@ -42,16 +48,13 @@
     </div>
     <div id="right-half"></div>
   </section>
-
-  <footer>
-      <p>
-        <a href="javascript:runTests()">Запуск тестов</a> |
-        <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> |
-        <a href="https://github.com/7302/7302.github.io">GitHub</a> |
-        <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> |
-        <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a>
-      </p>
-  </footer>
+<footer>
+<label class="switch">
+  <input type="checkbox" onclick="switchStyle()" id="oldStyle">
+  <span class="slider"></span>
+</label>
+<p><a href="javascript:runTests()">Запуск тестов</a> | <a href="https://docs.google.com/spreadsheets/d/1blRU4ZDNulsOZQi6fnxf0tVRggjRefBz3FWgdxKRX6k/edit#gid=0">Список авторов</a> | <a href="https://github.com/7302/7302.github.io">GitHub</a> | <a href="mailto:espkk@pm.me?Subject=DM">Feedback</a> | <a href="http://pozdnkov.vm2-leti.spb.ru/">Сайт преподователя</a></p>
+</footer>
 
 </body>
 
