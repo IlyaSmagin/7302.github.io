@@ -132,14 +132,11 @@ a {
 a:hover {
 	border-bottom-color:#9400D3;
 }
-<<<<<<< HEAD
 @media only screen and (max-width: 800px) {
 	#left-half {
 		min-width: 80%;
 		max-width: 90%;
 	}
-=======
 .separator {
   background-color: #e8e8e8;
->>>>>>> 3707dd580f1b5d50c0d548bf3cd94fa816c883e5
 }
