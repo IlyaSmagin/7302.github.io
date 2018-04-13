@@ -191,9 +191,16 @@ function onLoad() {
 
   // Приводим степень многочлена к исходному виду при вставке
   document.addEventListener('paste', function(e) {
-    e.preventDefault();
-    e.target.value = e.clipboardData.getData('text/plain').replace(/[⁰¹²³⁴-⁹]+/g, function (m) {
+    var className = e.target.classList.item(0);
+    if (className === 'P') {
+      var data = e.clipboardData.getData('text/plain')
+      var result = e.clipboardData.getData('text/plain').replace(/[⁰¹²³⁴-⁹]+/g, function (m) {
         return '^' + Utils.subU(m, true);
       });
+      if (data !== result) {
+        e.preventDefault();
+        e.target.value += result;
+      }
+    }
   });
 }
