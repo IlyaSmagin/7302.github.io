@@ -188,4 +188,12 @@ function onLoad() {
   if (document.getElementById('oldStyle').checked)
     switchStyle();
   formatSelect();
+
+  // Приводим степень многочлена к исходному виду при вставке
+  document.addEventListener('paste', function(e) {
+    e.preventDefault();
+    e.target.value = e.clipboardData.getData('text/plain').replace(/[⁰¹²³⁴-⁹]+/g, function (m) {
+        return '^' + Utils.subU(m, true);
+      });
+  });
 }
