@@ -3,6 +3,8 @@
 /*******************************************/
 /**************Таблица модулей**************/
 /*******************************************/
+// Минимальный комментарий для всех модулей, работающих с многочленами
+var comment_poly = 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+a, например - 3/2x^12+4x^7-12/7x^19+17x-42. Нулевой коэффициент при переменной не разрешен к вводу; чтобы задать нулевой коэффициент, достаточно пропустить эту переменную. Нулевой многочлен задается константой 0.'
 var Modules = {
   def: {
     description: 'Выберите модуль...',
@@ -451,7 +453,7 @@ var Modules = {
   MUL_PQ_P: {
     description: 'Умножение многочлена на рациональное число',
     author: 'Бобриков Александр',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -465,7 +467,7 @@ var Modules = {
   MUL_Pxk_P: {
     description: 'Умножение многочлена на x^k',
     author: 'Илюхин Евгений',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -479,7 +481,7 @@ var Modules = {
   LED_P_Q: {
     description: 'Старший коэффициент многочлена',
     author: 'Илюхин Евгений',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -489,7 +491,7 @@ var Modules = {
   DEG_P_N: {
     description: 'Степень многочлена',
     author: 'Смагин Илья',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -499,7 +501,7 @@ var Modules = {
   FAC_P_Q: {
     description: 'Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей',
     author: 'Смагин Илья',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -510,7 +512,7 @@ var Modules = {
   MUL_PP_P: {
     description: 'Умножение многочленов',
     author: 'Визгунов Андрей',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -524,7 +526,7 @@ var Modules = {
   DIV_PP_P: {
     description: 'Частное от деления многочлена на многочлен при делении с остатком',
     author: 'Визгунов Андрей',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -538,7 +540,7 @@ var Modules = {
   MOD_PP_P: {
     description: 'Остаток от деления многочлена на многочлен при делении с остатком',
     author: 'Визгунов Андрей',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -552,7 +554,7 @@ var Modules = {
   GCF_PP_P: {
     description: 'НОД многочленов',
     author: 'Илюхин Евгений',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields:
     [{
       caption: 'Многочлен',
@@ -567,7 +569,7 @@ var Modules = {
   DER_P_P: {
     description: 'Производная многочлена',
     author: 'Кондаков Иван',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -577,7 +579,7 @@ var Modules = {
   NMR_P_P: {
     description: 'Преобразование многочлена — кратные корни в простые',
     author: 'Скокова Виктория',
-    comment: 'Многочлен вводится в виде a₀x^n₀+a₁x^n₁...aₙ₋₁x+aₙ, например - 3/2x^12+4x^7-12/7x^19+17x-42',
+    comment: comment_poly,
     reqFields: [{
       caption: 'Многочлен',
       classType: Polynomial,
@@ -924,7 +926,8 @@ function RED_Q_Q(num) {
 }
 
 function INT_Q_B(num) {
-  return num.q.n == 1 && num.q.a[0] == 1 ? 0 : 1;
+  var red = RED_Q_Q(num);
+  return red.q.n == 1 && red.q.a[0] == 1 ? 0 : 1;
 }
 
 function TRANS_Z_Q(num) {
