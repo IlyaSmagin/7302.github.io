@@ -554,7 +554,7 @@ var Modules = {
   GCF_PP_P: {
     description: 'НОД многочленов',
     author: 'Илюхин Евгений',
-    comment: comment_poly,
+    comment: 'Многочлен выводится в нормализованном виде с точностью до ненулевого константного множителя.' + comment_poly,
     reqFields:
     [{
       caption: 'Многочлен',
@@ -564,7 +564,8 @@ var Modules = {
       caption: 'Многочлен',
       classType: Polynomial,
       regexType: 'P'
-    }]
+    }],
+    formatter: function (poly) { return MUL_PQ_P(poly, DIV_QQ_Q(new Rational('1'), LED_P_Q(poly))); }
   },
   DER_P_P: {
     description: 'Производная многочлена',
