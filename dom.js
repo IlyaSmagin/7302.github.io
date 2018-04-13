@@ -122,7 +122,7 @@ function validateOpt(option) {
     'N': /^(?:[1-9][0-9]*)$/, // Натуральное
     'N0': /^(?:0|[1-9][0-9]*)$/, // Натуральное с нулем
     'Z': /^(?:0|-?[1-9][0-9]*)$/, // Целое
-    'Q': /^(?:0|-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/, // Рациональное
+    'Q': /^(?:(?:0|-?[1-9][0-9]*)(?:\/[1-9][0-9]*)?)$/, // Рациональное
     'Q/0': /^(?:-?[1-9][0-9]*(?:\/[1-9][0-9]*)?)$/, // Рациональное без нуля
     'P': /^(?:0|(?:(?:^-?|(?!^)[+-])(?:(?:x(?:\^[1-9][0-9]*)?)|(?:[1-9][0-9]*(?:\/[1-9][0-9]*)?(?:x(?:\^[1-9][0-9]*)?)?))))+$/, // Коэффициенты многочлена
     'digit': /^\d$/ // Цифра
@@ -183,7 +183,17 @@ function switchStyle() {
 }
 
 function onLoad() {
+  document.getElementById('new').disabled = false;
+  document.getElementById('old').disabled = true;
   if (document.getElementById('oldStyle').checked)
     switchStyle();
   formatSelect();
+
+  // Приводим степень многочлена к исходному виду при вставке
+  document.addEventListener('paste', function(e) {
+    e.preventDefault();
+    e.target.value = e.clipboardData.getData('text/plain').replace(/[⁰¹²³⁴-⁹]+/g, function (m) {
+        return '^' + Utils.subU(m, true);
+      });
+  });
 }

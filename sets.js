@@ -16,14 +16,14 @@ var Utils =
     _createClass(Utils, null, [{
       key: 'subU',
       // Superscript для Юникода
-      value: function subU(n) {
+      value: function subU(n, decode) {
         var supArr = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
         if (n === 0)
           return supArr[0];
         n = n.toString().split('');
         var result = '';
         while (n.length > 0) {
-          result += supArr[n[0]];
+          result += decode ? supArr.indexOf(n[0]) : supArr[n[0]];
           n.shift();
         }
         return result;

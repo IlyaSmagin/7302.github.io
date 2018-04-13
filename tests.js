@@ -228,8 +228,8 @@ function runTests() {
     //Q2
     th(INT_Q_B(new Rational('0/1')) == 0);
     th(INT_Q_B(new Rational('42/1')) == 0);
-    th(INT_Q_B(new Rational('42/42')) == 1);
-    th(INT_Q_B(new Rational('0/42')) == 1);
+    th(INT_Q_B(new Rational('42/43')) == 1);
+    th(INT_Q_B(new Rational('1/7')) == 1);
     //Q3
     th(TRANS_Z_Q(new Integer(-42)) == '-42/1');
     th(TRANS_Z_Q(new Integer(0)) == '0/1');
@@ -327,6 +327,9 @@ function runTests() {
     th(GCF_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42')) == '-12/7x¹⁹+3/2x¹²+4x⁷+17x-42');
     th(GCF_PP_P(new Polynomial('x^3+x^2+x+1'), new Polynomial('x+1')) == 'x+1');
     th(GCF_PP_P(new Polynomial('x^3-x^2-100x+100'), new Polynomial('x^3-x')) == '9900x-9900');
+    //P11 formatter
+    th(Modules.GCF_PP_P.formatter(GCF_PP_P(new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'), new Polynomial('3/2x^12+4x^7-12/7x^19+17x-42'))) == 'x¹⁹-7/8x¹²-7/3x⁷-119/12x+49/2');
+    th(Modules.GCF_PP_P.formatter(GCF_PP_P(new Polynomial('x^3-x^2-100x+100'), new Polynomial('x^3-x'))) == 'x-1');
     //P12
     th(DER_P_P(new Polynomial('42')) == '0');
     th(DER_P_P(new Polynomial('1x')) == '1');
