@@ -69,6 +69,7 @@ input, select, button {
 	border: none;
 }
 input[type=submit]{
+	-webkit-border-radius:2px;
 	width: 200px;
 	background-color: #448AFF;
 }
