@@ -37,6 +37,7 @@ form, div {
 }
 #container {
 	display: flex;
+	padding-bottom: 2em;
 }
 #left-half {
 	flex: 1;
@@ -66,7 +67,7 @@ footer {
 	word-break:break-all;
 	flex-wrap:wrap;
 	flex-direction: row;
-	color:#595959;
+	color:#A0A0A0;
 }
 .result.last {
 	color:#1e1e1e;

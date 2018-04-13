@@ -17,8 +17,8 @@ function printResult(result, elapsedTime) {
   }
 
   if (resultHalf.lastChild !== null)
-    resultHalf.lastChild.classList.remove('last');
-  resultHalf.appendChild(fieldDiv);
+    resultHalf.firstChild.classList.remove('last');
+  resultHalf.insertBefore(fieldDiv, resultHalf.firstChild);
 }
 
 function clearResults() {
