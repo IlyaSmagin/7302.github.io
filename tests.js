@@ -228,8 +228,8 @@ function runTests() {
     //Q2
     th(INT_Q_B(new Rational('0/1')) == 0);
     th(INT_Q_B(new Rational('42/1')) == 0);
-    th(INT_Q_B(new Rational('42/42')) == 1);
-    th(INT_Q_B(new Rational('0/42')) == 1);
+    th(INT_Q_B(new Rational('42/43')) == 1);
+    th(INT_Q_B(new Rational('1/7')) == 1);
     //Q3
     th(TRANS_Z_Q(new Integer(-42)) == '-42/1');
     th(TRANS_Z_Q(new Integer(0)) == '0/1');
