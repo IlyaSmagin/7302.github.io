@@ -27,6 +27,12 @@ function clearResults() {
     elements[0].parentNode.removeChild(elements[0]);
 }
 
+function printCode() {
+  var select = document.getElementById('select');
+  var moduleName = select.options[select.selectedIndex].value;
+  alert(window[moduleName].toString());
+}
+
 function processForm(form) {
   var moduleName = form.select.options[form.select.selectedIndex].value;
   if (typeof window[moduleName] !== 'function')
@@ -81,6 +87,7 @@ function selectOnChange(select) {
 
   // И создаем новые
   if(module.reqFields !== undefined) {
+    document.getElementById('print').style.display = 'inline';
     for (var i = 0; i < module.reqFields.length; i++) {
       var field = module.reqFields[i];
       var fieldDiv = document.createElement('div');
@@ -99,6 +106,8 @@ function selectOnChange(select) {
       form.insertBefore(fieldDiv, form.elements['submit']);
     }
   }
+  else
+    document.getElementById('print').style.display = 'none';
 
   // Удаляем комментарий (справку)
   var comment = document.getElementById('comment');
