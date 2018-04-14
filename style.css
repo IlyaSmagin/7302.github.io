@@ -67,7 +67,7 @@ footer {
 	word-break:break-all;
 	flex-wrap:wrap;
 	flex-direction: row;
-	color:#A0A0A0;
+	color:#ccc;
 }
 .result.last {
 	color:#1e1e1e;
